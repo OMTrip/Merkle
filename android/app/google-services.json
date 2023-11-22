@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "228049925155",
+    "project_id": "nuteapp-672cc",
+    "storage_bucket": "nuteapp-672cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228049925155:android:efdefd63973c0710c42d96",
+        "android_client_info": {
+          "package_name": "com.nute"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228049925155-35cgd0e15vcigk8iagg6qihadriaqaqr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nute",
+            "certificate_hash": "343cbd159d2445dbf4d849822c5ab2f0f7c3f1a9"
+          }
+        },
+        {
+          "client_id": "228049925155-b2h11kdp51b8fo9j664r8fhb99gu8t43.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nute",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "228049925155-ndg4a11u7onh0plfkung42qngja11112.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiYLMU8HtXWPFhLRC4dTSzZKe9MjI6lmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228049925155-ndg4a11u7onh0plfkung42qngja11112.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
