@@ -376,7 +376,7 @@ const SwapScreen = () => {
           TextTitleStyle={{textAlign: 'center'}}
           leftIocnsSubScreen={false}
           LeftIconsName={'magnify'}
-          routeName={'HomeScreen'}
+          routeName={'WalletScreen'}
         />
       </View>
       {/* <View style={styles.header}>
@@ -721,14 +721,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(5),
   },
   header: {
-    paddingVertical: hp(5),
+    paddingVertical: hp(3),
   },
   wrapper: {
     paddingVertical: 10,
     backgroundColor: '#eff3f68a',
     marginBottom: hp(2),
     borderRadius: wp(2),
-    color: '#888',
+    color: '#888', 
     width: '100%',
   },
 

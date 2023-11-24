@@ -143,6 +143,8 @@ const WalletScreen = () => {
             headerpadding={5}
             wallettab={true}
             activeTab="WalletScreen"
+            routeName={'wallets'}
+            // icons={true}
           />
 
           <View style={styles.header}>

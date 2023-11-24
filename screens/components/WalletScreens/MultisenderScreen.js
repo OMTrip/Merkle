@@ -452,7 +452,7 @@ const MultisenderScreen = () => {
                             source={{
                               uri: item.logo
                                 ? item.logo
-                                : `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`,
+                                : `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
                             }}
                             style={styles.imageCoin}
                           />
@@ -461,7 +461,7 @@ const MultisenderScreen = () => {
                               source={{
                                 uri:
                                   item.logo &&
-                                  `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`,
+                                  `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
                               }}
                               style={{
                                 width: 20,

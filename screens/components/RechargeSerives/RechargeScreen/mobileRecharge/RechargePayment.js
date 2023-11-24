@@ -388,12 +388,12 @@ const RechargePayment = ({route}) => {
                 <View style={{alignItems: 'center'}}>
                   <View style={{}}>
                     <Image
-                     source={{uri: item.logo?item.logo:item.slug?`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`:"https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png"}}
+                     source={{uri: item.logo?item.logo:item.slug?`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`:"https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png"}}
                       style={styles.cImage}
                       resizeMode="contain"
                     />
                      {item.logo && <Image
-                      source={{uri:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`}}
+                      source={{uri:`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`}}
                       style={styles.abosluteImage}
                       resizeMode="contain"
                     />}

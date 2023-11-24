@@ -291,7 +291,7 @@ const ImportScreen = props => {
                       size={17}
                       color={'#444'}
                       onPress={() =>
-                        navigation.navigate('QRImportToken', {
+                        navigation.navigate('QRCodeScannerComponent', {
                           type: 'importtoken',
                           data: {...props.route.params},
                         })
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(5),
     backgroundColor: '#F3F4F7',
     flexDirection: 'row',
     // alignItems: 'center',

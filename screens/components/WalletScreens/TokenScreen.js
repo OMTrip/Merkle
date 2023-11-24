@@ -447,10 +447,10 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(5),
     backgroundColor: 'rgba(0,0,0,0.01)',
     flexDirection: 'row',
-    // alignItems: 'center',
+     alignItems: 'center',
     paddingHorizontal: 5,
     // display: 'flex',
     justifyContent: 'space-between',

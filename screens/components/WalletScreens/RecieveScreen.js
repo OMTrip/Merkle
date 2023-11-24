@@ -232,12 +232,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F3F4F7',
-    padding: wp(2),
+    padding: hp(1),
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 5,
+    paddingVertical: hp(2.5),
   },
   wrapper: {
     flex: 1,

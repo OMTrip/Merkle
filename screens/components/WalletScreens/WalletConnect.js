@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   header: {
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal:wp(4)

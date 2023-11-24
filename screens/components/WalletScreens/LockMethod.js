@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   header: {
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     flexDirection: 'row',
     alignItems:'center'
   },
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   boxLabel: {
     color: '#999',
     fontSize: wp(3.3),
-    paddingVertical: wp(1),
+    paddingVertical: hp(1),
     paddingHorizontal: wp(5),
     textTransform: 'uppercase',
     color: '#999',

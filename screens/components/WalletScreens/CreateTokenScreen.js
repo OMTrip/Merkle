@@ -1430,7 +1430,7 @@ const CreateTokenScreen = () => {
                         source={{
                           uri:
                             item?.slug &&
-                            `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item?.slug}/logo.png`,
+                            `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
                         }}
                         style={styles.flatImage}
                       />

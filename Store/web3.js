@@ -22,6 +22,24 @@ const initialState = {
       networks: ['0x38', '0x1'],
       assets: [
         {
+          chainId: '0x775',
+          balance: '0',
+          tokens: [],
+          nfts: [],
+          slug: 'merkle',
+          rpcUrl: 'https://marklechain-rpc.merklescan.com/',
+          blockExplorerUrl: 'https://merklescan.com/',
+          nativeCurrency: {
+            name: 'Merkle',
+            symbol: 'MRK',
+            decimals: 18,
+            balance: '0',
+            address: '0x0000000000000000000000000000000000000000',
+            slug: 'merkle',
+          },
+          show: true,
+        },
+        {
           chainId: '0x38',
           balance: '0',
           tokens: [],
@@ -90,24 +108,7 @@ const initialState = {
           },
           show: true,
         },
-        {
-          chainId: '0x775',
-          balance: '0',
-          tokens: [],
-          nfts: [],
-          slug: 'merkle',
-          rpcUrl: 'https://marklechain-rpc.merklescan.com/',
-          blockExplorerUrl: 'https://merklescan.com/',
-          nativeCurrency: {
-            name: 'Merkle',
-            symbol: 'MRK',
-            decimals: 18,
-            balance: '0',
-            address: '0x0000000000000000000000000000000000000000',
-            slug: 'merkle',
-          },
-          show: true,
-        },
+       
       ],
       // TODO: Save transaction in realm database and filter by wallet adress, token,
       //network, status (pending, confirmed, failed) and amount and type

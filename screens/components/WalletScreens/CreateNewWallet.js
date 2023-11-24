@@ -166,6 +166,24 @@ const CreateNewWallet = props => {
             ],
             assets: [
               {
+                chainId: '0x775',
+                balance: '0',
+                tokens: [],
+                nfts: [],
+                slug: 'merkle',
+                rpcUrl: 'https://marklechain-rpc.merklescan.com/',
+                blockExplorerUrl: 'https://merklescan.com/',
+                nativeCurrency: {
+                  name: 'Merkle',
+                  symbol: 'MRK',
+                  decimals: 18,
+                  balance: '0',
+                  address: '0x0000000000000000000000000000000000000000',
+                  slug: 'merkle',
+                },
+                show: true,
+              },
+              {
                 chainId: '0x38',
                 balance: '0',
                 tokens: [],
@@ -282,25 +300,8 @@ const CreateNewWallet = props => {
                   slug: 'arbitrum',
                 },
                 show: false,
-              },
-              {
-                chainId: '0x775',
-                balance: '0',
-                tokens: [],
-                nfts: [],
-                slug: 'merkle',
-                rpcUrl: 'https://marklechain-rpc.merklescan.com/',
-                blockExplorerUrl: 'https://merklescan.com/',
-                nativeCurrency: {
-                  name: 'Merkle',
-                  symbol: 'MRK',
-                  decimals: 18,
-                  balance: '0',
-                  address: '0x0000000000000000000000000000000000000000',
-                  slug: 'merkle',
-                },
-                show: true,
               }
+             
             ],
             transactions: {
               ethereum: [],

@@ -32,7 +32,7 @@ const Wallet = (props) => {
   const active = wallets[activeWallet]
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {back} = props.route.params;
+  // const {back} = props.route.params;
   const refTxnSheet = useRef();
   function openSheet() {
     return refTxnSheet.current.open();
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(5),

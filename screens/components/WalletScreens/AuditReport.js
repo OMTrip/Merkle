@@ -209,7 +209,7 @@ const LockScreen = props => {
           <View style={styles.input}>
             <View style={styles.box}>
               <TextInput
-                placeholder="Contract Addresss"
+                placeholder="Contract Address"
                 placeholderTextColor={'#999'}
                 style={styles.inputTxt}
                 value={tokenAddress}
@@ -232,7 +232,7 @@ const LockScreen = props => {
                     size={20}
                     color={'#444'}
                     onPress={() =>
-                      navigation.navigate('QRImportToken', {
+                      navigation.navigate('QRCodeScannerComponent', {
                         type: 'AuditReport',
                         data: {...props.route.params},
                       })
@@ -391,7 +391,7 @@ const LockScreen = props => {
                         source={{
                           uri:
                             item?.slug &&
-                            `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item?.slug}/logo.png`,
+                            `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item?.slug}/logo.png`,
                         }}
                         style={styles.flatImage}
                       />

@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(5),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

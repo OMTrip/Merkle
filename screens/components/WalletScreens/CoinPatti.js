@@ -75,7 +75,7 @@ const CoinPatti = ({item, route, address}) => {
         renderimage(item)
       ) : (
         <Image
-        source={item?.image ? { uri: `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png` } : {uri:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`}}
+        source={item?.image ? { uri: `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png` } : {uri:`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`}}
           style={styles.cardImage}
         />
       )}

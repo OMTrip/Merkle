@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F2F7',   
   },
   header: {
-    paddingVertical: wp(5),
+    paddingVertical: wp(9),
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: wp(5),

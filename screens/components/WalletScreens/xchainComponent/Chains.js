@@ -86,7 +86,7 @@ const Chains = props => {
         onPress={() => {
           const it = {...item};
           it.logo = item?.slug
-            ? `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`
+            ? `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`
             : `https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png`;
 
           navigation.navigate('Xchain', {item: it, status: true, type: type});
@@ -96,7 +96,7 @@ const Chains = props => {
           <Image
             source={{
               uri: item?.slug
-                ? `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`
+                ? `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`
                 : `https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png`,
             }}
             style={styles.tokenLogo}

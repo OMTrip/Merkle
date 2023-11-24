@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   //   marginHorizontal: wp(5),
   // },
   header: {
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     flexDirection: 'row',
     marginHorizontal: wp(5),
     alignItems:'center'

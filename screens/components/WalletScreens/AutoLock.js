@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
  
   header: {
     alignItems:'center',
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     flexDirection: 'row',
   },
   boxWrapper: {

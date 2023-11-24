@@ -370,7 +370,7 @@ export async function billFetch(number, opid, amount, dob, mobile) {
 export async function fetchAssetData() {
   try {
     const response = await axios.get(
-      'https://raw.githubusercontent.com/Nute-Wallet/assets/main/assets.json',
+      'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/assets.json',
     );
 
     if (response.status !== 200) {
@@ -387,7 +387,7 @@ export async function fetchAssetData() {
 export async function fetchChainData() {
   try {
     const response = await axios.get(
-      'https://raw.githubusercontent.com/Nute-Wallet/Chains/main/chain.json',
+      'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/chain.json',
     );
 
     if (response.status !== 200) {

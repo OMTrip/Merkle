@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
 
   headerTop: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(3),
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',

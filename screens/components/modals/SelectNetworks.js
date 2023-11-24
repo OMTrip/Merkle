@@ -147,7 +147,8 @@ const SelectNetworksNew = () => {
                 <View style={{flexDirection: 'row', alignItems: 'center', marginBottom:0}}>
                   <View style={styles.imageChain}>
                     <Image
-                      source={{uri:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${network.slug}/logo.png`}}
+                      // source={{uri:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${network.slug}/logo.png`}}
+                      source={{uri:`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${network.slug}/logo.png`}}
                       style={{width: 26, height: 26, borderRadius: wp(50)}}
                     />
                   </View>

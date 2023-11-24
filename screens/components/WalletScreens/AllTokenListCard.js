@@ -16,9 +16,9 @@ const AllTokenListCard = ({item,index,switchStates,setSwitchStates,toggleSwitch}
     <View style={styles.tokenWrapper}>
         <View style={styles.tokenInfo}>
           <View style={{position:"relative"}}>
-            <Image source={{uri: item.logo?item.logo:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`}}
+            <Image source={{uri: item.logo?item.logo:`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`}}
              style={styles.imageCoin} />
-            {item.logo && <Image source={{uri: item.logo && `https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`}}
+            {item.logo && <Image source={{uri: item.logo && `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`}}
                style={{
               width:20,
               height: 20,
