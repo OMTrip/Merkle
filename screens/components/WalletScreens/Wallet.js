@@ -7,7 +7,7 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,9 +27,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Wallet = (props) => {
+const Wallet = props => {
   const {wallets, activeWallet} = useSelector(state => state.wallet);
-  const active = wallets[activeWallet]
+  const active = wallets[activeWallet];
   const navigation = useNavigation();
   const dispatch = useDispatch();
   // const {back} = props.route.params;
@@ -40,36 +40,32 @@ const Wallet = (props) => {
   function closeSheet() {
     return refTxnSheet.current.close();
   }
+
   return (
     <LinearGradient
-    colors={[
-      '#d6fffd',
-      '#f2fffe',
-      '#ffff',
-      '#fff',
-      '#fffaff',
-      '#fef8ff',
-      '#faf4ff',
-      '#fcf5fe',
-      '#f5eefe',
-      '#f1e9fe',
-    ]}
-    start={{x: 0, y: 0}}
-    end={{x: 1, y: 1}}
-    style={{flex: 1}}>
+      colors={[
+        '#d6fffd',
+        '#f2fffe',
+        '#ffff',
+        '#fff',
+        '#fffaff',
+        '#fef8ff',
+        '#faf4ff',
+        '#fcf5fe',
+        '#f5eefe',
+        '#f1e9fe',
+      ]}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={{flex: 1}}>
       <View style={styles.header}>
         <TouchableOpacity
           style={{
             flexDirection: 'row',
             alignItems: 'center',
           }}
-          onPress={() => navigation.goBack()}
-          >
-          <MaterialIcons
-            name="arrow-back-ios"
-            size={20}
-            color={'#000'}            
-          />
+          onPress={() => navigation.goBack()}>
+          <MaterialIcons name="arrow-back-ios" size={20} color={'#000'} />
           {/* <Text
             style={{color: '#000', fontSize: hp(2)}}
            >
@@ -111,15 +107,14 @@ const Wallet = (props) => {
         <View style={styles.card}>
           {wallets &&
             wallets.map((wallet, index) => {
-             
               return (
                 <TouchableOpacity
                   style={styles.box}
                   key={index + 'wallet'}
                   onPress={() => {
-                    console.log(wallet,"active")
+                    console.log(wallet, 'active');
                     dispatch(setActiveWallet(index));
-                     navigation.goBack();
+                    navigation.goBack();
                   }}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={styles.ImageShield}>
@@ -128,13 +123,15 @@ const Wallet = (props) => {
                         size={30}
                         style={{color: '#999', fontWeight: '800'}}
                       />
-                      {wallet.address == active.address && <View style={styles.checkIconbg}>
-                        <Ionicons
-                          name="checkmark-circle"
-                          size={18}
-                          style={{color: '#14b7af', fontWeight: '800'}}
-                        />
-                      </View>}
+                      {wallet.address == active.address && (
+                        <View style={styles.checkIconbg}>
+                          <Ionicons
+                            name="checkmark-circle"
+                            size={18}
+                            style={{color: '#14b7af', fontWeight: '800'}}
+                          />
+                        </View>
+                      )}
                     </View>
                     <View style={styles.walletWrapper}>
                       <View>
@@ -145,14 +142,18 @@ const Wallet = (props) => {
                             wallet?.address?.slice(-7)}
                         </Text>
                       </View>
-                      <TouchableOpacity onPress={()=>{navigation.navigate('WalletInfo',{selectedWallet:wallet});}}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('WalletInfo', {
+                            selectedWallet: wallet,
+                          });
+                        }}>
                         <Ionicons
                           name="information-circle-outline"
                           size={20}
                           style={styles.infoIcon}
                         />
-                        </TouchableOpacity>
-                      
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -202,13 +203,16 @@ const Wallet = (props) => {
                 resizeMode="contain"
               />
             </View>
-            <TouchableOpacity style={styles.selectWallet}  onPress={()=>{navigation.navigate("CreateMywallet",{add:true})}}>
+            <TouchableOpacity
+              style={styles.selectWallet}
+              onPress={() => {
+                navigation.navigate('CreateMywallet', {add: true});
+              }}>
               <View style={styles.selectWalletInner}>
                 <View style={styles.arrowBg}>
                   <Entypo name="circle-with-plus" size={22} color={'#000'} />
                 </View>
                 <View
-                 
                   style={{
                     flex: 1,
                     marginHorizontal: wp(3),
@@ -221,7 +225,11 @@ const Wallet = (props) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.selectWallet} onPress={()=>{navigation.navigate("ImportAccountByPrivateKey")}}>
+            <TouchableOpacity
+              style={styles.selectWallet}
+              onPress={() => {
+                navigation.navigate('ImportAccountByPrivateKey');
+              }}>
               <View style={styles.selectWalletInner}>
                 <View style={styles.arrowBg}>
                   <MaterialCommunityIcons
@@ -253,7 +261,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F3F2F7',
-   
+
     alignItems: 'center',
   },
   header: {
@@ -270,7 +278,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     // paddingHorizontal: wp(3),
     marginHorizontal: wp(5),
-    
   },
 
   card: {

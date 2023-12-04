@@ -21,9 +21,6 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import HomeHeader from '../HomeScreen/HomeHeader';
 import {Link, useNavigation} from '@react-navigation/native';
 import CoinPatti from './CoinPatti';
-import Toast from 'react-native-toast-message';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {ScrollView} from 'react-native';
 import {setActiveWallet, setRefresh} from '../../../Store/web3';
 import {useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
@@ -32,13 +29,17 @@ const WalletScreen = () => {
   const {wallets, activeWallet, priceQuotes, networks, refresh} = useSelector(
     state => state.wallet,
   );
+
+  // const MerklePrice = useSelector(state => state.user?.merklePrice);
   const wallet = wallets[activeWallet];
   const [listarray, setlistarray] = useState([]);
   const [filteredlist, setFilteredList] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [totalAssetsInDollar, setTotalAssetsInDollar] = useState(0); 
+  const [totalAssetsInDollar, setTotalAssetsInDollar] = useState(0);
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
+  const [MrkleTotalPrice, setMrkleTotalPrice] = useState('');
+  const [mrklePrice, setMrklePrice] = useState('');
   const [showDeposite, setShowDeposite] = useState(true);
   const dispatch = useDispatch();
   function search(searchtext) {
@@ -102,15 +103,37 @@ const WalletScreen = () => {
   }, []);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getPrice'
+        );
+        const data = await response.json(); // Modify this depending on the response format
+        setMrklePrice(data.price);
+      } catch (error) {
+        console.error('Error :=-===', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     if (listarray.length > 0) {
       const total = listarray.reduce((sum, item) => {
+        // console.log(item, 'eeee');
+        if (item.symbol === 'MRK') {
+          // console.log(mrklePrice * item?.balance);
+          setMrkleTotalPrice(mrklePrice * item?.balance);
+        }
         const cp = item?.current_price ? item?.current_price : 0;
         const balance_in_usd = cp * item?.balance;
         sum = sum + balance_in_usd;
         return sum;
       }, 0);
       const t = total.toString().indexOf('.') > -1 ? total.toFixed(4) : total;
-      setTotalAssetsInDollar(t);
+      setTotalAssetsInDollar(t + MrkleTotalPrice);
+      // console.log(MrkleTotalPrice, 't');
     }
   }, [listarray]);
 
@@ -130,106 +153,104 @@ const WalletScreen = () => {
       ]}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
-      style={{paddingBottom: wp(5), flex: 1}}>
-      <View style={styles.Box}>
-        <View
-          style={{
-            // backgroundColor: '#fff',
-            color: '#000',
-          }}>
-          <HomeHeader
-            imagePath={require('../../assets/app_logo.png')}
-            iconscolor={'#000'}
-            headerpadding={5}
-            wallettab={true}
-            activeTab="WalletScreen"
-            routeName={'wallets'}
-            // icons={true}
-          />
+      style={{flex: 1}}>
+      {/* <View style={styles.Box}> */}
+      <View
+        style={{
+          // backgroundColor: '#fff',
+          color: '#000',
+        }}>
+        <HomeHeader
+          imagePath={require('../../assets/app_logo.png')}
+          iconscolor={'#000'}
+          headerpadding={5}
+          wallettab={true}
+          activeTab="WalletScreen"
+          routeName={'wallets'}
+          // icons={true}
+        />
 
-          <View style={styles.header}>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'flex-end',
-                paddingRight: wp(7),
-              }}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('importtoken')
-                }></TouchableOpacity>
-            </View>
-            <View style={styles.BodyBoxTitle}>
-              <Text style={styles.Icons}>$</Text>
-              <Text style={styles.Icons}>{totalAssetsInDollar}</Text>
-            </View>
-            <View style={[styles.Icons2, {marginRight: 0, paddingBottom: 5}]}>
-              <Text style={styles.BodyBoxText}>
-                {wallets[activeWallet].name}
-              </Text>
-            </View>
+        <View style={styles.header}>
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'flex-end',
+              paddingRight: wp(7),
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('importtoken')
+              }></TouchableOpacity>
+          </View>
+          <View style={styles.BodyBoxTitle}>
+            <Text style={styles.Icons}>$</Text>
+            <Text style={styles.Icons}>{totalAssetsInDollar}</Text>
+          </View>
+          <View style={[styles.Icons2, {marginRight: 0, paddingBottom: 5}]}>
+            <Text style={styles.BodyBoxText}>{wallets[activeWallet].name}</Text>
+          </View>
 
-            <View style={styles.optionsrow}>
-              <TouchableOpacity
+          <View style={styles.optionsrow}>
+            <TouchableOpacity
+              style={styles.options}
+              onPress={() => navigation.navigate('alltoken', {type: 'send'})}>
+              <Ionicons
+                name="arrow-up"
+                size={20}
+                color={'#000'}
+                style={styles.optionsicon}
+              />
+              <Text style={styles.optext}>Send</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.options}
+              onPress={() =>
+                navigation.navigate('alltoken', {type: 'recieve'})
+              }>
+              <Ionicons
+                name="arrow-down"
+                size={20}
+                color={'#000'}
+                style={styles.optionsicon}
+              />
+              <Text style={styles.optext}>Recieve</Text>
+            </TouchableOpacity>
+            <Link to="/BuyTokenlist">
+              <View
                 style={styles.options}
-                onPress={() => navigation.navigate('alltoken', {type: 'send'})}>
-                <Ionicons
-                  name="arrow-up"
-                  size={20}
-                  color={'#000'}
-                  style={styles.optionsicon}
-                />
-                <Text style={styles.optext}>Send</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.options}
-                onPress={() =>
-                  navigation.navigate('alltoken', {type: 'recieve'})
-                }>
-                <Ionicons
-                  name="arrow-down"
-                  size={20}
-                  color={'#000'}
-                  style={styles.optionsicon}
-                />
-                <Text style={styles.optext}>Recieve</Text>
-              </TouchableOpacity>
-              <Link to="/BuyTokenlist">
-                <View
-                  style={styles.options}
-                  // onPress={() => navigation.navigate('buytokenlist')}
-                >
-                  <AntDesign
-                    name="wallet"
-                    size={17}
-                    color={'#000'}
-                    style={styles.optionsicon}
-                  />
-                  <Text style={styles.optext}>Earn</Text>
-                </View>
-              </Link>
-              <TouchableOpacity
-                style={styles.options}
-                onPress={() => navigation.navigate('alltoken', {type: 'buy'})}>
-                <Ionicons
-                  name="leaf-outline"
+                // onPress={() => navigation.navigate('buytokenlist')}
+              >
+                <AntDesign
+                  name="wallet"
                   size={17}
                   color={'#000'}
                   style={styles.optionsicon}
                 />
-                <Text style={styles.optext}>Buy</Text>
-              </TouchableOpacity>
-            </View>
+                <Text style={styles.optext}>Earn</Text>
+              </View>
+            </Link>
+            <TouchableOpacity
+              style={styles.options}
+              onPress={() => navigation.navigate('alltoken', {type: 'buy'})}>
+              <Ionicons
+                name="leaf-outline"
+                size={17}
+                color={'#000'}
+                style={styles.optionsicon}
+              />
+              <Text style={styles.optext}>Buy</Text>
+            </TouchableOpacity>
+          </View>
 
-            <View style={styles.Body}>
-              {/* <TextInput
+          <View style={styles.Body}>
+            {/* <TextInput
               style={styles.input}
               placeholder="Search"
               placeholderTextColor="#ccc"
               value={searchText}
               onChangeText={val => search(val)}
             /> */}
-              {/* <View style={styles.Dropdown}>
+            {/* <View style={styles.Dropdown}>
               <Text style={{color: '#444'}}>All</Text>
               <MaterialCommunityIcons
                 name={'chevron-down'}
@@ -237,99 +258,100 @@ const WalletScreen = () => {
                 style={{marginTop: hp(0.5), color: '#444'}}
               />
             </View> */}
-            </View>
           </View>
-        </View>
-
-        <View style={styles.tabcont}>
-          <View style={styles.tabcontent}>
-            <TouchableOpacity
-              onPress={() => [setShow(false), setShowDeposite(true)]}>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  backgroundColor: showDeposite == true ? '#fff' : '#f4eefe',
-                  // borderColor: showDeposite == true ? '#dcc8fe' : '#dcc8fe',
-                  // borderWidth: 0.5,
-                  color: show == true ? '#000' : '#444',
-                  textAlign: 'center',
-                  padding: 5,
-                  fontWeight: '600',
-                  width: wp(45),
-                  borderRadius: 5,
-                  fontSize: wp(3.5),
-                }}>
-                Coins
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => [setShow(true), setShowDeposite(false)]}>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  backgroundColor: show == true ? '#fff' : '#f4eefe',
-                  // borderColor: showDeposite == true ? '#dcc8fe' : '#dcc8fe',
-                  // borderWidth: 0.5,
-                  textAlign: 'center',
-                  color: show == true ? '#000' : '#000',
-                  padding: 5,
-                  fontWeight: '600',
-                  width: wp(46),
-                  borderRadius: 5,
-                  fontSize: wp(3.5),
-                }}>
-                NFTs
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView style={styles.tabbody}>
-            <FlatList
-              data={filteredlist}
-              renderItem={({item}) => {
-                //  console.log('sgjhsgdjhsg', item);
-                const istoken =
-                  item?.token_address != ZERO_ADDRESS && item?.token_address
-                    ? true
-                    : false;
-                if (item?.show) {
-                  return <CoinPatti item={item} route={'token'} />;
-                } else {
-                  return null;
-                }
-              }}
-              keyExtractor={item => {
-                return item?.index + '_' + item?.id;
-              }}
-              showsVerticalScrollIndicator={false}
-            />
-
-            <View style={styles.addTokenWrapper}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Link
-                  to="/AlltokenList"
-                  style={styles.addTokenBtn}
-                  //onPress={() => navigation.navigate('importtoken')}
-                  //onPress={() => alltoken()}
-                >
-                  <AntDesign
-                    name="plus"
-                    size={12}
-                    style={{color: '#444', fontWeight: '600',marginEnd: 10}}
-                  />
-                  <Text style={{color: '#444', fontSize: 12, }}>
-                    Add Token
-                  </Text>
-                </Link>
-              </View>
-            </View>
-          </ScrollView>
         </View>
       </View>
+      <View style={styles.tabcont}>
+        <View style={styles.tabcontent}>
+          <TouchableOpacity
+            onPress={() => [setShow(false), setShowDeposite(true)]}>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                backgroundColor: showDeposite == true ? '#fff' : '#f4eefe',
+                // borderColor: showDeposite == true ? '#dcc8fe' : '#dcc8fe',
+                // borderWidth: 0.5,
+                color: show == true ? '#000' : '#444',
+                textAlign: 'center',
+                padding: 5,
+                fontWeight: '600',
+                width: wp(45),
+                borderRadius: 5,
+                fontSize: wp(3.5),
+              }}>
+              Coins
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => [setShow(true), setShowDeposite(false)]}>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                backgroundColor: show == true ? '#fff' : '#f4eefe',
+                // borderColor: showDeposite == true ? '#dcc8fe' : '#dcc8fe',
+                // borderWidth: 0.5,
+                textAlign: 'center',
+                color: show == true ? '#000' : '#000',
+                padding: 5,
+                fontWeight: '600',
+                width: wp(46),
+                borderRadius: 5,
+                fontSize: wp(3.5),
+              }}>
+              NFTs
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={{flex: 1}}>
+        <FlatList
+          data={filteredlist}
+          renderItem={({item}) => {
+            //  console.log('sgjhsgdjhsg', item);
+            const istoken =
+              item?.token_address != ZERO_ADDRESS && item?.token_address
+                ? true
+                : false;
+            if (item?.show) {
+              return <CoinPatti item={item} route={'token'} />;
+            } else {
+              return null;
+            }
+          }}
+          keyExtractor={item => {
+            return item?.index + '_' + item?.id;
+          }}
+          ListFooterComponent={() => {
+            return (
+              <View style={styles.addTokenWrapper}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Link
+                    to="/AlltokenList"
+                    style={styles.addTokenBtn}
+                    //onPress={() => navigation.navigate('importtoken')}
+                    //onPress={() => alltoken()}
+                  >
+                    <AntDesign
+                      name="plus"
+                      size={12}
+                      style={{color: '#444', fontWeight: '600', marginEnd: 10}}
+                    />
+                    <Text style={{color: '#444', fontSize: 12}}>Add Token</Text>
+                  </Link>
+                </View>
+              </View>
+            );
+          }}
+          // showsVerticalScrollIndicator={false}
+        />
+      </View>
+
+      {/* </View> */}
     </LinearGradient>
   );
 };
@@ -348,7 +370,7 @@ const styles = StyleSheet.create({
   },
 
   Box: {
-    // flex: 1,
+    flex: 1,
     // backgroundColor: '#fff',
   },
   header: {
@@ -437,8 +459,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     backgroundColor: '#f4eefe',
-    borderWidth:0.3,
-    borderColor:'#dcc8fe',
+    borderWidth: 0.3,
+    borderColor: '#dcc8fe',
     paddingVertical: 2,
     paddingHorizontal: 2,
     shadowOffset: {
@@ -448,15 +470,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.41,
     shadowRadius: 9.11,
     // elevation: 2,
-    // elevation:1
+    // elevation:  1
     // marginBottom: 10,
   },
 
   tabbody: {
     paddingHorizontal: 10,
-    // backgroundColor: '#000',
-
-    maxHeight: wp(115),
+    //  backgroundColor: '#ccc',
+    //  height:hp(100)
+    height: wp(100),
   },
 
   MainContent: {
@@ -551,10 +573,10 @@ const styles = StyleSheet.create({
   addTokenBtn: {
     color: '#444',
     paddingHorizontal: wp(4),
-    paddingVertical:wp(2),
+    paddingVertical: wp(2),
     fontSize: 15,
     borderWidth: 0.5,
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     borderColor: '#dcc8fe',
     width: '32%',
     // alignItems: 'center',

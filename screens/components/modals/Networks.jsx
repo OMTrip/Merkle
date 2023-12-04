@@ -9,6 +9,7 @@ import { setActiveNetwork } from '../../../Store/web3';
 
 // TODO: Add other networks images
 const renderImage = (symbol) => {
+  console.log(symbol,'symbolimg');
   return (
     <FastImage
       defaultSource={require('../../assets/blockie.png')}
@@ -40,6 +41,7 @@ const Networks = (props) => {
         // estimatedItemSize={58}
         // TODO: Add custom networks (footer component)
         renderItem={({item, index}) => (
+          console.log(item,'item'),
           <TouchableOpacity
             onPress={() => {
               if (props.setActiveChain) {

@@ -155,14 +155,12 @@ const CreateNewWallet = props => {
             privateKey: HDWallet?.privateKey,
             name: walletName,
             networks: [
+              '0x775',
               '0x38',
               '0x1',
               '0x89',
               '0x61',
-              '0xfa',
-              '0xa86a',
-              '0xa',
-              '0xa4b1',
+             
             ],
             assets: [
               {
@@ -241,67 +239,7 @@ const CreateNewWallet = props => {
                 show: true,
               },
 
-              {
-                chainId: '0xfa',
-                balance: '0',
-                tokens: [],
-                nfts: [],
-                nativeCurrency: {
-                  name: 'Fantom',
-                  symbol: 'FTM',
-                  decimals: 18,
-                  balance: '0',
-                  address: '0x0000000000000000000000000000000000000000',
-                  slug: 'fantom',
-                },
-                show: false,
-              },
-              {
-                chainId: '0xa86a',
-                balance: '0',
-                tokens: [],
-                nfts: [],
-                nativeCurrency: {
-                  name: 'AVAX',
-                  symbol: 'AVAX',
-                  decimals: 18,
-                  balance: '0',
-                  address: '0x0000000000000000000000000000000000000000',
-                  slug: 'avalanche',
-                },
-                show: false,
-              },
-              {
-                chainId: '0xa',
-                balance: '0',
-                tokens: [],
-                nfts: [],
-                nativeCurrency: {
-                  name: 'Optimism',
-                  symbol: 'OP',
-                  decimals: 18,
-                  balance: '0',
-                  address: '0x0000000000000000000000000000000000000000',
-                  slug: 'optimism',
-                },
-                show: false,
-              },
-              {
-                chainId: '0xa4b1',
-                balance: '0',
-                tokens: [],
-                nfts: [],
-                nativeCurrency: {
-                  name: 'Arbitrum',
-                  symbol: 'ARB',
-                  decimals: 18,
-                  balance: '0',
-                  address: '0x0000000000000000000000000000000000000000',
-                  slug: 'arbitrum',
-                },
-                show: false,
-              }
-             
+       
             ],
             transactions: {
               ethereum: [],

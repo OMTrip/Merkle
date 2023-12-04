@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Pressable,
+  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -34,10 +35,10 @@ const BrowserScreen = () => {
   // },[props])
 
   function goForSearch(text, type) {
-    console.log('ttt',text,type);
+    console.log('ttt', text, type);
     try {
       const arr = [...history];
-      console.log('arrt',arr);
+      console.log('arrt', arr);
       if (text && text != '' && text.length > 0) {
         if (!arr?.find(it => it.text == text?.trim())) {
           if (type == 0) {
@@ -45,7 +46,7 @@ const BrowserScreen = () => {
               text: text?.toLowerCase(),
               index: arr.length,
             };
-            console.log('obj',obj);
+            console.log('obj', obj);
             // arr.push(obj);
             dispatch(setSearchHistory({...obj}));
             // setHistory([...arr]);
@@ -53,7 +54,7 @@ const BrowserScreen = () => {
         }
         navigation.navigate('Browser', {
           searchdata: {
-            text: (text)?.toLowerCase(),
+            text: text?.toLowerCase(),
           },
         });
       }
@@ -63,8 +64,8 @@ const BrowserScreen = () => {
   }
 
   useEffect(() => {
-    //  console.log(searchHistory,searchhistoryupdate,"searchhistory")   
-  
+    //  console.log(searchHistory,searchhistoryupdate,"searchhistory")
+
     if (searchHistory) {
       setHistory(searchHistory);
     }
@@ -73,9 +74,7 @@ const BrowserScreen = () => {
   return (
     <>
       <View style={styles.container}>
-    
         <View>
-         
           <Text
             style={{
               color: '#000',
@@ -86,9 +85,8 @@ const BrowserScreen = () => {
             }}>
             Browser
           </Text>
-          
         </View>
-       
+
         <View style={styles.searchBar}>
           <MaterialCommunityIcons
             name="magnify"
@@ -103,7 +101,7 @@ const BrowserScreen = () => {
             value={searchText}
             onChangeText={val => setSearchText(val)}
             onSubmitEditing={e => goForSearch(searchText, 0)}
-          />          
+          />
         </View>
 
         {/* <View style={styles.TextBox}>
@@ -151,14 +149,17 @@ const BrowserScreen = () => {
             />
           )}
         </View> */}
-        <Text onPress={()=>{
+        <Text
+          onPress={() => {
             // console.log('clicked for navigate')
-           navigation.navigate('SwapScreen', {
-            searchdata: {
-              text: 'nute.io',
-            },
-          });
-        }}>Search</Text>
+            navigation.navigate('SwapScreen', {
+              searchdata: {
+                text: 'nute.io',
+              },
+            });
+          }}>
+          Search
+        </Text>
         <View>
           <View
             style={{
@@ -167,10 +168,43 @@ const BrowserScreen = () => {
               marginTop: wp(5),
             }}>
             <View>
-              <Text style={{color: '#888'}}>Favourites</Text>
+              <Text style={{color: '#888', fontWeight: '600'}}>
+                Merkle Project
+              </Text>
             </View>
-            <View>
+            {/* <View>
               <Text style={{color: '#50AFFF'}}>See All</Text>
+            </View> */}
+          </View>
+          <View style={styles.browserCard}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <View style={styles.browserCardInner}>
+                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                <Image
+                  source={require('../assets/logo.png')}
+                  style={styles.typeIcon}
+                />
+                {/* <Link to="/TranscationDetails"> */}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Browser', {
+                      searchdata: {
+                        text: 'https://bigtycoon.co/',
+                      },
+                    });
+                  }}>
+                  <View style={{}}>
+                    <Text style={styles.upperText}>Big Tycoon </Text>
+                    <Text style={styles.fromText}>https://bigtycoon.co/</Text>
+                  </View>
+                </TouchableOpacity>
+                {/* </Link> */}
+              </View>
             </View>
           </View>
           <View style={styles.browserCard}>
@@ -181,92 +215,91 @@ const BrowserScreen = () => {
                 alignItems: 'center',
               }}>
               <View style={styles.browserCardInner}>
-                <Octicons name="image" size={20} style={styles.typeIcon} />
+                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                <Image
+                  source={require('../assets/string.png')}
+                  style={[styles.typeIcon, {height: hp(4.4), width: wp(12)}]}
+                />
                 {/* <Link to="/TranscationDetails"> */}
-                <TouchableOpacity onPress={()=>{
-                     navigation.navigate('Browser', {
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Browser', {
                       searchdata: {
-                        text: "https://seedx.app/launchpadContest",
+                        text: 'https://xtring.network/',
                       },
                     });
-                }} >
+                  }}>
                   <View style={{}}>
                     <Text style={styles.upperText}>
-                      Decentralised Finance Ecosystem{' '}
-                    </Text>                   
-                    <Text style={styles.fromText}>
-                      https://seedx.app/launchpadContest
-                    </Text>                   
+                      Xtring Network : Cross Chain Transction
+                    </Text>
+                    <Text style={styles.fromText}>https://xtring.network/</Text>
                   </View>
-                  </TouchableOpacity>
+                </TouchableOpacity>
                 {/* </Link> */}
               </View>
             </View>
           </View>
-        </View>
-
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: wp(5),
-            }}>
-            <View>
-              <Text style={{color: '#888'}}>History</Text>
-            </View>
-            <View>
-              <Text style={{color: '#50AFFF'}}>See All</Text>
-            </View>
-          </View>
-          <View style={styles.historyCard}>
+          <View style={styles.browserCard}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <View style={styles.browserhistory}>
-                <Octicons name="image" size={18} style={styles.typeIcon} />
-                <TouchableOpacity onPress={()=>{ navigation.navigate('Browser', {
+              <View style={styles.browserCardInner}>
+                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                <Image
+                  source={require('../assets/KB.png')}
+                  style={[styles.typeIcon, {height: hp(5), width: wp(8.5)}]}
+                />
+                {/* <Link to="/TranscationDetails"> */}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Browser', {
                       searchdata: {
-                        text: "https://nadcab.com/list-token-in-uniswap",
+                        text: 'https://merklescan.com/',
                       },
-                    });}}>
+                    });
+                  }}>
                   <View style={{}}>
-                    <Text style={styles.upperText}>
-                    Nadcab Labs: hire best blockchain{' '}
-                    </Text>
-                    <Text style={styles.fromText}>
-                    https://nadcab.com/list-token-in-uniswap
-                    </Text>
+                    <Text style={styles.upperText}>Blockchain Explorer </Text>
+                    <Text style={styles.fromText}>https://merklescan.com/</Text>
                   </View>
                 </TouchableOpacity>
+                {/* </Link> */}
               </View>
             </View>
+          </View>
 
+          <View style={styles.browserCard}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <View style={styles.browserhistory}>
-                <Octicons name="image" size={18} style={styles.typeIcon} />
-                <TouchableOpacity onPress={()=>{ navigation.navigate('Browser', {
+              <View style={styles.browserCardInner}>
+                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                <Image
+                  source={require('../assets/bigshot.png')}
+                  style={[styles.typeIcon, {height: hp(5), width: wp(10)}]}
+                />
+                {/* <Link to="/TranscationDetails"> */}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Browser', {
                       searchdata: {
-                        text: "https://seedx.app/",
+                        text: 'https://bigshot.games/',
                       },
-                    });}}>
+                    });
+                  }}>
                   <View style={{}}>
-                    <Text style={styles.upperText}>
-                      Decentralised Finance Ecosystem{' '}
-                    </Text>
-                    <Text style={styles.fromText}>
-                      https://seedx.app
-                    </Text>
+                    <Text style={styles.upperText}>Big Shot </Text>
+                    <Text style={styles.fromText}>https://bigshot.games/</Text>
                   </View>
-                </TouchableOpacity >
+                </TouchableOpacity>
+                {/* </Link> */}
               </View>
             </View>
           </View>
@@ -318,7 +351,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 20,
     backgroundColor: '#fff',
-    marginVertical: hp(2),
+    marginVertical: hp(1.2),
     borderRadius: wp(2),
     color: '#444',
   },
@@ -348,9 +381,9 @@ const styles = StyleSheet.create({
   },
 
   typeIcon: {
-    backgroundColor: '#eee',
+    // backgroundColor: '#eee',
     color: '#bbb',
-    height: hp(5),
+    height: hp(5.2),
     width: hp(5),
     justifyContent: 'center',
     alignItems: 'center',
@@ -370,15 +403,14 @@ const styles = StyleSheet.create({
   },
   upperText: {
     color: '#444',
-    fontSize: hp(2),
+    fontSize: hp(1.87),
     fontWeight: '600',
+    alignItems: 'center',
   },
   fromText: {
     color: '#888',
     fontSize: hp(1.8),
-    flexWrap:'wrap'
-    
-   
+    flexWrap: 'wrap',
   },
   coinText: {
     color: '#4CD073',

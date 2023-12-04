@@ -284,7 +284,7 @@ export default GoogleDriveBackup;
 const styles = StyleSheet.create({
   header: {
     width: '100%',
-    paddingVertical: wp(5),
+    paddingVertical: hp(5.5),
     paddingHorizontal: 10,
     backgroundColor: '#F3F4F7',
     flexDirection: 'row',

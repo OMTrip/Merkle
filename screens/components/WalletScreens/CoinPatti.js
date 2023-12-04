@@ -1,28 +1,34 @@
 import {useNavigation} from '@react-navigation/native';
-import {memo,useState} from 'react';
+import {memo, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {getTokenIcon} from '../../../Utils/tokenIcons';
-import { setActiveWallet } from '../../../Store/web3';
-import { useSelector ,useDispatch} from 'react-redux';
+import {setActiveWallet} from '../../../Store/web3';
+import {useSelector, useDispatch} from 'react-redux';
 import BuyModalPage from './BuyModalPage';
-import { cutAfterDecimal } from '../../../Utils/web3/helperFunction';
+import {cutAfterDecimal} from '../../../Utils/web3/helperFunction';
+import {setMerklePrice} from '../../../Store/userinfo';
 const coinimg = require('../../assets/no_image.jpeg');
 
 const CoinPatti = ({item, route, address}) => {
-  const {wallets, activeWallet, priceQuotes, networks,refresh} = useSelector(
+  const {wallets, activeWallet, priceQuotes, networks, refresh} = useSelector(
     state => state.wallet,
   );
   const dispatch = useDispatch();
   const cp = item?.current_price ? item?.current_price : 0;
   const balance_in_usd = cp * item?.balance;
-  const pricechange = item?.price_change_percentage_24h ? item?.price_change_percentage_24h : 0;
+  const pricechange = item?.price_change_percentage_24h
+    ? item?.price_change_percentage_24h
+    : 0;
   const symbol = item.slug == 'bsc_testnet' ? 'T' + item.symbol : item.symbol;
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [mrklePrice, setMrklePrice] = useState();
+  dispatch(
+    setMerklePrice(item.symbol == 'MRK' ? mrklePrice * item.balance : ''),
+  );
   const openBuyModal = () => {
     setModalVisible(true);
   };
@@ -30,16 +36,32 @@ const CoinPatti = ({item, route, address}) => {
   const closeBuyModal = () => {
     setModalVisible(false);
   };
-  const renderimage = (item,i) => {
+
+  useEffect(() => {
+    fetchLogo();
+  }, []);
+  // Fetch the logo URL from the web
+  const fetchLogo = async () => {
+    try {
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getPrice',
+      );
+      const data = await response.json(); // Modify this depending on the response format
+      setMrklePrice(data.price);
+    } catch (error) {
+      console.error('Error :=-===', error);
+    }
+  };
+  const renderimage = (item, i) => {
     return (
       <View>
         <Image
           style={{
-            width:28,
-            height: 28,
+            width: 22,
+            height: 22,
             position: 'absolute',
-            bottom: 0,
-            right: 0,
+            bottom: -5,
+            right: 6,
             zIndex: 1,
             borderRadius: 12,
           }}
@@ -47,8 +69,14 @@ const CoinPatti = ({item, route, address}) => {
         />
         <Image
           style={styles.cardImage}
-          // source={{uri:`https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png`}}
-           source={{uri: item.logo?item.logo:item.image?item.image: "https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png"}}
+          // source={{uri:https://raw.githubusercontent.com/Nute-Wallet/Chains/main/resources/${item.slug}/logo.png}}
+          source={{
+            uri: item.logo
+              ? item.logo
+              : item.image
+              ? item.image
+              : 'https://res.cloudinary.com/dpe8nipmq/image/upload/v1695796476/nute/dummy/icons8-question-mark-64_tnsjd1.png',
+          }}
         />
       </View>
     );
@@ -61,29 +89,48 @@ const CoinPatti = ({item, route, address}) => {
       // end={{x: 1, y: 0.8}} // End point of the gradient (top-right)
       style={styles.card}
       onPress={() => {
-        console.log(item,address,"address",route)
-        if(route=="buy"){
-          openBuyModal()
-        }else{
-        
-        route ? navigation.navigate(route, {...item, address}) : null;
-        dispatch(setActiveWallet(activeWallet));
+        console.log(item, address, 'address', route);
+        if (route == 'buy') {
+          openBuyModal();
+        } else {
+          route ? navigation.navigate(route, {...item, address}) : null;
+          dispatch(setActiveWallet(activeWallet));
         }
-        
       }}>
       {item?.token_address ? (
         renderimage(item)
       ) : (
         <Image
-        source={item?.image ? { uri: `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png` } : {uri:`https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`}}
+          source={
+            item?.image
+              ? {
+                  uri: `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
+                }
+              : {
+                  uri: `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
+                }
+          }
           style={styles.cardImage}
         />
       )}
       <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{symbol?.toUpperCase()}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text style={styles.cardTitle}>{symbol?.toUpperCase()}</Text>
+
+          {item?.token_address ? (
+            <Text style={styles.badgeGrey}>
+              {item.slug?.replace(/_/g, ' ')}
+            </Text>
+          ) : null}
+        </View>
         <View style={styles.innercardContent}>
           <Text style={styles.cardText}>
-            ${cp?.toString()?.indexOf('.') > -1 ? cp?.toFixed(2) : cp}
+            $
+            {symbol === 'MRK'
+              ? parseFloat(mrklePrice).toFixed(2)
+              : cp?.toString()?.indexOf('.') > -1
+              ? cp?.toFixed(2)
+              : cp}
           </Text>
           <Text
             style={[
@@ -95,15 +142,26 @@ const CoinPatti = ({item, route, address}) => {
         </View>
       </View>
       <View style={styles.CradRightText}>
-        <Text style={styles.CradRightText}>{cutAfterDecimal(item?.balance,6)}</Text>
+        <Text style={styles.CradRightText}>
+          {/* {cutAfterDecimal(item?.balance, 6)} */}
+          {cutAfterDecimal(item?.balance, 6)}
+        </Text>
         <Text style={styles.CradRightTextbelow}>
           $
-          {balance_in_usd?.toString()?.indexOf('.') > -1
+          {symbol === 'MRK'
+            ? item?.balance * mrklePrice
+            : balance_in_usd?.toString()?.indexOf('.') > -1
             ? balance_in_usd?.toFixed(4)
-            : balance_in_usd} 
+            : balance_in_usd}
         </Text>
       </View>
-       {route=="buy"?<BuyModalPage isVisible={modalVisible} closeModal={closeBuyModal} data={item} />:null}
+      {route == 'buy' ? (
+        <BuyModalPage
+          isVisible={modalVisible}
+          closeModal={closeBuyModal}
+          data={item}
+        />
+      ) : null}
     </TouchableOpacity>
   );
 };
@@ -117,13 +175,13 @@ const styles = StyleSheet.create({
     // backgroundColor:'#fff',
     borderRadius: wp(2),
     // paddingVertical: 14,
-    marginVertical: wp(1),    
+    marginVertical: wp(1),
   },
   cardImage: {
-    width: wp(10),
-    height: wp(10),
+    width: wp(9),
+    height: wp(9),
     marginRight: wp(4),
-    borderRadius: wp(10),
+    borderRadius: wp(50),
   },
   cardContent: {
     flex: 1,
@@ -132,10 +190,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cardTitle: {
-    fontSize: wp(3.5),
-    fontWeight: '700',
-    // marginBottom: hp(1),
-    color: '#444',
+    fontSize: wp(3.6),
+    fontWeight: '600',
+    // marginBottom: hp(0.2),
+    color: '#000',
+  },
+
+  badgeGrey: {
+    fontSize: wp(3.2),
+    color: '#888',
+    backgroundColor: '#f3f4f7',
+    marginStart: wp(3),
+    paddingHorizontal: wp(2),
+    borderRadius: wp(3),
+    fontSize: wp(2.8),
+    textTransform: 'capitalize',
+    lineHeight: 18,
   },
   cardText: {
     fontSize: wp(3.2),
@@ -149,12 +219,13 @@ const styles = StyleSheet.create({
   CradRightText: {
     color: '#000',
     textAlign: 'right',
-    fontWeight:'600'
+    fontWeight: '600',
   },
-  CradRightTextbelow:{
+  CradRightTextbelow: {
     color: '#444',
     textAlign: 'right',
-  }
+    fontSize: wp(3.5),
+  },
 });
 
 export default memo(CoinPatti);

@@ -23,7 +23,7 @@ const RecieveScreen = props => {
   const shareText = async () => {
     try {
       await Share.share({
-        message: address ,
+        message: address,
       });
     } catch (error) {
       console.error('Error sharing:', error.message);
@@ -64,8 +64,9 @@ const RecieveScreen = props => {
     return JSON.stringify(data);
   }
 
-  const {address, image, symbol} = props.route.params;
+  const {address, image, symbol,slug} = props.route.params;
   const navigation = useNavigation();
+  console.log(props.route.params, 'props.route.params');
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -97,7 +98,11 @@ const RecieveScreen = props => {
             color={colors.text_01}
             logo={
               address.startsWith('0x')
-                ? {uri: image}
+                ? {
+                    uri: image
+                      ? image
+                      : `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${slug}/logo.png`,
+                  }
                 : require('../../assets/coins/questions.jpeg')
             }
           />
@@ -252,7 +257,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.2)',
     borderRadius: 15,
     marginBottom: wp(8),
-    marginTop:wp(5),
+    marginTop: wp(5),
     backgroundColor: '#fff',
     shadowColor: '#ccc',
     shadowOffset: {

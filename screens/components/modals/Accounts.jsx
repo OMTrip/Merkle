@@ -13,6 +13,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addressAbbreviate, renderBalance} from '../../../Utils/web3/web3';
 import {Colors as colors} from '../../assets/colors';
 import {setActiveWallet} from '../../../Store/web3';
+import FastImage from 'react-native-fast-image';
+import { getTokenIcon } from '../../../Utils/tokenIcons';
 
 const Accounts = props => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const Accounts = props => {
   const Item = useMemo(
     () =>
       ({item, index, asset}) => {
+        console.log(item, 'item');
         const symbol = asset.chainId == '0x61' ? 'TBNB' : asset?.symbol;
         return (
           <TouchableOpacity
@@ -47,9 +50,25 @@ const Accounts = props => {
             }}
             key={index}>
             <View style={{marginLeft: 6, marginRight: 6, marginVertical: 5}}>
-              <Image
+              {/* <Image
                 source={{uri: makeBlockie(item.address)}}
                 style={{width: 48, height: 48, borderRadius: 24}}
+              /> */}
+              <FastImage
+                defaultSource={require('../../assets/blockie.png')}
+                style={{
+                  width: getTokenIcon(symbol).url ? 50 : 48,
+                  height: getTokenIcon(symbol).url ? 50 : 48,
+                  borderRadius: getTokenIcon(symbol).url ? 30 : 24,
+                  marginHorizontal: getTokenIcon(symbol).url ? 0 : 8,
+                  marginVertical: getTokenIcon(symbol).url ? 0 : 6,
+                  ...getTokenIcon(symbol).style,
+                }}
+                source={
+                  getTokenIcon(symbol).url
+                    ? getTokenIcon(symbol).url
+                    : require('../../assets/blockie.png')
+                }
               />
             </View>
             <View style={{marginLeft: 10}}>

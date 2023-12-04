@@ -128,6 +128,7 @@ const AllTokensScreen = props => {
         <FlatList
           data={filteredlist}
           renderItem={({item}) => {
+            console.log(item,'ddd');
             const istoken =
               item?.token_address != ZERO_ADDRESS && item?.token_address
                 ? true

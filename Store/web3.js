@@ -39,7 +39,7 @@ const initialState = {
           },
           show: true,
         },
-        {
+        {  
           chainId: '0x38',
           balance: '0',
           tokens: [],
@@ -124,6 +124,28 @@ const initialState = {
   ],
   networks: [
     {
+      "name": "Merkle Chain",
+      "chainId": "0x775",
+      "mainnet": true,
+      "balance": "0",
+      "rpcUrl":"https://marklechain-rpc.merklescan.com/",
+      "blockExplorerUrl": "https://merklescan.com/",
+      "networkVersion": "1909",
+      "slug": "merkle",
+      "show": false,
+      "nativeCurrency": {
+        "name": "Merkle",
+        "symbol": "MRK",
+        "decimals": 18,
+        "balance": "0",
+        "address": "0x0000000000000000000000000000000000000000",
+        "slug": "merkle"
+      },
+     
+      "tokens": [],
+      "nfts": []
+    },
+    {
       name: 'BNB Smart Chain',
       mainnet: true,
       slug: 'bsc',
@@ -203,116 +225,8 @@ const initialState = {
       tokens: [],
       nfts: [],
     },
-    {
-      "name": "Fantom Opera",
-      "chainId": "0xfa",
-      "mainnet": true,
-      "balance": "0",
-      "rpcUrl":"https://fantom.publicnode.com",
-      "blockExplorerUrl": "https://ftmscan.com",
-      "networkVersion": "250",
-      "slug": "fantom",
-      "show": false,
-      "nativeCurrency": {
-        "name": "Fantom",
-        "symbol": "FTM",
-        "decimals": 18,
-        "balance": "0",
-        "address": "0x0000000000000000000000000000000000000000",
-        "slug": "fantom"
-      },
-     
-      "tokens": [],
-      "nfts": []
-    },
-    {
-      "name": "Avalanche Network C-Chain",
-      "chainId": "0xa86a",
-      "mainnet": true,
-      "balance": "0",
-      "rpcUrl":"https://api.avax.network/ext/bc/C/rpc",
-      "blockExplorerUrl": "https://snowtrace.io/",
-      "networkVersion": "43114",
-      "slug": "avalanche",
-      "show": false,
-      "nativeCurrency": {
-        "name": "AVAX",
-        "symbol": "AVAX",
-        "decimals": 18,
-        "balance": "0",
-        "address": "0x0000000000000000000000000000000000000000",
-        "slug": "avalanche"
-      },
-     
-      "tokens": [],
-      "nfts": []
-    },
-    {
-      "name": "Optimism",
-      "chainId": "0xa",
-      "mainnet": true,
-      "balance": "0",
-      "rpcUrl":"https://mainnet.optimism.io",
-      "blockExplorerUrl": "https://optimistic.etherscan.io/",
-      "networkVersion": "10",
-      "slug": "optimism",
-      "show": false,
-      "nativeCurrency": {
-        "name": "Optimism",
-        "symbol": "OP",
-        "decimals": 18,
-        "balance": "0",
-        "address": "0x0000000000000000000000000000000000000000",
-        "slug": "optimism"
-      },
-     
-      "tokens": [],
-      "nfts": []
-    },
-    {
-      "name": "Arbitrum LlamaNodes",
-      "chainId": "0xa4b1",
-      "mainnet": true,
-      "balance": "0",
-      "rpcUrl":"https://arb1.arbitrum.io/rpc",
-      "blockExplorerUrl": "https://arbiscan.io",
-      "networkVersion": "42161",
-      "slug": "arbitrum",
-      "show": false,
-      "nativeCurrency": {
-        "name": "Arbitrum",
-        "symbol": "ARB",
-        "decimals": 18,
-        "balance": "0",
-        "address": "0x0000000000000000000000000000000000000000",
-        "slug": "arbitrum"
-      },
-     
-      "tokens": [],
-      "nfts": []
-    },
-    {
-      "name": "Merkle Chain",
-      "chainId": "0x775",
-      "mainnet": true,
-      "balance": "0",
-      "rpcUrl":"https://marklechain-rpc.merklescan.com/",
-      "blockExplorerUrl": "https://merklescan.com/",
-      "networkVersion": "1909",
-      "slug": "merkle",
-      "show": false,
-      "nativeCurrency": {
-        "name": "Merkle",
-        "symbol": "MRK",
-        "decimals": 18,
-        "balance": "0",
-        "address": "0x0000000000000000000000000000000000000000",
-        "slug": "merkle"
-      },
-     
-      "tokens": [],
-      "nfts": []
-    }
+  
+   
   ],
   tabs: [
     {

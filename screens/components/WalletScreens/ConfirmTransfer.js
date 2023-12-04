@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: wp(5),
+    paddingVertical: hp(5),
     paddingHorizontal: wp(5),
     flexDirection: 'row',
     alignItems: 'center',

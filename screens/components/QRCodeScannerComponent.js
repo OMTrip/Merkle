@@ -6,7 +6,10 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const QRCodeScannerComponent = props => {
   const {type, data} = props.route.params;
   const path = type == 'send' ? type : 'alltoken';
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(5.5),
     // backgroundColor: 'rgba(0,0,0,0.08)',
     flexDirection: 'row',
     alignItems: 'center',

@@ -131,7 +131,7 @@ const VerifyManually = () => {
   }, [mnemonic]);
 
   return (
-    <View style={{ flex: .9}}>
+    <View style={{ flex: .9,marginTop:hp(5)}}>
       <Text style={{ textAlign: "center", color: "#000", fontSize: 26, padding: 10 }}>Verify Secret Phrase</Text>
       <View style={{ padding: 10, flex: 1 }}>
         <View style={{ minHeight: 180, borderWidth: 1, borderColor: "#000", borderRadius: 10 }}>
@@ -174,7 +174,9 @@ const VerifyManually = () => {
     alignItems: 'center',
     borderRadius: 10,
   }}
-  onPress={()=>{checkArraysAtSameIndex(mnemonic.split(" "),arr)}}>
+  // onPress={()=>{checkArraysAtSameIndex(mnemonic.split(" "),arr)}}
+   onPress={navigation.navigate('WalletScreen')}
+  >
   <Text style={{ color: '#fff', fontSize: 20 }}>Continue</Text>
 </TouchableOpacity>
       </View>

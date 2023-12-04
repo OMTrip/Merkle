@@ -8,7 +8,7 @@ import {
   Platform,
   TextInput,
   Text,
-  StatusBar
+  StatusBar,
 } from 'react-native';
 import {
   FileDownloadEvent,
@@ -73,6 +73,7 @@ const Browser = props => {
   );
   const darkMode = false;
   const wallet = state.wallet.wallets[state.wallet.activeWallet];
+  console.log(wallet,'wallet');
   let webview = useRef();
 
   const [webviewUrl, setWebviewUrl] = useState(HOMEPAGE_URL);
@@ -569,171 +570,171 @@ const Browser = props => {
   }, [text]);
 
   return (
-<>
-<StatusBar
+    <>
+      {/* <StatusBar
     // translucent
     backgroundColor="#d6fffd"
     barStyle="dark-content"
-  />
-    <SafeAreaView style={{flex: 1, backgroundColor:'#fff'}}>
-     
-      {props?.route?.params?.searchdata?.inapp ? (
-        <View style={styles.browserHeader}>
-                <MaterialIcons
-          name="arrow-back"
-          size={25}
-          color={'#333'}
-          onPress={() => navigation.goBack()}
-        />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: '#f3f4f7',
-              height: wp(7),
-              width: '80%',
-              borderRadius: 10,
-              paddingHorizontal: wp(5),
-            }}>
-            <Ionicons name="lock-closed-sharp" size={12} color={'#000'} />
-            <Text
-              style={{
-                color: '#333',
-                fontSize: wp(3.8),
-                marginStart: wp(1),
-              }}>
-              {text}
-            </Text>
-          </View>
-          {/* <Ionicons name="refresh" size={18} color={'#00A1FF'} /> */}
-          <TouchableOpacity
-              onPress={() => {
-                // @ts-ignore-next-line
-                webview.reload();
-              }}
-             >
-              <Ionicons name="refresh" size={18} color={'#00A1FF'} />
-            </TouchableOpacity>
-        </View>
-      ) : (
-        <View
-          style={[
-            styles.container,
-            {
-              borderBottomColor: colors.border_01,
-              backgroundColor: darkMode ? colors.ui_background : '#ffffff',
-            },
-          ]}>
-          <View style={[styles.urlContainer, {backgroundColor: colors.ui_01}]}>
-            {webviewUrl.startsWith('https://') && (
-              <MaterialIcons
-                name="https"
-                size={16}
-                color={colors.positive_01}
-                style={styles.https}
-              />
-            )}
-            <TextInput
-              placeholder="Search or enter address"
-              placeholderTextColor={colors.text_02}
-              autoCorrect={false}
-              autoCapitalize="none"
-              keyboardType="default"
-              // selectTextOnFocus={true}
-              onSubmitEditing={e => go(e.nativeEvent.text)}
-              onFocus={() => {
-                /*
-                TODO: Show suggestions
-                create a list of suggestions based on the history and bookmarks
-                show the list
-              */
-              }}
-              style={{
-                height: 40,
-                color: colors.text_01,
-                backgroundColor: colors.transparent,
-                maxWidth: '80%',
-                overflow: 'hidden',
-                marginLeft: 8,
-              }}
-              onChangeText={text => setWebviewUrl(text)}
-              value={webviewUrl
-                .replace('https://', '')
-                .replace('http://', '')
-                .replace('www.', '')
-                .replace(/\/$/, '')}
+  /> */}
+      <SafeAreaView
+        style={{flex: 1, backgroundColor: '#fff', marginTop: hp(4)}}>
+        {props?.route?.params?.searchdata?.inapp ? (
+          <View style={styles.browserHeader}>
+            <MaterialIcons
+              name="arrow-back"
+              size={25}
+              color={'#333'}
+              onPress={() => navigation.goBack()}
             />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#f3f4f7',
+                height: wp(7),
+                width: '80%',
+                borderRadius: 10,
+                paddingHorizontal: wp(5),
+              }}>
+              <Ionicons name="lock-closed-sharp" size={12} color={'#000'} />
+              <Text
+                style={{
+                  color: '#333',
+                  fontSize: wp(3.8),
+                  marginStart: wp(1),
+                }}>
+                {text}
+              </Text>
+            </View>
+            {/* <Ionicons name="refresh" size={18} color={'#00A1FF'} /> */}
             <TouchableOpacity
               onPress={() => {
                 // @ts-ignore-next-line
                 webview.reload();
-              }}
-              style={{position: 'absolute', right: 12}}>
-              <Ionicons name="reload" size={18} color={colors.text} />
+              }}>
+              <Ionicons name="refresh" size={18} color={'#00A1FF'} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => openAccModal()}
-            style={styles.accountIconContainer}>
-            <Image
-              source={{uri: makeBlockie(wallet.address)}}
-              style={{
-                alignSelf: 'center',
-                width: 32,
-                height: 32,
-                borderRadius: 16,
-                borderWidth: darkMode ? 1 : 2,
-                borderColor: darkMode ? colors.text_01 : colors.text_03,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
-      {loading && (
-        <ProgressBar
-          progress={progress}
-          progressColor={'#00A1FF'}
-          style={{borderRadius: 0, height: 2}}
-        />
-      )}
+        ) : (
+          <View
+            style={[
+              styles.container,
+              {
+                borderBottomColor: colors.border_01,
+                backgroundColor: darkMode ? colors.ui_background : '#ffffff',
+              },
+            ]}>
+            <View
+              style={[styles.urlContainer, {backgroundColor: colors.ui_01}]}>
+              {webviewUrl.startsWith('https://') && (
+                <MaterialIcons
+                  name="https"
+                  size={16}
+                  color={colors.positive_01}
+                  style={styles.https}
+                />
+              )}
+              <TextInput
+                placeholder="Search or enter address"
+                placeholderTextColor={colors.text_02}
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="default"
+                // selectTextOnFocus={true}
+                onSubmitEditing={e => go(e.nativeEvent.text)}
+                onFocus={() => {
+                  /*
+                TODO: Show suggestions
+                create a list of suggestions based on the history and bookmarks
+                show the list
+              */
+                }}
+                style={{
+                  height: 40,
+                  color: colors.text_01,
+                  backgroundColor: colors.transparent,
+                  maxWidth: '80%',
+                  overflow: 'hidden',
+                  marginLeft: 8,
+                }}
+                onChangeText={text => setWebviewUrl(text)}
+                value={webviewUrl
+                  .replace('https://', '')
+                  .replace('http://', '')
+                  .replace('www.', '')
+                  .replace(/\/$/, '')}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  // @ts-ignore-next-line
+                  webview.reload();
+                }}
+                style={{position: 'absolute', right: 12}}>
+                <Ionicons name="reload" size={18} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onPress={() => openAccModal()}
+              style={styles.accountIconContainer}>
+              <Image
+                source={{uri: makeBlockie(wallet.address)}}
+                style={{
+                  alignSelf: 'center',
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  borderWidth: darkMode ? 1 : 2,
+                  borderColor: darkMode ? colors.text_01 : colors.text_03,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+        {loading && (
+          <ProgressBar
+            progress={progress}
+            progressColor={'#00A1FF'}
+            style={{borderRadius: 0, height: 2}}
+          />
+        )}
 
-      <WebView
-        originWhitelist={['https://', 'http://']}
-        decelerationRate={'normal'}
-        // @ts-ignore-next-line
-        ref={ref => (webview = ref)}
-        setSupportMultipleWindows={false}
-        source={{
-          uri: text,
-          headers: {
-            // use this for your fancy home page
-            // 'my-custom-header-key': 'my-custom-header-value',
-          },
-        }}
-        style={styles.webView}
-        onMessage={onMessage}
-        onNavigationStateChange={handleWebViewNavigationStateChange}
-        injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
-        onLoadStart={onLoadStart}
-        onLoad={onLoad}
-        onLoadEnd={onLoadEnd}
-        onLoadProgress={onLoadProgress}
-        onError={onError}
-        javaScriptCanOpenWindowsAutomatically={false}
-        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-        renderError={e => {
-          console.log('Error', e);
-          return <WebviewError error={error} returnHome={returnHome} />;
-        }}
-        sendCookies
-        javascriptEnabled
-        allowsInlineMediaPlayback
-        useWebkit
-        testID={'browser-webview'}
-        applicationNameForUserAgent={'WebView NuteWallet'}
-        onFileDownload={handleOnFileDownload}
-      />
-      {/* <View style={[styles.menu, {backgroundColor: colors.ui_background}]}>
+        <WebView
+          originWhitelist={['https://', 'http://']}
+          decelerationRate={'normal'}
+          // @ts-ignore-next-line
+          ref={ref => (webview = ref)}
+          setSupportMultipleWindows={false}
+          source={{
+            uri: text,
+            headers: {
+              // use this for your fancy home page
+              // 'my-custom-header-key': 'my-custom-header-value',
+            },
+          }}
+          style={styles.webView}
+          onMessage={onMessage}
+          onNavigationStateChange={handleWebViewNavigationStateChange}
+          injectedJavaScriptBeforeContentLoaded={injectedJavaScript}
+          onLoadStart={onLoadStart}
+          onLoad={onLoad}
+          onLoadEnd={onLoadEnd}
+          onLoadProgress={onLoadProgress}
+          onError={onError}
+          javaScriptCanOpenWindowsAutomatically={false}
+          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+          renderError={e => {
+            console.log('Error', e);
+            return <WebviewError error={error} returnHome={returnHome} />;
+          }}
+          sendCookies
+          javascriptEnabled
+          allowsInlineMediaPlayback
+          useWebkit
+          testID={'browser-webview'}
+          applicationNameForUserAgent={'WebView NuteWallet'}
+          onFileDownload={handleOnFileDownload}
+        />
+        {/* <View style={[styles.menu, {backgroundColor: colors.ui_background}]}>
         <TouchableOpacity
           disabled={!canGoBack}
           onPress={() => webview.goBack()}>
@@ -760,7 +761,6 @@ const Browser = props => {
           }}>
           <AntDesign name="home" size={23} color={colors.text} />
         </TouchableOpacity> */}
-       
 
         {/* <TouchableOpacity
           onPress={() => {
@@ -782,57 +782,56 @@ const Browser = props => {
           }}>
           <Ionicons name="ellipsis-horizontal" size={24} color={colors.text} />
         </TouchableOpacity> */}
-    
 
-      <RBSheet
-        ref={refAccountSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
-        height={530}
-        draggableIcon={false}
-        openDuration={400}
-        customStyles={{
-          container: {
-            backgroundColor: '#fff',
-          },
-        }}>
-        <View style={[{flex: 1}]}>
-          <Accounts
-            network={network}
-            toggleModal={() => closeAccModal()}
-            openNetworkModal={() => openNetModal()}
-            wallets={state.wallet.wallets}
-            navigation={navigation}
-          />
-        </View>
-      </RBSheet>
+        <RBSheet
+          ref={refAccountSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          height={530}
+          draggableIcon={false}
+          openDuration={400}
+          customStyles={{
+            container: {
+              backgroundColor: '#fff',
+            },
+          }}>
+          <View style={[{flex: 1}]}>
+            <Accounts
+              network={network}
+              toggleModal={() => closeAccModal()}
+              openNetworkModal={() => openNetModal()}
+              wallets={state.wallet.wallets}
+              navigation={navigation}
+            />
+          </View>
+        </RBSheet>
 
-      <RBSheet
-        ref={refNetworkSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
-        height={530}
-        draggableIcon={false}
-        openDuration={400}
-        customStyles={{
-          container: {
-            backgroundColor: '#fff',
-          },
-        }}>
-        <View style={{flex: 1}}>
-          <Networks
-            network={network}
-            setActiveChain={''}
-            networks={state.wallet.networks}
-            toggleAccountModal={() => closeAccModal()}
-            toggleNetworkModal={() => closeNetModal()}
-          />
-        </View>
-      </RBSheet>
+        <RBSheet
+          ref={refNetworkSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          height={530}
+          draggableIcon={false}
+          openDuration={400}
+          customStyles={{
+            container: {
+              backgroundColor: '#fff',
+            },
+          }}>
+          <View style={{flex: 1}}>
+            <Networks
+              network={network}
+              setActiveChain={''}
+              networks={state.wallet.networks}
+              toggleAccountModal={() => closeAccModal()}
+              toggleNetworkModal={() => closeNetModal()}
+            />
+          </View>
+        </RBSheet>
 
-      {/* <RBSheet
+        {/* <RBSheet
         ref={refNetworkSheet}
         closeOnDragDown={true}
         closeOnPressMask={true}
@@ -849,7 +848,7 @@ const Browser = props => {
           
         </RBSheet> */}
 
-      {/* <BottomSheetModal
+        {/* <BottomSheetModal
         index={1}
         ref={accountModalRef}
         snapPoints={snapPoints}
@@ -873,7 +872,7 @@ const Browser = props => {
         </View>
       </BottomSheetModal> */}
 
-      {/* <BottomSheetModal
+        {/* <BottomSheetModal
         index={1}
         ref={networkModalRef}
         snapPoints={useMemo(() => ['80%', '80%'], [])}
@@ -896,29 +895,29 @@ const Browser = props => {
         </View>
       </BottomSheetModal> */}
 
-      <RBSheet
-        ref={refAddAccountSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
-        height={530}
-        draggableIcon={false}
-        openDuration={400}
-        customStyles={{
-          container: {
-            backgroundColor: '#fff',
-          },
-        }}>
-        <View style={{flex: 1}}>
-          <Account
-            index={state.wallet.wallets.length}
-            mnemonic={state.wallet.mnemonic}
-            toggleAccountModal={closeAccsModal}
-          />
-        </View>
-      </RBSheet>
+        <RBSheet
+          ref={refAddAccountSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          height={530}
+          draggableIcon={false}
+          openDuration={400}
+          customStyles={{
+            container: {
+              backgroundColor: '#fff',
+            },
+          }}>
+          <View style={{flex: 1}}>
+            <Account
+              index={state.wallet.wallets.length}
+              mnemonic={state.wallet.mnemonic}
+              toggleAccountModal={closeAccsModal}
+            />
+          </View>
+        </RBSheet>
 
-      {/* <BottomSheetModal
+        {/* <BottomSheetModal
         index={1}
         ref={addAccountRef}
         snapPoints={snapPointsNetwork}
@@ -939,32 +938,32 @@ const Browser = props => {
         </View>
       </BottomSheetModal> */}
 
-      <RBSheet
-        ref={refConnectAccountSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
-        height={530}
-        draggableIcon={false}
-        openDuration={400}
-        customStyles={{
-          container: {
-            backgroundColor: '#fff',
-          },
-        }}>
-        <View style={{flex: 1}}>
-          <Connect
-            domain={domain}
-            webviewUrl={webviewUrl}
-            network={network}
-            wallet={wallet}
-            allowConnection={web3Actions.allowConnection}
-            denyConnection={web3Actions.denyConnection}
-          />
-        </View>
-      </RBSheet>
+        <RBSheet
+          ref={refConnectAccountSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          height={530}
+          draggableIcon={false}
+          openDuration={400}
+          customStyles={{
+            container: {
+              backgroundColor: '#fff',
+            },
+          }}>
+          <View style={{flex: 1}}>
+            <Connect
+              domain={domain}
+              webviewUrl={webviewUrl}
+              network={network}
+              wallet={wallet}
+              allowConnection={web3Actions.allowConnection}
+              denyConnection={web3Actions.denyConnection}
+            />
+          </View>
+        </RBSheet>
 
-      {/* <BottomSheetModal
+        {/* <BottomSheetModal
         index={1}
         ref={connectAccountRef}
         snapPoints={snapPointsConnect}
@@ -988,32 +987,32 @@ const Browser = props => {
         </View>
       </BottomSheetModal> */}
 
-      <RBSheet
-        ref={refSignMessageRef}
-        closeOnDragDown={true}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
-        height={530}
-        draggableIcon={false}
-        openDuration={400}
-        customStyles={{
-          container: {
-            backgroundColor: '#fff',
-          },
-        }}>
-        <View style={{flex: 1}}>
-          <SignMessage
-            domain={domain}
-            webviewUrl={webviewUrl}
-            network={network}
-            wallet={wallet}
-            messageToSign={messageToSign}
-            sign={web3Actions.sign}
-            denySignature={web3Actions.denySignature}
-          />
-        </View>
-      </RBSheet>
-      {/* 
+        <RBSheet
+          ref={refSignMessageRef}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          height={530}
+          draggableIcon={false}
+          openDuration={400}
+          customStyles={{
+            container: {
+              backgroundColor: '#fff',
+            },
+          }}>
+          <View style={{flex: 1}}>
+            <SignMessage
+              domain={domain}
+              webviewUrl={webviewUrl}
+              network={network}
+              wallet={wallet}
+              messageToSign={messageToSign}
+              sign={web3Actions.sign}
+              denySignature={web3Actions.denySignature}
+            />
+          </View>
+        </RBSheet>
+        {/* 
       <BottomSheetModal
         index={1}
         ref={signMessageRef}
@@ -1039,65 +1038,65 @@ const Browser = props => {
         </View>
       </BottomSheetModal> */}
 
-      <BottomSheetModal
-        index={1}
-        ref={assetsRef}
-        snapPoints={snapPoints}
-        stackBehavior="push"
-        backdropComponent={props => (
-          <CustomBackdrop dismissModal={toggleAssetsModal} {...props} />
-        )}
-        backgroundStyle={{backgroundColor: colors.ui_background}}
-        handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
-        containerStyle={{backgroundColor: colors.backdrop}}
-        onChange={handleAssetsChanges}>
-        <View style={[{flex: 1, alignItems: 'center'}]}>
-          <Assets wallet={wallet} />
-        </View>
-      </BottomSheetModal>
+        <BottomSheetModal
+          index={1}
+          ref={assetsRef}
+          snapPoints={snapPoints}
+          stackBehavior="push"
+          backdropComponent={props => (
+            <CustomBackdrop dismissModal={toggleAssetsModal} {...props} />
+          )}
+          backgroundStyle={{backgroundColor: colors.ui_background}}
+          handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
+          containerStyle={{backgroundColor: colors.backdrop}}
+          onChange={handleAssetsChanges}>
+          <View style={[{flex: 1, alignItems: 'center'}]}>
+            <Assets wallet={wallet} />
+          </View>
+        </BottomSheetModal>
 
-      <BottomSheetModal
-        index={1}
-        ref={tabsRef}
-        snapPoints={snapPointsTabs}
-        stackBehavior="push"
-        backdropComponent={props => (
-          <CustomBackdrop dismissModal={toggleTabsModal} {...props} />
-        )}
-        backgroundStyle={{backgroundColor: colors.ui_background}}
-        handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
-        containerStyle={{backgroundColor: colors.backdrop}}
-        onChange={handleTabsChanges}>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <BrowserTabs
-            tabs={[...state.wallet.tabs]}
-            go={go}
-            setActiveTab={setActiveTab}
-            toggleTabsModal={toggleTabsModal}
+        <BottomSheetModal
+          index={1}
+          ref={tabsRef}
+          snapPoints={snapPointsTabs}
+          stackBehavior="push"
+          backdropComponent={props => (
+            <CustomBackdrop dismissModal={toggleTabsModal} {...props} />
+          )}
+          backgroundStyle={{backgroundColor: colors.ui_background}}
+          handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
+          containerStyle={{backgroundColor: colors.backdrop}}
+          onChange={handleTabsChanges}>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <BrowserTabs
+              tabs={[...state.wallet.tabs]}
+              go={go}
+              setActiveTab={setActiveTab}
+              toggleTabsModal={toggleTabsModal}
+            />
+          </View>
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          index={1}
+          ref={optionsRef}
+          snapPoints={snapPointsOptions}
+          stackBehavior="push"
+          backdropComponent={props => (
+            <CustomBackdrop dismissModal={toggleOptionsModal} {...props} />
+          )}
+          backgroundStyle={{backgroundColor: colors.ui_background}}
+          handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
+          containerStyle={{backgroundColor: colors.backdrop}}
+          onChange={handleOptionsChanges}>
+          <BrowserOptions
+            wallet={wallet}
+            network={network}
+            toggleNetworkModal={toggleNetworkModal}
+            toggleAccountsModal={toggleAccountsModal}
           />
-        </View>
-      </BottomSheetModal>
-
-      <BottomSheetModal
-        index={1}
-        ref={optionsRef}
-        snapPoints={snapPointsOptions}
-        stackBehavior="push"
-        backdropComponent={props => (
-          <CustomBackdrop dismissModal={toggleOptionsModal} {...props} />
-        )}
-        backgroundStyle={{backgroundColor: colors.ui_background}}
-        handleIndicatorStyle={{backgroundColor: colors.interactive_04}}
-        containerStyle={{backgroundColor: colors.backdrop}}
-        onChange={handleOptionsChanges}>
-        <BrowserOptions
-          wallet={wallet}
-          network={network}
-          toggleNetworkModal={toggleNetworkModal}
-          toggleAccountsModal={toggleAccountsModal}
-        />
-      </BottomSheetModal>
-    </SafeAreaView>
+        </BottomSheetModal>
+      </SafeAreaView>
     </>
   );
 };
@@ -1117,13 +1116,13 @@ const styles = StyleSheet.create({
   },
 
   browserHeader: {
-    paddingVertical: wp(3),
+    paddingVertical: hp(23),
     paddingHorizontal: wp(3),
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginTop:wp(10)
+    marginTop: wp(10),
   },
 
   urlContainer: {

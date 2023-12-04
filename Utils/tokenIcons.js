@@ -5,6 +5,11 @@ export const getTokenIcon = symbol => {
         url: require('../screens/assets/coins/questions.jpeg'),
         style: {},
       };
+    case 'MRK':
+      return {
+        url: require('../screens/assets/coins/KB.png'),
+        style: {height: 42, width: 43, marginHorizontal: 2, marginVertical: 3},
+      };
     case '0x1':
       return {
         url: require('../screens/assets/coins/ethereum.png'),

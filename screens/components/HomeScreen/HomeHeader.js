@@ -448,11 +448,11 @@ const HomeHeader = props => {
               ) : (
                 <View>
                   <Image
-                    source={require('../../assets/user.png')}
+                    source={require('../../assets/setting.png')}
                     style={{
-                      width: wp(9),
+                      width: wp(6.5),
                       // backgroundColor: '#000',
-                      height: wp(9),
+                      height: wp(5.8),
                       borderRadius: wp(50),
                       marginVertical: wp(1),
                     }}
