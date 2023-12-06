@@ -17,7 +17,13 @@ import {
   updateChainInfo,
 } from '../Store/web3';
 import userCollection from '../Store/firebase/user';
-import {setKYCStatus, setLogin, setUser} from '../Store/userinfo';
+import {
+  setBtycPricePrice,
+  setKYCStatus,
+  setLogin,
+  setMerklePrice,
+  setUser,
+} from '../Store/userinfo';
 import {
   circleCode,
   fetchAllCryptos,
@@ -374,24 +380,39 @@ const Routes = () => {
   // }, []);
 
   useEffect(() => {
-    //   PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-    //     title: 'Contacts',
-    //     message: 'This app would like to view your contacts.',
-    //     buttonPositive: 'Please accept bare mortal',
-    // }).then((res) => {
-    //         console.log('Permission: ', res);
-    // Contacts.getAll()
-    //     .then((contacts) => {
-    //         // work with contacts
-    //         console.log(contacts,"contracts");
-    //     })
-    //     .catch((e) => {
-    //         console.log(e);
-    //     });
-    // })
-    // .catch((error) => {
-    //     console.error('Permission error: ', error);
-    // });
+    (async () => {
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getPrice',
+      );
+      const data = await response.json(); // Modify this depending on the response format
+      dispatch(setMerklePrice(data?.price ? data?.price : 0));
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      let api_response = await fetch(
+        `https://api.livecoinwatch.com/coins/map`,
+        {
+          method: 'POST',
+          headers: new Headers({
+            'content-type': 'application/json',
+            'x-api-key': '0286896a-4b39-494b-b2e3-7156e4adaeb9',
+          }),
+          body: JSON.stringify({
+            currency: 'USD',
+            codes: ['BTYC', 'BUBT', '_BSBT'],
+            sort: 'code',
+            order: 'ascending',
+            offset: 0,
+            limit: 0,
+            meta: false,
+          }),
+        },
+      );
+      let token_price = await api_response.json();
+       dispatch(setBtycPricePrice(token_price[0].rate.toFixed(2) ? token_price[0].rate.toFixed(2) : 0));
+      // console.log(token_price[0].rate.toFixed(2),'nssggggggggg');
+    })();
   }, []);
 
   return (

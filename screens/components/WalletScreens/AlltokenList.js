@@ -255,6 +255,7 @@ if(mychain){
     setReload(true);
     const chainData =  await fetchChainData();
     const toKenData = await fetchAssetData();
+    console.log(toKenData,'dddddd');
     const cData = chainData?.map(ele=>{
       const obj = {...ele}
       obj.type = 'coin'
@@ -275,7 +276,8 @@ if(mychain){
 
     const asst = [...wallet.assets];
     const myasset = asst?.find(it => it?.chainId == obj?.chainId);
-   const tkn = myasset?.tokens?.find(token => token?.token_address === obj.token_address && token.show);
+   const tkn = myasset?.tokens?.find(token => token?.token_address.toLowerCase() === obj.token_address.toLowerCase() && token.show);
+   console.log(obj.show)
     if(tkn){
       obj.show = true;
       return obj;
@@ -284,6 +286,7 @@ if(mychain){
       return obj
 
     }
+  return obj
    
       
     });
@@ -294,6 +297,7 @@ if(mychain){
       index:index,
       status: combinedList[index]?.show || false,
     }));
+    console.log(largeList,"largeList")
     setSwitchStates([...largeList])
     setFilteredSwitchStates([...largeList])
 

@@ -238,11 +238,7 @@ const BottomTab = () => {
             iconSource = focused
               ? require('../../assets/HomeIcon.png')
               : require('../../assets/HomeIcon.png');
-          } else if (route.name === 'Swap') {
-            iconSource = focused
-              ? require('../../assets/swap.png')
-              : require('../../assets/swap.png');
-          } else if (route.name === 'BrowserTab') {
+          }else if (route.name === 'BrowserTab') {
             iconSource = focused
               ? require('../../assets/browsericonnew.png')
               : require('../../assets/browsericonnew.png');
@@ -262,20 +258,21 @@ const BottomTab = () => {
         name="Home"
         component={WalletRoute}
         options={{
+          
           headerShown: false,
           activeTintColor: 'black',
           inactiveTintColor: 'gray',
           tabBarLabelStyle: {fontSize: wp(3.2), fontWeight: '700'},
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Swap"
         component={SwapScreen}
         options={{
           headerShown: false,
           tabBarLabelStyle: {fontSize: wp(3.2), fontWeight: '700'},
         }}
-      />
+      /> */}
       <Tab.Screen
         name="BrowserTab"
         component={BrowserRoutes}

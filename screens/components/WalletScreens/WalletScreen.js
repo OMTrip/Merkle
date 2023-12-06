@@ -30,7 +30,7 @@ const WalletScreen = () => {
     state => state.wallet,
   );
 
-  // const MerklePrice = useSelector(state => state.user?.merklePrice);
+  const MerklePrice = useSelector(state => state.user?.merklePrice);
   const wallet = wallets[activeWallet];
   const [listarray, setlistarray] = useState([]);
   const [filteredlist, setFilteredList] = useState([]);
@@ -38,10 +38,9 @@ const WalletScreen = () => {
   const [totalAssetsInDollar, setTotalAssetsInDollar] = useState(0);
   const navigation = useNavigation();
   const [show, setShow] = useState(false);
-  const [MrkleTotalPrice, setMrkleTotalPrice] = useState('');
-  const [mrklePrice, setMrklePrice] = useState('');
   const [showDeposite, setShowDeposite] = useState(true);
   const dispatch = useDispatch();
+
   function search(searchtext) {
     const issearch = !searchtext && searchtext.length == 0;
     const arr = !issearch
@@ -91,49 +90,32 @@ const WalletScreen = () => {
     }
     setSearchText(searchtext.toUpperCase());
   }
-  // console.log(filteredlist,"filteredlist:::::")
 
   useEffect(() => {
     search('');
-    // console.log(wallet.address, 'walletaddress');
   }, [activeWallet, wallets]);
+
   useEffect(() => {
     dispatch(setActiveWallet(activeWallet));
     dispatch(setRefresh(!refresh));
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getPrice'
-        );
-        const data = await response.json(); // Modify this depending on the response format
-        setMrklePrice(data.price);
-      } catch (error) {
-        console.error('Error :=-===', error);
-      }
-    };
-  
-    fetchData();
-  }, []);
-
-  useEffect(() => {
+   
     if (listarray.length > 0) {
       const total = listarray.reduce((sum, item) => {
-        // console.log(item, 'eeee');
-        if (item.symbol === 'MRK') {
-          // console.log(mrklePrice * item?.balance);
-          setMrkleTotalPrice(mrklePrice * item?.balance);
-        }
+        // console.log( item?.symbol,' item?.symbol');
         const cp = item?.current_price ? item?.current_price : 0;
-        const balance_in_usd = cp * item?.balance;
+        const balance_in_usd =
+          item?.symbol?.toUpperCase() === 'MRK' 
+            ? MerklePrice * item?.balance
+            // item?.symbol?.toUpperCase() === 'BTYC'
+            : cp * item?.balance
         sum = sum + balance_in_usd;
         return sum;
       }, 0);
       const t = total.toString().indexOf('.') > -1 ? total.toFixed(4) : total;
-      setTotalAssetsInDollar(t + MrkleTotalPrice);
-      // console.log(MrkleTotalPrice, 't');
+      setTotalAssetsInDollar(t);
     }
   }, [listarray]);
 
@@ -215,31 +197,8 @@ const WalletScreen = () => {
               />
               <Text style={styles.optext}>Recieve</Text>
             </TouchableOpacity>
-            <Link to="/BuyTokenlist">
-              <View
-                style={styles.options}
-                // onPress={() => navigation.navigate('buytokenlist')}
-              >
-                <AntDesign
-                  name="wallet"
-                  size={17}
-                  color={'#000'}
-                  style={styles.optionsicon}
-                />
-                <Text style={styles.optext}>Earn</Text>
-              </View>
-            </Link>
-            <TouchableOpacity
-              style={styles.options}
-              onPress={() => navigation.navigate('alltoken', {type: 'buy'})}>
-              <Ionicons
-                name="leaf-outline"
-                size={17}
-                color={'#000'}
-                style={styles.optionsicon}
-              />
-              <Text style={styles.optext}>Buy</Text>
-            </TouchableOpacity>
+           
+    
           </View>
 
           <View style={styles.Body}>
@@ -531,7 +490,7 @@ const styles = StyleSheet.create({
   optionsrow: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     width: '90%',
     paddingVertical: 5,
   },

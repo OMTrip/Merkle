@@ -65,6 +65,7 @@ const RecieveScreen = props => {
   }
 
   const {address, image, symbol,slug} = props.route.params;
+  console.log(slug,'vvssssssssssssssssssssssssssssssssssssssssssss');
   const navigation = useNavigation();
   console.log(props.route.params, 'props.route.params');
   return (
@@ -131,7 +132,7 @@ const RecieveScreen = props => {
               }}>
               <Text style={{color: '#124e88'}}>
                 {' '}
-                Send Only {symbol} (BEP20) to this address.
+                Send Only {symbol} ({slug}) to this address.
               </Text>
               <Text style={{color: '#124e88'}}>
                 Sending any other coins may result in permanent loss.{' '}

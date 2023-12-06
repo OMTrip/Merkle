@@ -11,6 +11,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import BuyModalPage from './BuyModalPage';
 import {cutAfterDecimal} from '../../../Utils/web3/helperFunction';
 import {setMerklePrice} from '../../../Store/userinfo';
+import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const coinimg = require('../../assets/no_image.jpeg');
 
 const CoinPatti = ({item, route, address}) => {
@@ -25,10 +26,8 @@ const CoinPatti = ({item, route, address}) => {
     : 0;
   const symbol = item.slug == 'bsc_testnet' ? 'T' + item.symbol : item.symbol;
   const [modalVisible, setModalVisible] = useState(false);
-  const [mrklePrice, setMrklePrice] = useState();
-  dispatch(
-    setMerklePrice(item.symbol == 'MRK' ? mrklePrice * item.balance : ''),
-  );
+  const MerklePrice = useSelector(state => state.user?.merklePrice);
+ 
   const openBuyModal = () => {
     setModalVisible(true);
   };
@@ -37,21 +36,6 @@ const CoinPatti = ({item, route, address}) => {
     setModalVisible(false);
   };
 
-  useEffect(() => {
-    fetchLogo();
-  }, []);
-  // Fetch the logo URL from the web
-  const fetchLogo = async () => {
-    try {
-      const response = await fetch(
-        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getPrice',
-      );
-      const data = await response.json(); // Modify this depending on the response format
-      setMrklePrice(data.price);
-    } catch (error) {
-      console.error('Error :=-===', error);
-    }
-  };
   const renderimage = (item, i) => {
     return (
       <View>
@@ -81,6 +65,7 @@ const CoinPatti = ({item, route, address}) => {
       </View>
     );
   };
+
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -110,7 +95,13 @@ const CoinPatti = ({item, route, address}) => {
                   uri: `https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/Chains-main/Chains-main/resources/${item.slug}/logo.png`,
                 }
           }
-          style={styles.cardImage}
+          style={[
+            styles.cardImage,
+            {
+              borderRadius: item.slug == 'merkle' ? 0 : 50,
+              width: item.slug == 'merkle' ? wp(8) : wp(8.8),
+            },
+          ]}
         />
       )}
       <View style={styles.cardContent}>
@@ -127,7 +118,7 @@ const CoinPatti = ({item, route, address}) => {
           <Text style={styles.cardText}>
             $
             {symbol === 'MRK'
-              ? parseFloat(mrklePrice).toFixed(2)
+              ? parseFloat(MerklePrice).toFixed(2)
               : cp?.toString()?.indexOf('.') > -1
               ? cp?.toFixed(2)
               : cp}
@@ -149,7 +140,7 @@ const CoinPatti = ({item, route, address}) => {
         <Text style={styles.CradRightTextbelow}>
           $
           {symbol === 'MRK'
-            ? item?.balance * mrklePrice
+            ? item?.balance * MerklePrice
             : balance_in_usd?.toString()?.indexOf('.') > -1
             ? balance_in_usd?.toFixed(4)
             : balance_in_usd}
@@ -178,10 +169,10 @@ const styles = StyleSheet.create({
     marginVertical: wp(1),
   },
   cardImage: {
-    width: wp(9),
-    height: wp(9),
+    width: wp(8.8),
+    height: hp(4.5),
     marginRight: wp(4),
-    borderRadius: wp(50),
+    // borderRadius: wp(50),
   },
   cardContent: {
     flex: 1,

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -149,161 +150,1370 @@ const BrowserScreen = () => {
             />
           )}
         </View> */}
-        <Text
-          onPress={() => {
-            // console.log('clicked for navigate')
-            navigation.navigate('SwapScreen', {
-              searchdata: {
-                text: 'nute.io',
-              },
-            });
-          }}>
-          Search
-        </Text>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: wp(5),
+        <ScrollView>
+          <Text
+            onPress={() => {
+              // console.log('clicked for navigate')
+              navigation.navigate('SwapScreen', {
+                searchdata: {
+                  text: 'nute.io',
+                },
+              });
             }}>
-            <View>
-              <Text style={{color: '#888', fontWeight: '600'}}>
-                Merkle Project
-              </Text>
-            </View>
-            {/* <View>
+            Search
+          </Text>
+          <View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: wp(5),
+              }}>
+              <View>
+                <Text style={{color: '#888', fontWeight: '600'}}>
+                  Merkle Project
+                </Text>
+              </View>
+              {/* <View>
               <Text style={{color: '#50AFFF'}}>See All</Text>
             </View> */}
-          </View>
-          <View style={styles.browserCard}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <View style={styles.browserCardInner}>
-                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
-                <Image
-                  source={require('../assets/logo.png')}
-                  style={styles.typeIcon}
-                />
-                {/* <Link to="/TranscationDetails"> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Browser', {
-                      searchdata: {
-                        text: 'https://bigtycoon.co/',
-                      },
-                    });
-                  }}>
-                  <View style={{}}>
-                    <Text style={styles.upperText}>Big Tycoon </Text>
-                    <Text style={styles.fromText}>https://bigtycoon.co/</Text>
-                  </View>
-                </TouchableOpacity>
-                {/* </Link> */}
-              </View>
             </View>
-          </View>
-          <View style={styles.browserCard}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Browser', {
+                  searchdata: {
+                    text: 'https://bigtycoon.co/',
+                  },
+                });
               }}>
-              <View style={styles.browserCardInner}>
-                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
-                <Image
-                  source={require('../assets/string.png')}
-                  style={[styles.typeIcon, {height: hp(4.4), width: wp(12)}]}
-                />
-                {/* <Link to="/TranscationDetails"> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Browser', {
-                      searchdata: {
-                        text: 'https://xtring.network/',
-                      },
-                    });
+              <View style={styles.browserCard}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}>
-                  <View style={{}}>
-                    <Text style={styles.upperText}>
-                      Xtring Network : Cross Chain Transction
-                    </Text>
-                    <Text style={styles.fromText}>https://xtring.network/</Text>
-                  </View>
-                </TouchableOpacity>
-                {/* </Link> */}
-              </View>
-            </View>
-          </View>
-          <View style={styles.browserCard}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <View style={styles.browserCardInner}>
-                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
-                <Image
-                  source={require('../assets/KB.png')}
-                  style={[styles.typeIcon, {height: hp(5), width: wp(8.5)}]}
-                />
-                {/* <Link to="/TranscationDetails"> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Browser', {
-                      searchdata: {
-                        text: 'https://merklescan.com/',
-                      },
-                    });
-                  }}>
-                  <View style={{}}>
-                    <Text style={styles.upperText}>Blockchain Explorer </Text>
-                    <Text style={styles.fromText}>https://merklescan.com/</Text>
-                  </View>
-                </TouchableOpacity>
-                {/* </Link> */}
-              </View>
-            </View>
-          </View>
+                  <View style={styles.browserCardInner}>
+                    {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                    <Image
+                      source={require('../assets/logo.png')}
+                      style={styles.typeIcon}
+                    />
+                    {/* <Link to="/TranscationDetails"> */}
 
-          <View style={styles.browserCard}>
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Big Tycoon </Text>
+                      <Text style={styles.fromText}>https://bigtycoon.co/</Text>
+                    </View>
+
+                    {/* </Link> */}
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://xtring.network/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/string.png')}
+                    style={[styles.typeIcon, {height: hp(4.4), width: wp(12)}]}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>
+                        Xtring Network : Cross Chain Transction
+                      </Text>
+                      <Text style={styles.fromText}>
+                        https://xtring.network/
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://merklescan.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/KB.png')}
+                    style={[styles.typeIcon, {height: hp(5), width: wp(8.5)}]}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Blockchain Explorer </Text>
+                      <Text style={styles.fromText}>
+                        https://merklescan.com/
+                      </Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://bigshot.games/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/bigshot.png')}
+                    style={[styles.typeIcon, {height: hp(5), width: wp(10)}]}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Big Shot </Text>
+                      <Text style={styles.fromText}>
+                        https://bigshot.games/
+                      </Text>
+                    </View>
+              
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                marginTop: wp(5),
               }}>
-              <View style={styles.browserCardInner}>
-                {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
-                <Image
-                  source={require('../assets/bigshot.png')}
-                  style={[styles.typeIcon, {height: hp(5), width: wp(10)}]}
-                />
-                {/* <Link to="/TranscationDetails"> */}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Browser', {
-                      searchdata: {
-                        text: 'https://bigshot.games/',
-                      },
-                    });
-                  }}>
-                  <View style={{}}>
-                    <Text style={styles.upperText}>Big Shot </Text>
-                    <Text style={styles.fromText}>https://bigshot.games/</Text>
-                  </View>
-                </TouchableOpacity>
-                {/* </Link> */}
+              <View>
+                <Text style={{color: '#888', fontWeight: '600'}}>
+                  New DApps
+                </Text>
+              </View>
+              {/* <View>
+              <Text style={{color: '#50AFFF'}}>See All</Text>
+            </View> */}
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://surnft.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/surnft.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>SURNFT </Text>
+                      <Text style={styles.fromText}>https://surnft.com/</Text>
+                    </View>
+              
+                  {/* </Link> */}
+                </View>
               </View>
             </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://looksrare.org/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/Looksrare.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>LooksRare </Text>
+                      <Text style={styles.fromText}>
+                        https://looksrare.org/
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://www.apollox.finance/en',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/APOLLOX.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>ApolloX </Text>
+                      <Text style={styles.fromText}>
+                        https://www.apollox.finance/en
+                      </Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                DeFi
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://venus.io/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/venus.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Venus </Text>
+                      <Text style={styles.fromText}>https://venus.io/</Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.beefy.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/BEEFY.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Beefy </Text>
+                      <Text style={styles.fromText}>
+                        https://app.beefy.finance/
+                      </Text>
+                    </View>
+         
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://pancakeswap.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/pancakeswap.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+              
+                    <View style={{}}>
+                      <Text style={styles.upperText}>PancakeSwap </Text>
+                      <Text style={styles.fromText}>
+                        https://pancakeswap.finance/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: wp(5),
+              }}>
+              <View>
+                <Text style={{color: '#888', fontWeight: '600'}}>
+                  Smart Chain
+                </Text>
+              </View>
+              {/* <View>
+              <Text style={{color: '#50AFFF'}}>See All</Text>
+            </View> */}
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://surnft.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/surnft.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+               
+                    <View style={{}}>
+                      <Text style={styles.upperText}>SURNFT </Text>
+                      <Text style={styles.fromText}>https://surnft.com/</Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://www.apollox.finance/en',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/APOLLOX.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>ApolloX </Text>
+                      <Text style={styles.fromText}>
+                        https://www.apollox.finance/en
+                      </Text>
+                    </View>
+                  
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://powerpool.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/POWERPOOL.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>PowerPool </Text>
+                      <Text style={styles.fromText}>
+                        https://powerpool.finance/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: wp(5),
+              }}>
+              <View>
+                <Text style={{color: '#888', fontWeight: '600'}}>Popular</Text>
+              </View>
+              {/* <View>
+              <Text style={{color: '#50AFFF'}}>See All</Text>
+            </View> */}
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://pancakeswap.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/pancakeswap.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>PancakeSwap </Text>
+                      <Text style={styles.fromText}>
+                        https://pancakeswap.finance/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.uniswap.org/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/uniswap.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                  
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Uniswap Exchange </Text>
+                      <Text style={styles.fromText}>
+                        https://app.uniswap.org/
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://compound.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/compound.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+               
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Compound </Text>
+                      <Text style={styles.fromText}>
+                        https://compound.finance/
+                      </Text>
+                    </View>
+              
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Yield Farming
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://lido.fi/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/LIDOSTACKING.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Ludo Staking </Text>
+                      <Text style={styles.fromText}>https://lido.fi/</Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://venus.io/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/venus.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+               
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Venus </Text>
+                      <Text style={styles.fromText}>https://venus.io/</Text>
+                    </View>
+                  
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.beefy.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/BEEFY.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Beefy </Text>
+                      <Text style={styles.fromText}>
+                        https://app.beefy.finance/
+                      </Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Games
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://axieinfinity.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/AXIEINFINTY.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                  
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Axie Infinity </Text>
+                      <Text style={styles.fromText}>
+                        https://axieinfinity.com/
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Exchanges
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://biswap.org/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/BiswapToken.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+              
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Biswap</Text>
+                      <Text style={styles.fromText}>https://biswap.org/</Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://www.apollox.finance/en',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/APOLLOX.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>ApolloX </Text>
+                      <Text style={styles.fromText}>
+                        https://www.apollox.finance/en
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+              
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.openocean.finance/classic',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/OpenOcean.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>OpenOcean </Text>
+                      <Text style={styles.fromText}>
+                        https://app.openocean.finance/classic
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Security
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://everrise.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/EVERRISE.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Everrise</Text>
+                      <Text style={styles.fromText}>https://everrise.com/</Text>
+                    </View>
+             
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.unrekt.net/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/unrekt.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Unrekt </Text>
+                      <Text style={styles.fromText}>
+                        https://app.unrekt.net/
+                      </Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Marketplaces
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://looksrare.org/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/Looksrare.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>LooksRare</Text>
+                      <Text style={styles.fromText}>
+                        https://looksrare.org/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.unrekt.net/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/AIRNFTS.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                  
+                    <View style={{}}>
+                      <Text style={styles.upperText}>AirNFTs </Text>
+                      <Text style={styles.fromText}>
+                        https://app.unrekt.net/
+                      </Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://rarible.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/Rarible.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Rarible </Text>
+                      <Text style={styles.fromText}>https://rarible.com/</Text>
+                    </View>
+                 
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Social
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.unrekt.net/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/AIRNFTS.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>AirNFTs </Text>
+                      <Text style={styles.fromText}>
+                        https://app.unrekt.net/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://rarible.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/Rarible.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Rarible </Text>
+                      <Text style={styles.fromText}>https://rarible.com/</Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Utility
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://lido.fi/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/LIDOSTACKING.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Ludo Staking </Text>
+                      <Text style={styles.fromText}>https://lido.fi/</Text>
+                    </View>
+              
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://governance.trustwallet.com/#/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/TRUST.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                
+                    <View style={{}}>
+                      <Text style={styles.upperText}>
+                        Trust Wallet Governance{' '}
+                      </Text>
+                      <Text style={styles.fromText}>
+                        https://governance.trustwallet.com/#/
+                      </Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.aave.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/aave.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                  
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Aave </Text>
+                      <Text style={styles.fromText}>https://app.aave.com/</Text>
+                    </View>
+              
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <View>
+              <Text
+                style={{color: '#888', fontWeight: '600', marginTop: hp(2)}}>
+                Staking
+              </Text>
+            </View>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://lido.fi/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/LIDOSTACKING.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Ludo Staking </Text>
+                      <Text style={styles.fromText}>https://lido.fi/</Text>
+                    </View>
+                  
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://pancakeswap.finance/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/pancakeswap.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>PancakeSwap </Text>
+                      <Text style={styles.fromText}>
+                        https://pancakeswap.finance/
+                      </Text>
+                    </View>
+                
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('Browser', {
+                        searchdata: {
+                          text: 'https://app.aave.com/',
+                        },
+                      });
+                    }}>
+            <View style={styles.browserCard}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.browserCardInner}>
+                  {/* <Octicons name="image" size={20} style={styles.typeIcon} /> */}
+                  <Image
+                    source={require('../assets/aave.png')}
+                    style={styles.typeIcon}
+                  />
+                  {/* <Link to="/TranscationDetails"> */}
+                 
+                    <View style={{}}>
+                      <Text style={styles.upperText}>Aave </Text>
+                      <Text style={styles.fromText}>https://app.aave.com/</Text>
+                    </View>
+               
+                  {/* </Link> */}
+                </View>
+              </View>
+            </View>
+            </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </>
   );
@@ -384,7 +1594,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#eee',
     color: '#bbb',
     height: hp(5.2),
-    width: hp(5),
+    width: hp(5.2),
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

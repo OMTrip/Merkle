@@ -184,7 +184,7 @@ const TokenScreen = props => {
       <View style={styles.coinHeader}>
         <View>
           <Text style={{color: '#888', fontSize: hp(1.8), textTransform:'uppercase', paddingStart: 5}}>
-            Coin
+            Token
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
@@ -291,7 +291,7 @@ const TokenScreen = props => {
             />
             <Text style={styles.optext}>Recieve</Text>
           </TouchableOpacity>
-          <Link to="/SwapScreen">
+          {/* <Link to="/SwapScreen">
             <View style={styles.options}>
               <AntDesign
                 name="swap"
@@ -301,9 +301,9 @@ const TokenScreen = props => {
               />
               <Text style={styles.optext}>Swap</Text>
             </View>
-          </Link>
+          </Link> */}
          
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.options}
             // onPress={() => navigation.navigate('alltoken', {type: 'buy'})}
             onPress={openBuyModal}
@@ -315,7 +315,7 @@ const TokenScreen = props => {
               style={styles.optionsicon}
             />
             <Text style={styles.optext}>Buy</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <BuyModalPage isVisible={modalVisible} closeModal={closeBuyModal} data={props.route.params} />
         </View>
       </View>
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    width: '80%',
+    width: '100%',
     // paddingVertical: 10,
   },
   options: {

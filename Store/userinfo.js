@@ -22,14 +22,14 @@ const initialState = {
     adharDocKyc:0,
     panKyc: 0,
     resetUser:'',
-    merklePrice:0
   },
   login:false,
   kyc: 0,
   profileupdated: false,
   searchHistory: [],
   searchhistoryupdate: false,
- 
+  merklePrice:0,
+  BtycPrice:0
 };
 
 const userSlice = createSlice({
@@ -51,6 +51,9 @@ const userSlice = createSlice({
     },
     setMerklePrice: (state, action) => {
       state.merklePrice = action.payload;
+    },
+    setBtycPricePrice: (state, action) => {
+      state.BtycPrice = action.payload;
     },
     setAdharKyc: (state, action) => {
       const kycobj = {...state.user}
@@ -109,5 +112,6 @@ export const {
   setPanKyc,
   resetUser,
   setAdharDocKyc,
-  setMerklePrice
+  setMerklePrice,
+  setBtycPricePrice
 } = userSlice.actions;

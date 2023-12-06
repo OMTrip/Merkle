@@ -37,6 +37,7 @@ const ConfirmTransfer = props => {
   const {wallets, activeWallet, priceQuotes, networks, chainInfo} = useSelector(
     state => state.wallet,
   );
+  const MerklePrice = useSelector(state => state.user?.merklePrice);
   const wallet = wallets[activeWallet];
   const {propData, recieveAddress, sendAmount} = props.route.params;
   const {symbol, balance, data, qr, address, chainId, native, token_address} =
@@ -56,46 +57,44 @@ const ConfirmTransfer = props => {
 
   useEffect(() => {
     try {
-      
-    var tokensarr = [];
-    console.log( wallet.assets," wallet.assets")
-    wallet.assets?.map(it => {
-      const obj = {
-        ...it.nativeCurrency,
-        native: true,
-        balance: it.balance,
-        show: it?.show,
-        chainId: it.chainId,
-        blockExplorerUrl: it.blockExplorerUrl,
-        rpcUrl: it.rpcUrl,
-      };
-      const ar = [...it.tokens];
-      ar.push(obj);
-      tokensarr = [...tokensarr, ...ar];
-    });
-    const narr = [];
-    tokensarr.map((item, i) => {
-      const it = priceQuotes.find(
-        tok => tok?.symbol?.toLowerCase() === item?.symbol?.toLowerCase(),
-      );
-      const itobj = {...it, ...item, index: i};
-      narr.push(itobj);
-    });
-    const d = narr.find(data => {
-      console.log(propData,"data123::::::::::")
-      if (!propData.token_address && !data.token_address ) {
-        return data.slug == propData.slug;
-      } else {
-        return data.token_address == propData.token_address;
-      }
-    });
-    setItem(d);
-    console.log(d, 'tokensarr');
-  } catch (error) {
-    setItem([]);
-    console.log(error,"err")
-      
-  }
+      var tokensarr = [];
+      console.log(wallet.assets, ' wallet.assets');
+      wallet.assets?.map(it => {
+        const obj = {
+          ...it.nativeCurrency,
+          native: true,
+          balance: it.balance,
+          show: it?.show,
+          chainId: it.chainId,
+          blockExplorerUrl: it.blockExplorerUrl,
+          rpcUrl: it.rpcUrl,
+        };
+        const ar = [...it.tokens];
+        ar.push(obj);
+        tokensarr = [...tokensarr, ...ar];
+      });
+      const narr = [];
+      tokensarr.map((item, i) => {
+        const it = priceQuotes.find(
+          tok => tok?.symbol?.toLowerCase() === item?.symbol?.toLowerCase(),
+        );
+        const itobj = {...it, ...item, index: i};
+        narr.push(itobj);
+      });
+      const d = narr.find(data => {
+        console.log(propData, 'data123::::::::::');
+        if (!propData.token_address && !data.token_address) {
+          return data.slug == propData.slug;
+        } else {
+          return data.token_address == propData.token_address;
+        }
+      });
+      setItem(d);
+      console.log(d, 'tokensarr');
+    } catch (error) {
+      setItem([]);
+      console.log(error, 'err');
+    }
   }, []);
 
   useEffect(() => {
@@ -144,13 +143,9 @@ const ConfirmTransfer = props => {
     // })();
     const fetchGasFees = async () => {
       try {
-
-       
-        
-
         if (!istoken) {
           const web3 = getWeb3InstanceDynamic(chainInfo[propData.slug].rpcUrl);
-        console.log(chainInfo[propData.slug].rpcUrl,"")
+          console.log(chainInfo[propData.slug].rpcUrl, '');
           const gasPrice = await web3.eth.getGasPrice();
           const toAddress = recieveAddress;
           const etherAmountWei = web3.utils.toWei(sendAmount, 'ether');
@@ -163,7 +158,7 @@ const ConfirmTransfer = props => {
           console.log(gasEstimate / 10 ** 9, 'gasEstimate');
           setGasFees(gasEstimate / 10 ** 9);
         } else {
-          const dt = wallet?.assets?.find(e=>e.chainId==propData?.chainId)
+          const dt = wallet?.assets?.find(e => e.chainId == propData?.chainId);
           const web3 = getWeb3InstanceDynamic(chainInfo[dt.slug].rpcUrl);
           const tokenAddress = token.address;
           const tokenABI = ERC20ABI;
@@ -336,7 +331,7 @@ const ConfirmTransfer = props => {
             style={{marginTop: hp(0.5), color: '#ccc'}}
           />
           <Text style={styles.TokenText}>
-            ${cutAfterDecimal(sendAmount * propData.current_price, 5)}
+            ${cutAfterDecimal(sendAmount * MerklePrice, 5)}
           </Text>
         </View>
       </View>
@@ -398,11 +393,8 @@ const ConfirmTransfer = props => {
                   {gasFees} {symbol}
                 </Text>
                 <Text style={styles.fromText}>
-                ($
-                  {cutAfterDecimal(
-                    Number(gasFees) * propData.current_price,
-                    5,
-                  )})
+                  ($
+                  {cutAfterDecimal(Number(gasFees) * MerklePrice, 5)})
                 </Text>
               </View>
             </View>
@@ -415,14 +407,11 @@ const ConfirmTransfer = props => {
               </View>
               <View style={{alignItems: 'flex-end'}}>
                 <Text style={{color: '#000', fontWeight: '600'}}>
-                 
-                   ${' '}
+                  ${' '}
                   {cutAfterDecimal(
-                    sendAmount * propData.current_price +
-                      Number(gasFees) * propData.current_price,
+                    sendAmount * MerklePrice + Number(gasFees) * MerklePrice,
                     4,
                   )}
-                  
                 </Text>
               </View>
             </View>
