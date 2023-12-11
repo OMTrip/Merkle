@@ -18,7 +18,7 @@ import {
 
 const RecieveScreen = props => {
   const [amm, setAmm] = useState('');
-  console.log(amm, 'ammmmmm');
+  // console.log(amm, 'ammmmmm');
 
   const shareText = async () => {
     try {
@@ -65,7 +65,6 @@ const RecieveScreen = props => {
   }
 
   const {address, image, symbol,slug} = props.route.params;
-  console.log(slug,'vvssssssssssssssssssssssssssssssssssssssssssss');
   const navigation = useNavigation();
   console.log(props.route.params, 'props.route.params');
   return (

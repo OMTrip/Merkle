@@ -494,9 +494,115 @@ export const createAccount = async (name, index, mnemonic) => {
       networks: ['0x38', '0x1', '0x89', '0x61', '0xfa', '0xa86a','0xa', '0xa4b1'],
       assets: [
         {
+          chainId: '0x775',
+          balance: '0',
+          tokens: [{
+            "balance": 0,
+            "chainId": "0x775",
+            "slug": "merkle",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "Big Tycoon",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BTYC",
+            "thumbnail": null,
+            "token_address": "0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178"
+          }, {
+            "balance": 0,
+            "chainId": "0x775",
+            "slug": "merkle",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "BUZZBT",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BUBT",
+            "thumbnail": null,
+            "token_address": "0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08"
+          },
+          {
+            "balance": 0,
+            "chainId": "0x775",
+            "slug": "merkle",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xC4B16708A2356e27178B34D9de406F850c317168/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "Big Shot",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BSBT",
+            "thumbnail": null,
+            "token_address": "0xC4B16708A2356e27178B34D9de406F850c317168"
+          }
+        ],
+          nfts: [],
+          slug: 'merkle',
+          rpcUrl: 'https://marklechain-rpc.merklescan.com/',
+          blockExplorerUrl: 'https://merklescan.com/',
+          nativeCurrency: {
+            name: 'Merkle',
+            symbol: 'MRK',
+            decimals: 18,
+            balance: '0',
+            address: '0x0000000000000000000000000000000000000000',
+            slug: 'merkle',
+          },
+          show: true,
+        },
+        {
           chainId: '0x38',
           balance: '0',
-          tokens: [],
+          tokens:[{
+            "balance": 0,
+            "chainId": "0x38",
+            "slug": "bsc",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "Big Tycoon",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BTYC",
+            "thumbnail": null,
+            "token_address": "0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9"
+          }, {
+            "balance": 0,
+            "chainId": "0x38",
+            "slug": "bsc",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x2B9ec6d94199F80e63fBAa0a4A502E411B211058/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "BUZZBT",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BUBT",
+            "thumbnail": null,
+            "token_address": "0x2B9ec6d94199F80e63fBAa0a4A502E411B211058"
+          },
+          {
+            "balance": 0,
+            "chainId": "0x38",
+            "slug": "bsc",
+            "decimals": 18,
+            "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x0A23558A20A128F463b1E7034C89620c862c36F5/logo.png",
+            "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
+            "name": "Big Shot",
+            "possible_spam": false,
+            "show":true,
+            "type": "token",
+            "symbol": "BSBT",
+            "thumbnail": null,
+            "token_address": "0x0A23558A20A128F463b1E7034C89620c862c36F5"
+          }
+        ],
           nfts: [],
           nativeCurrency: {
             name: 'Binance Coin',
@@ -550,68 +656,8 @@ export const createAccount = async (name, index, mnemonic) => {
           },
           show: true,
         },
-        {
-          chainId: "0xfa",
-          balance: "0",
-          tokens: [],
-          nfts: [],
-          nativeCurrency: {
-            name:"Fantom",
-            symbol: "FTM",
-            decimals: 18,
-            balance: "0",
-            address: "0x0000000000000000000000000000000000000000",
-            slug: "fantom"
-          },
-         show:false
-         
-        },
-        {
-          chainId: "0xa86a",
-          balance: "0",
-          tokens: [],
-          nfts: [],
-          nativeCurrency: {
-            name:"AVAX",
-            symbol: "AVAX",
-            decimals: 18,
-            balance: "0",
-            address: "0x0000000000000000000000000000000000000000",
-            slug: "avalanche"
-          },
-         show:false
-        },
-        {
-          chainId: "0xa",
-          balance: "0",
-          tokens: [],
-          nfts: [],
-          nativeCurrency: {
-            name:"Optimism",
-            symbol: "OP",
-            decimals: 18,
-            balance: "0",
-            address: "0x0000000000000000000000000000000000000000",
-            slug: "optimism"
-          },
-         show:false
-        },
-        {
-          chainId: "0xa4b1",
-          balance: "0",
-          tokens: [],
-          nfts: [],
-          nativeCurrency: {
-            name:"Arbitrum",
-            symbol: "ARB",
-            decimals: 18,
-            balance: "0",
-            address: "0x0000000000000000000000000000000000000000",
-            slug: "arbitrum"
-          },
-         show:false
-        },
 
+ 
       ],
       transactions: {
         ethereum: [],

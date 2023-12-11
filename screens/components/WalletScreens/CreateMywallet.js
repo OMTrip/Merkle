@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
 
   header: {
     width: '100%',
-    paddingVertical: hp(3.4),
+    paddingVertical: hp(5.4),
     flexDirection: 'row',
     // alignItems: 'center',
     paddingHorizontal: 5,

@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image,FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
   widthPercentageToDP as wp,
@@ -11,55 +18,54 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-toast-message';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { green } from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
+import {green} from 'react-native-reanimated/lib/typescript/reanimated2/Colors';
 import BuyModalPage from './BuyModalPage';
-import { cutAfterDecimal, formatDateFromTimestamp } from '../../../Utils/web3/helperFunction';
-
-
+import {
+  cutAfterDecimal,
+  formatDateFromTimestamp,
+} from '../../../Utils/web3/helperFunction';
 
 const TokenScreen = props => {
   const {wallets, activeWallet, priceQuotes, networks} = useSelector(
     state => state.wallet,
   );
+  const MerklePrice = useSelector(state => state.user?.merklePrice);
+  const BtycPrice = useSelector(state => state.user?.BtycPrice);
+  const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
+  const BubtPrice = useSelector(state => state.user?.BubtPrice);
   const wallet = wallets[activeWallet];
-  const {chainId, native, token_address, image} = props.route.params;
+  const {chainId, native, token_address, image, symbol} = props.route.params;
   const network = networks.find(it => it.chainId == chainId);
   const [token, settoken] = useState({});
-  const[title,setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [reload, setReload] = useState(false);
-  const [txns,setTxns]  = useState([])
+  const [txns, setTxns] = useState([]);
 
   const navigation = useNavigation();
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     try {
-     const blockchain = wallet.assets.find((f)=>f.chainId==chainId) 
-    const tx =  wallet?.transactions[blockchain.nativeCurrency.slug].filter((it)=>{
-      if(native){
-        if(it.is_erc20==false){
-          return it
-        }
-        
-      }else{
-        if(it.is_erc20){
-          return it
-        }
-      }
+      const blockchain = wallet.assets.find(f => f.chainId == chainId);
+      const tx = wallet?.transactions[blockchain.nativeCurrency.slug].filter(
+        it => {
+          if (native) {
+            if (it.is_erc20 == false) {
+              return it;
+            }
+          } else {
+            if (it.is_erc20) {
+              return it;
+            }
+          }
+        },
+      );
+      setTxns(tx);
+      console.log(tx, 'tx::::');
+    } catch (error) {
+      setTxns([]);
+    }
+  }, [props]);
 
-    })
-    setTxns(tx)
-    console.log(tx,"tx::::")
-  } catch (error) {
-    setTxns([]) 
-  }
-
-   
-  },[props])
-
-
-
-
-  
   const [modalVisible, setModalVisible] = useState(false);
 
   const openBuyModal = () => {
@@ -70,47 +76,76 @@ const TokenScreen = props => {
     setModalVisible(false);
   };
 
-  const renderItem = ({ item }) => {
-
-  return (
-    <TouchableOpacity style={{flex:.8}} onPress={()=>navigation.navigate("TranscationDetails",{data:item,extras:props.route.params})}>
-    <View style={[styles.transactionCards,{flex:.8}]} >
-      <Text style={{ color: '#888' }}>{formatDateFromTimestamp(item.timeStamp) }</Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <View style={styles.transactionCardsInner}>
-          <Ionicons
-            name={(item.methodId=="0x"|| item.methodId=="0xa9059cbb")?item.from==wallet.address?"arrow-up-outline":"arrow-down-outline":"leaf-outline"}
-            size={17}
-            color={'#000'}
-            style={styles.typeIcon}
-          />
-          <View style={{}}>
-            <Text style={styles.upperText}>{item.functionName.length>0?"Function Call":item.methodId=="0x"?"Transfer":"Contract Call"} </Text>
-            <Text style={styles.fromText}>From: {item.from.slice(0,6)}...{item.from.slice(-6)}</Text>
+  const renderItem = ({item}) => {
+    return (
+      <TouchableOpacity
+        style={{flex: 0.8}}
+        onPress={() =>
+          navigation.navigate('TranscationDetails', {
+            data: item,
+            extras: props.route.params,
+          })
+        }>
+        <View style={[styles.transactionCards, {flex: 0.8}]}>
+          <Text style={{color: '#888'}}>
+            {formatDateFromTimestamp(item.timeStamp)}
+          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <View style={styles.transactionCardsInner}>
+              <Ionicons
+                name={
+                  item.methodId == '0x' || item.methodId == '0xa9059cbb'
+                    ? item.from == wallet.address
+                      ? 'arrow-up-outline'
+                      : 'arrow-down-outline'
+                    : 'leaf-outline'
+                }
+                size={17}
+                color={'#000'}
+                style={styles.typeIcon}
+              />
+              <View style={{}}>
+                <Text style={styles.upperText}>
+                  {item.functionName.length > 0
+                    ? 'Function Call'
+                    : item.methodId == '0x'
+                    ? 'Transfer'
+                    : 'Contract Call'}{' '}
+                </Text>
+                <Text style={styles.fromText}>
+                  From: {item.from.slice(0, 6)}...{item.from.slice(-6)}
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.coinText}>
+                {cutAfterDecimal(
+                  Number(item.value) /
+                    10 ** Number(props.route.params.decimals),
+                  5,
+                )}{' '}
+                {props.route.params.symbol}{' '}
+              </Text>
+            </View>
           </View>
         </View>
-        <View>
-          <Text style={styles.coinText}>{cutAfterDecimal(Number(item.value) /10**Number(props.route.params.decimals),5)} {props.route.params.symbol} </Text>
-        </View>
-      </View>
-    </View>
-    </TouchableOpacity>
-  )};
+      </TouchableOpacity>
+    );
+  };
 
-  useEffect(()=>{
-    const dt =  wallet?.assets?.find((ele,i)=>{
-        return ele?.chainId === chainId
-     })
-     setTitle(dt)
-   },[wallet])
+  useEffect(() => {
+    const dt = wallet?.assets?.find((ele, i) => {
+      return ele?.chainId === chainId;
+    });
+    setTitle(dt);
+  }, [wallet]);
 
-   function fetchData(){
+  function fetchData() {
     setReload(true);
     const asset = wallet?.assets?.find(it => it.chainId == chainId);
     if (native) {
@@ -135,13 +170,12 @@ const TokenScreen = props => {
       };
       settoken({...obj});
     }
-    setReload(false)
-   }
+    setReload(false);
+  }
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, [props, wallets]);
-
 
   return (
     <View style={styles.container}>
@@ -158,7 +192,11 @@ const TokenScreen = props => {
             color={'#000'}
             onPress={() => navigation.goBack()}
           />
-          <Text style={{color: '#000', fontSize: hp(2)}}  onPress={() => navigation.goBack()}>Wallet</Text>
+          <Text
+            style={{color: '#000', fontSize: hp(2)}}
+            onPress={() => navigation.goBack()}>
+            Wallet
+          </Text>
         </View>
         <View style={{width: wp(25), textAlign: 'center'}}>
           <Text
@@ -167,7 +205,7 @@ const TokenScreen = props => {
               fontSize: hp(2),
               fontWeight: '600',
             }}>
-            {title?.nativeCurrency?.name.split(" ")[0]}
+            {title?.nativeCurrency?.name.split(' ')[0]}
           </Text>
         </View>
 
@@ -176,15 +214,23 @@ const TokenScreen = props => {
             name="linechart"
             size={18}
             color={'#000'}
-          //  / onPress={() => navigation.goBack()}
+            //  / onPress={() => navigation.goBack()}
           />
         </View>
       </View>
 
       <View style={styles.coinHeader}>
         <View>
-          <Text style={{color: '#888', fontSize: hp(1.8), textTransform:'uppercase', paddingStart: 5}}>
-            Token
+          <Text
+            style={{
+              color: '#888',
+              fontSize: hp(1.8),
+              textTransform: 'uppercase',
+              paddingStart: 5,
+            }}>
+            {symbol === 'BUBT' || symbol === 'BSBT' || symbol === 'BTYC'
+              ? 'Token'
+              : 'Coin'}
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
@@ -194,14 +240,35 @@ const TokenScreen = props => {
               fontSize: hp(2),
               paddingEnd: 5,
             }}>
-            ${props?.route?.params?.current_price?cutAfterDecimal(props?.route?.params?.current_price,3):0}
+            $
+            {symbol === 'BUBT'
+              ? parseFloat(BubtPrice).toFixed(4)
+              : symbol === 'BSBT'
+              ? parseFloat(BsbtPrice).toFixed(2)
+              : symbol === 'BTYC'
+              ? parseFloat(BtycPrice).toFixed(7)
+              : symbol === 'MRK'
+              ? parseFloat(MerklePrice).toFixed(2)
+              : props?.route?.params?.current_price
+              ? cutAfterDecimal(props?.route?.params?.current_price, 3)
+              : 0}
           </Text>
           <Text
             style={{
-              color:props?.route?.params?.price_change_percentage_24h<0?'red':"green",
+              color:
+                props?.route?.params?.price_change_percentage_24h < 0
+                  ? 'red'
+                  : 'green',
               fontSize: hp(2),
             }}>
-            ({props?.route?.params?.price_change_percentage_24h?cutAfterDecimal(props?.route?.params?.price_change_percentage_24h,3):0} %)
+            (
+            {props?.route?.params?.price_change_percentage_24h
+              ? cutAfterDecimal(
+                  props?.route?.params?.price_change_percentage_24h,
+                  3,
+                )
+              : 0}{' '}
+            %)
           </Text>
         </View>
       </View>
@@ -209,7 +276,12 @@ const TokenScreen = props => {
       <View style={{alignItems: 'center', paddingTop: 10}}>
         <Image
           source={{uri: image}}
-          style={{width: wp(10), height: hp(5), marginBottom: 10,borderRadius:wp(5)}}
+          style={{
+            width: wp(10),
+            height: hp(5),
+            marginBottom: 10,
+            borderRadius: wp(5),
+          }}
           resizeMode="stretch"
         />
         {/* <View
@@ -246,7 +318,9 @@ const TokenScreen = props => {
         </View> */}
 
         <View style={[styles.BodyBoxTitle, {marginBottom: 1}]}>
-          <Text style={[styles.Icons, {paddingEnd: 3}]}>{cutAfterDecimal(token?.balance,6)}</Text>
+          <Text style={[styles.Icons, {paddingEnd: 3}]}>
+            {cutAfterDecimal(token?.balance, 6)}
+          </Text>
           <Text style={styles.Icons}>{token?.symbol}</Text>
         </View>
         <View
@@ -259,7 +333,26 @@ const TokenScreen = props => {
             size={wp(6)}
             style={{marginTop: hp(0.5), color: '#ccc'}}
           />
-          <Text style={styles.BodyBoxText}>${cutAfterDecimal(token?.balance*props.route.params.current_price,6)? cutAfterDecimal(token?.balance*props.route.params.current_price,6):0}</Text>
+          <Text style={styles.BodyBoxText}>
+            $
+            {symbol === 'BUBT'
+              ? token?.balance * BubtPrice
+              : symbol === 'BSBT'
+              ? token?.balance * BsbtPrice
+              : symbol === 'BTYC'
+              ? token?.balance * BtycPrice
+              : symbol === 'MRK'
+              ? token?.balance * MerklePrice
+              : cutAfterDecimal(
+                  token?.balance * props.route.params.current_price,
+                  6,
+                )
+              ? cutAfterDecimal(
+                  token?.balance * props.route.params.current_price,
+                  6,
+                )
+              : 0}
+          </Text>
         </View>
         <View style={styles.optionsrow}>
           <TouchableOpacity
@@ -279,7 +372,7 @@ const TokenScreen = props => {
             style={styles.options}
             onPress={() =>
               navigation.navigate('recieve', {
-                ...props.route.params,
+                ...props?.route?.params,
                 address: wallet?.address,
               })
             }>
@@ -302,7 +395,7 @@ const TokenScreen = props => {
               <Text style={styles.optext}>Swap</Text>
             </View>
           </Link> */}
-         
+
           {/* <TouchableOpacity
             style={styles.options}
             // onPress={() => navigation.navigate('alltoken', {type: 'buy'})}
@@ -316,7 +409,11 @@ const TokenScreen = props => {
             />
             <Text style={styles.optext}>Buy</Text>
           </TouchableOpacity> */}
-          <BuyModalPage isVisible={modalVisible} closeModal={closeBuyModal} data={props.route.params} />
+          <BuyModalPage
+            isVisible={modalVisible}
+            closeModal={closeBuyModal}
+            data={props.route.params}
+          />
         </View>
       </View>
 
@@ -329,9 +426,9 @@ const TokenScreen = props => {
             width: '100%',
             // backgroundColor: 'rgba(0,0,0,0.1)',
             backgroundColor: '#fff',
-            borderTopColor:'#eee',
-            borderTopWidth:1,
-            flex: .84,
+            borderTopColor: '#eee',
+            borderTopWidth: 1,
+            flex: 0.84,
             // borderTopLeftRadius: 40,
             // borderTopRightRadius: 40,
             // alignItems: 'center',
@@ -384,37 +481,35 @@ const TokenScreen = props => {
           </View> */}
 
           <FlatList
-      data={txns}
-      refreshing={reload}
-      onRefresh={() => {
-        setReload(true);
-        fetchData();
-      }}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.hash}
-      ListEmptyComponent={() => {
-        return (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                marginTop: 20,
-                fontSize: 18,
-                color: '#000',
-              }}>
-              No Transactions Found.
-            </Text>
-          </View>
-        );
-      }}
-    />
-
-          
+            data={txns}
+            refreshing={reload}
+            onRefresh={() => {
+              setReload(true);
+              fetchData();
+            }}
+            renderItem={renderItem}
+            keyExtractor={item => item.hash}
+            ListEmptyComponent={() => {
+              return (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      marginTop: 20,
+                      fontSize: 18,
+                      color: '#000',
+                    }}>
+                     Transactions Not Found.
+                  </Text>
+                </View>
+              );
+            }}
+          />
         </View>
 
         {/* <View
@@ -433,7 +528,6 @@ const TokenScreen = props => {
             <Text style={{color: '#888'}}>No Transaction Found</Text>
           </View>
         </View> */}
-      
       </View>
     </View>
   );
@@ -450,7 +544,7 @@ const styles = StyleSheet.create({
     paddingVertical: hp(5),
     backgroundColor: 'rgba(0,0,0,0.01)',
     flexDirection: 'row',
-     alignItems: 'center',
+    alignItems: 'center',
     paddingHorizontal: 5,
     // display: 'flex',
     justifyContent: 'space-between',
@@ -533,7 +627,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     // paddingHorizontal: 3,
   },
- 
+
   tabbody: {
     flex: 1,
     paddingHorizontal: 10,
@@ -551,12 +645,11 @@ const styles = StyleSheet.create({
   },
 
   transactionCards: {
-    
     paddingHorizontal: 15,
-    paddingVertical:10,
+    paddingVertical: 10,
     backgroundColor: '#fff',
     marginHorizontal: hp(2),
-    marginVertical:hp(1),
+    marginVertical: hp(1),
     borderRadius: wp(2),
     // paddingBottom: hp(5),
     // shadowColor: '#666',
@@ -574,10 +667,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    alignItems:'center'
+    alignItems: 'center',
   },
-  
-  typeIcon: {    
+
+  typeIcon: {
     backgroundColor: '#eee',
     color: '#888',
     borderRadius: 6,
@@ -586,8 +679,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-    marginEnd:wp(1.2),
-    
+    marginEnd: wp(1.2),
+
     shadowColor: '#ccc',
     shadowOffset: {
       width: 0,
@@ -608,12 +701,11 @@ const styles = StyleSheet.create({
     color: '#888',
     fontSize: hp(1.5),
   },
-  coinText:{
-    color:'#4CD073',
-    fontSize:hp(2.2),
+  coinText: {
+    color: '#4CD073',
+    fontSize: hp(2.2),
     // fontWeight:'600'
   },
-
 });
 
 export default TokenScreen;

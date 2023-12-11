@@ -35,6 +35,11 @@ export const getTokenIcon = symbol => {
         url: require('../screens/assets/coins/binance.png'),
         style: {},
       };
+      case '0x775':
+        return {
+          url: require('../screens/assets/coins/KB.png'),
+          style: {},
+        };
     case 'USDT':
       return {
         url: require('../screens/assets/coins/tether.png'),

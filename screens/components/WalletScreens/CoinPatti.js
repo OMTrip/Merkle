@@ -10,8 +10,6 @@ import {setActiveWallet} from '../../../Store/web3';
 import {useSelector, useDispatch} from 'react-redux';
 import BuyModalPage from './BuyModalPage';
 import {cutAfterDecimal} from '../../../Utils/web3/helperFunction';
-import {setMerklePrice} from '../../../Store/userinfo';
-import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 const coinimg = require('../../assets/no_image.jpeg');
 
 const CoinPatti = ({item, route, address}) => {
@@ -27,7 +25,10 @@ const CoinPatti = ({item, route, address}) => {
   const symbol = item.slug == 'bsc_testnet' ? 'T' + item.symbol : item.symbol;
   const [modalVisible, setModalVisible] = useState(false);
   const MerklePrice = useSelector(state => state.user?.merklePrice);
- 
+  const BtycPrice = useSelector(state => state.user?.BtycPrice);
+  const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
+  const BubtPrice = useSelector(state => state.user?.BubtPrice);
+
   const openBuyModal = () => {
     setModalVisible(true);
   };
@@ -117,7 +118,13 @@ const CoinPatti = ({item, route, address}) => {
         <View style={styles.innercardContent}>
           <Text style={styles.cardText}>
             $
-            {symbol === 'MRK'
+            {symbol === 'BUBT'
+              ? parseFloat(BubtPrice).toFixed(4)
+              : symbol === 'BSBT'
+              ? parseFloat(BsbtPrice).toFixed(2)
+              : symbol === 'BTYC'
+              ? parseFloat(BtycPrice).toFixed(6)
+              : symbol === 'MRK'
               ? parseFloat(MerklePrice).toFixed(2)
               : cp?.toString()?.indexOf('.') > -1
               ? cp?.toFixed(2)
@@ -139,7 +146,13 @@ const CoinPatti = ({item, route, address}) => {
         </Text>
         <Text style={styles.CradRightTextbelow}>
           $
-          {symbol === 'MRK'
+          {symbol === 'BUBT'
+            ? item?.balance * BubtPrice
+            : symbol === 'BSBT'
+            ? item?.balance * BsbtPrice
+            : symbol === 'BTYC'
+            ? item?.balance * BtycPrice
+            : symbol === 'MRK'
             ? item?.balance * MerklePrice
             : balance_in_usd?.toString()?.indexOf('.') > -1
             ? balance_in_usd?.toFixed(4)
@@ -169,7 +182,7 @@ const styles = StyleSheet.create({
     marginVertical: wp(1),
   },
   cardImage: {
-    width: wp(8.8),
+    width: wp(9),
     height: hp(4.5),
     marginRight: wp(4),
     // borderRadius: wp(50),

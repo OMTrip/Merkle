@@ -73,7 +73,7 @@ const Browser = props => {
   );
   const darkMode = false;
   const wallet = state.wallet.wallets[state.wallet.activeWallet];
-  console.log(wallet,'wallet');
+  console.log(wallet, 'wallet');
   let webview = useRef();
 
   const [webviewUrl, setWebviewUrl] = useState(HOMEPAGE_URL);
@@ -624,6 +624,13 @@ const Browser = props => {
                 backgroundColor: darkMode ? colors.ui_background : '#ffffff',
               },
             ]}>
+            <MaterialIcons
+              name="arrow-back"
+              size={22}
+              color={'#333'}
+              onPress={() => navigation.goBack()}
+              style={{marginRight: 10}}
+            />
             <View
               style={[styles.urlContainer, {backgroundColor: colors.ui_01}]}>
               {webviewUrl.startsWith('https://') && (
@@ -1126,7 +1133,7 @@ const styles = StyleSheet.create({
   },
 
   urlContainer: {
-    width: '86%',
+    width: '80%',
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',

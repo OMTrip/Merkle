@@ -65,8 +65,8 @@ const WalletInfo = (props) => {
     console.log(arr,"inputValueinputValue")
   }
   useEffect(()=>{
-    if(inputValue.length == 0){
-    setInputValue(props.route.params.selectedWallet.name);
+    if(inputValue?.length == 0){
+    setInputValue(props?.route?.params?.selectedWallet?.name);
     }
   },[props])
 
@@ -186,7 +186,7 @@ const WalletInfo = (props) => {
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.box} onPress={()=>{navigation.navigate("ManualBackup",{selectedWallet:props.route.params.selectedWallet})}}>
+            <TouchableOpacity style={styles.box} onPress={()=>{navigation.navigate("ManualBackup",{selectedWallet:props?.route?.params?.selectedWallet})}}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={styles.iconBgSquare}>
                   <MaterialCommunityIcons

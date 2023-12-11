@@ -29,6 +29,7 @@ const SendScreen = props => {
   const wallet = wallets[activeWallet];
   const {symbol, balance, data, qr, address, chainId, native, token_address} =
     props.route.params;
+    console.log(address,"address")
   const network = networks.find(it => it.chainId == chainId);
   const [recieveAddress, setRecieveAddress] = useState('');
   const [sendAmount, setSendAmount] = useState(0);
@@ -39,17 +40,62 @@ const SendScreen = props => {
   const istoken = !native;
   const[error,setError] = useState("")
 
+  // useEffect(() => {
+   
+  //   if (qr) {
+  //     // console.log(address,"addres")
+  //     const add = JSON.parse(address)
+  //     setRecieveAddress(add.address);
+  //     setSendAmount(add.amount)
+  //   }
+  
+  //   // console.log('effect',props.route.params)
+  // }, [props]);
+
+  // useEffect(() => {
+  //   if (qr) {
+  //     try {
+  //       console.log(address,'ad')
+  //       const add = JSON.parse(address);
+  //       setRecieveAddress(add.address);
+  //       setSendAmount(add.amount);
+  //     } catch (error) {
+  //       console.error('Error parsing JSON:', error);
+  //       // Handle the error, e.g., set default values or show an error message to the user
+  //     }
+  //   }
+  // }, [qr, address]);  
+
   useEffect(() => {
     if (qr) {
-      console.log(address,"addresss")
-      const add = JSON.parse(address)
+      let add;
+  
+      // Check if the address is in the "ethereum:0x..." format
+      if (address.startsWith('ethereum:')) {
+        const parts = address.split(':');
+        add = {
+          address: parts[1],
+        }
+      } else if (address.startsWith('other_format:')) {
+        // Handle other specific format if needed
+        const parts = address.split(':');
+        add = {
+          address: parts[1],
+          // amount: /* Set the default amount or handle it as needed */
+        };
+      } else {
+        // If it's a plain Ethereum address, set the add accordingly
+        add = {
+          address: address,
+          // amount: /* Set the default amount or handle it as needed */
+        };
+      }
+  
+      // Now you can safely set the values
       setRecieveAddress(add.address);
-      setSendAmount(add.amount)
+      setSendAmount(add.amount);
     }
-
-    // console.log('effect',props.route.params)
-  }, [props]);
-
+  }, [qr, address]);
   async function getClipboardContent() {
     const content = await Clipboard.getString();
     setRecieveAddress(content);

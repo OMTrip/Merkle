@@ -31,6 +31,7 @@ const WalletScreen = () => {
   );
 
   const MerklePrice = useSelector(state => state.user?.merklePrice);
+  const BtycPrice = useSelector(state => state.user?.BtycPrice);
   const wallet = wallets[activeWallet];
   const [listarray, setlistarray] = useState([]);
   const [filteredlist, setFilteredList] = useState([]);
@@ -101,16 +102,16 @@ const WalletScreen = () => {
   }, []);
 
   useEffect(() => {
-   
     if (listarray.length > 0) {
       const total = listarray.reduce((sum, item) => {
         // console.log( item?.symbol,' item?.symbol');
         const cp = item?.current_price ? item?.current_price : 0;
         const balance_in_usd =
-          item?.symbol?.toUpperCase() === 'MRK' 
+          item?.symbol?.toUpperCase() === 'BTYC'
+            ? BtycPrice * item?.balance
+            : item?.symbol?.toUpperCase() === 'MRK'
             ? MerklePrice * item?.balance
-            // item?.symbol?.toUpperCase() === 'BTYC'
-            : cp * item?.balance
+            : cp * item?.balance;
         sum = sum + balance_in_usd;
         return sum;
       }, 0);
@@ -197,8 +198,6 @@ const WalletScreen = () => {
               />
               <Text style={styles.optext}>Recieve</Text>
             </TouchableOpacity>
-           
-    
           </View>
 
           <View style={styles.Body}>

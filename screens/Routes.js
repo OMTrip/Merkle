@@ -18,7 +18,9 @@ import {
 } from '../Store/web3';
 import userCollection from '../Store/firebase/user';
 import {
+  setBsbtPricePrice,
   setBtycPricePrice,
+  setBubtPricePrice,
   setKYCStatus,
   setLogin,
   setMerklePrice,
@@ -388,32 +390,67 @@ const Routes = () => {
       dispatch(setMerklePrice(data?.price ? data?.price : 0));
     })();
   }, []);
+
+  
   useEffect(() => {
     (async () => {
-      let api_response = await fetch(
-        `https://api.livecoinwatch.com/coins/map`,
-        {
-          method: 'POST',
-          headers: new Headers({
-            'content-type': 'application/json',
-            'x-api-key': '0286896a-4b39-494b-b2e3-7156e4adaeb9',
-          }),
-          body: JSON.stringify({
-            currency: 'USD',
-            codes: ['BTYC', 'BUBT', '_BSBT'],
-            sort: 'code',
-            order: 'ascending',
-            offset: 0,
-            limit: 0,
-            meta: false,
-          }),
-        },
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getBSBTPrice',
       );
-      let token_price = await api_response.json();
-       dispatch(setBtycPricePrice(token_price[0].rate.toFixed(2) ? token_price[0].rate.toFixed(2) : 0));
-      // console.log(token_price[0].rate.toFixed(2),'nssggggggggg');
+      const data = await response.json(); // Modify this depending on the response format
+      // console.log(data,'res=-00---00');
+      dispatch(setBsbtPricePrice(data?.price ? data?.price : 0));
     })();
   }, []);
+
+    
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getBUBTPrice',
+      );
+      const data = await response.json(); // Modify this depending on the response format
+      // console.log(data,'res=-00---00');
+      dispatch(setBubtPricePrice(data?.price ? data?.price : 0));
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getBTYCPrice',
+      );
+      const data = await response.json(); // Modify this depending on the response format
+      // console.log(data,'resbtyc=-00---00');
+      dispatch(setBtycPricePrice(data?.price ? data?.price : 0));
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     let api_response = await fetch(
+  //       `https://api.livecoinwatch.com/coins/map`,
+  //       {
+  //         method: 'POST',
+  //         headers: new Headers({
+  //           'content-type': 'application/json',
+  //           'x-api-key': '0286896a-4b39-494b-b2e3-7156e4adaeb9',
+  //         }),
+  //         body: JSON.stringify({
+  //           currency: 'USD',
+  //           codes: ['BTYC', 'BUBT', '_BSBT'],
+  //           sort: 'code',
+  //           order: 'ascending',
+  //           offset: 0,
+  //           limit: 0,
+  //           meta: false,
+  //         }),
+  //       },
+  //     );
+  //     let token_price = await api_response.json();
+  //      dispatch(setBtycPricePrice(token_price[0].rate.toFixed(2) ? token_price[0].rate.toFixed(2) : 0));
+  //     // console.log(token_price[0].rate.toFixed(2),'nssggggggggg');
+  //   })();
+  // }, []);
 
   return (
     <>

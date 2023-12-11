@@ -24,6 +24,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
+    "@robinbobin/react-native-google-drive-api-wrapper": "^1.2.3",
     "@tradle/react-native-http": "^2.0.1",
     "add": "^2.0.6",
     "assert": "^2.0.0",

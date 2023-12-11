@@ -4,18 +4,19 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
-// import {
-//   GDrive,
-//   MimeTypes,
-//   GoogleDrive,
-//   ListQueryBuilder,
-// } from '@robinbobin/react-native-google-drive-api-wrapper';
+import {
+  GDrive,
+  MimeTypes,
+  GoogleDrive,
+  ListQueryBuilder,
+} from '@robinbobin/react-native-google-drive-api-wrapper';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   pbkdf2Sync,
@@ -27,9 +28,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
 import {setCloudVerified} from '../../../Store/web3';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
+import HomeHeader from '../HomeScreen/HomeHeader';
 
 const GoogleDriveBackup = () => {
   const {mnemonic} = useSelector(store => store.wallet);
@@ -43,7 +46,7 @@ const GoogleDriveBackup = () => {
   const navigation = useNavigation();
   // const [drive, setDrive] = useState(null);
   const [accToken, setAccToken] = useState('');
-
+  const [loader, setLoader] = useState(false);
 
   GoogleSignin.configure({
     scopes: [
@@ -116,70 +119,101 @@ const GoogleDriveBackup = () => {
     return pbkdf2Sync(password, salt, 10000, 32, 'sha256');
   }
 
-  // async function saveEncryptedObjectToDrive(encryptedObject, fileName) {
-  //   try {
-  //     const passwordRegex =
-  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  //     if (!passwordRegex.test(password)) {
-  //       setValidationError('Invalid Password.');
-  //     } else {
-  //       const data = await handleGoogleSignIn();
-  //       if (data) {
-  //         // const folderId = await createGoogleDriveFolder();
-  //         // if (folderId) {
-  //         // /const accessToken = (await GoogleSignin.getTokens()).accessToken;
-  //         // const fileData = JSON.stringify(encryptedObject);
-  //         const gdrive = new GDrive();
-  //         gdrive.accessToken = accToken;
-  //         gdrive.fetchTimeout = 5000;
-  //         const mn = mnemonic;
-  //         const encryptionKey = deriveEncryptionKey(password, salt);
-  //         const encrypted = encryptData(mn, encryptionKey, ivs);
-  //         const data = JSON.stringify({data: encrypted});
-  //         const per = gdrive.permissions;
+  async function saveEncryptedObjectToDrive(encryptedObject, fileName) {
+    try {
+      setLoader(true);
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        setValidationError('Invalid Password.');
+      } else {
+        const data = await handleGoogleSignIn();
+        if (data) {
+          // const folderId = await createGoogleDriveFolder();
+          // if (folderId) {
+          // /const accessToken = (await GoogleSignin.getTokens()).accessToken;
+          // const fileData = JSON.stringify(encryptedObject);
+          const gdrive = new GDrive();
+          gdrive.accessToken = accToken;
+          gdrive.fetchTimeout = 5000;
+          const mn = mnemonic;
+          const encryptionKey = deriveEncryptionKey(password, salt);
+          const encrypted = encryptData(mn, encryptionKey, ivs);
+          const data = JSON.stringify({data: encrypted});
+          const per = gdrive.permissions;
 
-  //         if (per?.__accessToken) {
-  //           const id = (
-  //             await gdrive.files
-  //               .newMultipartUploader()
-  //               .setData(data, MimeTypes.JSON)
-  //               .setRequestBody({
-  //                 name: 'nute',
-  //               })
-  //               .execute()
-  //           ).id;
-  //           console.log(id, 'id');
-  //           if (id) {
-  //             setVererStatus(true);
-  //             setPassword('');
-  //             dispatch(setCloudVerified(true));
-  //             setTimeout(() => {
-  //               setVererStatus(false);
-  //             }, 10000);
-  //           } else {
-  //             setValidationError('Something went wrong.');
-  //           }
+          if (per?.__accessToken) {
+            const id = (
+              await gdrive.files
+                .newMultipartUploader()
+                .setData(data, MimeTypes.JSON)
+                .setRequestBody({
+                  name: 'Merkle',
+                })
+                .execute()
+            ).id;
+            console.log(id, 'id');
+            if (id) {
+              setVererStatus(true);
+              setPassword('');
+              dispatch(setCloudVerified(true));
+              setTimeout(() => {
+                setVererStatus(false);
+              }, 10000);
+            } else {
+              setValidationError('Something went wrong.');
+            }
 
-  //           console.log(id,"id")
-  //           const bin = await gdrive.files.getJson(id);
-  //           //  const d = JSON.stringify(bin);
-  //            const da = bin?.data;
-  //            const decryptionKey = deriveEncryptionKey(password, salt);
-  //            const dat = decryptData(da, decryptionKey, ivs);
-  //            console.log(dat,"dat")
-           
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error uploading file:', error);
-  //   }
-  // }
+            console.log(id, 'id');
+            const bin = await gdrive.files.getJson(id);
+            //  const d = JSON.stringify(bin);
+            const da = bin?.data;
+            const decryptionKey = deriveEncryptionKey(password, salt);
+            const dat = decryptData(da, decryptionKey, ivs);
+            console.log(dat, 'dat');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    } finally {
+      setLoader(false);
+    }
+  }
 
   return (
-    <View style={{flex: 0.89}}>
+    <LinearGradient
+      colors={[
+        '#d6fffd',
+        '#f2fffe',
+        '#ffff',
+        '#fff',
+        '#fffaff',
+        '#fef8ff',
+        '#faf4ff',
+        '#fcf5fe',
+        '#f5eefe',
+        '#f1e9fe',
+      ]}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={{flex: 1, paddingHorizontal: wp(2)}}>
       <View style={styles.header}>
-        <View
+        <HomeHeader
+          icons={true}
+          iconName={'arrow-left'}
+          size={wp(7)}
+          title={'iCloud Backup'}
+          TextTitle={true}
+          RightHeaderName={false}
+          RheaderName={'Done'}
+          TextTitleStyle={{textAlign: 'left'}}
+          leftIocnsSubScreen={false}
+          LeftIconsName={'magnify'}
+          routeName={'WalletInfo'}
+        />
+
+        {/* <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -198,14 +232,14 @@ const GoogleDriveBackup = () => {
             }}>
             Go Back
           </Text>
-        </View>
+        </View> */}
       </View>
-      <View style={{flex: 1, justifyContent: 'space-between'}}>
+      <View style={{flex: 0.85}}>
         <View style={styles.box}>
-          <Text style={{fontSize: 24, color: '#000'}}>
+          <Text style={{fontSize: wp(5), color: '#000', fontWeight: '500'}}>
             Set Encryption Password
           </Text>
-          <Text style={{color: '#000', fontSize: 16}}>
+          <Text style={{color: '#444', fontSize: wp(3.2)}}>
             Create a password to encrypt your backup. This should not be your
             google drive password and it cannot be recovered or reset.
           </Text>
@@ -216,13 +250,12 @@ const GoogleDriveBackup = () => {
               // onBlur={validatePassword}
               onChangeText={val => handlePasswordChange(val)}
               placeholder="Enter Password"
-              placeholderTextColor="#000"
+              placeholderTextColor="#999"
               style={[
                 styles.passwordText,
                 {
                   color: '#000',
-                  backgroundColor: '#fff',
-                  borderColor: '#000',
+                  backgroundColor: '#f3f4f7',
                 },
               ]}
             />
@@ -238,44 +271,47 @@ const GoogleDriveBackup = () => {
             </Text>
           </View>
         </View>
-        <View style={styles.box}>
-          <View>
-            <Text
-              style={{
-                color: 'red',
-                textAlign: 'center',
-                fontSize: 16,
-                padding: 10,
-              }}>
-              {validationError}
-            </Text>
-            <Text
-              style={{
-                color: 'green',
-                textAlign: 'center',
-                fontSize: 16,
-                padding: 10,
-              }}>
-              {status ? 'Backed Up Successfully.' : ''}
-            </Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#000',
-                width: '100%',
-                height: 50,
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 16,
-                borderRadius: 10,
-              }}
-              // onPress={() => saveEncryptedObjectToDrive(obj, 'nuteFile')}
-              >
+      </View>
+      <View style={styles.box}>
+        <View>
+          <Text
+            style={{
+              color: 'red',
+              textAlign: 'center',
+              fontSize: 16,
+              padding: 10,
+            }}>
+            {validationError}
+          </Text>
+          <Text
+            style={{
+              color: 'green',
+              textAlign: 'center',
+              fontSize: 16,
+              padding: 10,
+            }}>
+            {status ? 'Backed Up Successfully.' : ''}
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#000',
+              width: '100%',
+              height: 50,
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: 16,
+              borderRadius: 10,
+            }}
+            onPress={() => saveEncryptedObjectToDrive(obj, 'nuteFile')}>
+            {loader ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
               <Text style={{color: '#fff'}}>Continue</Text>
-            </TouchableOpacity>
-          </View>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -283,33 +319,23 @@ export default GoogleDriveBackup;
 
 const styles = StyleSheet.create({
   header: {
-    width: '100%',
-    paddingVertical: hp(5.5),
-    paddingHorizontal: 10,
-    backgroundColor: '#F3F4F7',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingVertical: 15,
+    paddingHorizontal: wp(1),
   },
   box: {
     padding: 10,
   },
   passwordText: {
-    borderWidth: 1,
-    borderColor: '#CFD2D8',
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f4f7',
     borderRadius: 5,
     marginVertical: 10,
-
-    height: 50,
-    paddingHorizontal: 20,
+    height: 40,
+    paddingHorizontal: wp(3),
     fontSize: 15,
     fontWeight: '400',
   },
   validationErrorText: {
     color: '#000',
-    padding: 10,
-    fontSize: 16,
-
-    fontWeight: '900',
+    fontSize: wp(3),
   },
 });
