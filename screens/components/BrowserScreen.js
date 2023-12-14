@@ -36,10 +36,8 @@ const BrowserScreen = () => {
   // },[props])
 
   function goForSearch(text, type) {
-    console.log('ttt', text, type);
     try {
       const arr = [...history];
-      console.log('arrt', arr);
       if (text && text != '' && text.length > 0) {
         if (!arr?.find(it => it.text == text?.trim())) {
           if (type == 0) {
@@ -47,7 +45,6 @@ const BrowserScreen = () => {
               text: text?.toLowerCase(),
               index: arr.length,
             };
-            console.log('obj', obj);
             // arr.push(obj);
             dispatch(setSearchHistory({...obj}));
             // setHistory([...arr]);

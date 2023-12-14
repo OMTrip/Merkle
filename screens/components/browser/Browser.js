@@ -73,7 +73,7 @@ const Browser = props => {
   );
   const darkMode = false;
   const wallet = state.wallet.wallets[state.wallet.activeWallet];
-  console.log(wallet, 'wallet');
+  // console.log(wallet, 'wallet');
   let webview = useRef();
 
   const [webviewUrl, setWebviewUrl] = useState(HOMEPAGE_URL);
@@ -254,7 +254,7 @@ const Browser = props => {
     setInjectedJavaScript(
       getInjectedJavaScript(network.chainId, network.networkVersion),
     );
-    console.log('imported web3 provider');
+    // console.log('imported web3 provider');
   }, [network.chainId, network.networkVersion]);
 
   useEffect(() => {

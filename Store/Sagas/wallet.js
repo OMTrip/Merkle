@@ -394,7 +394,7 @@ try{
       merkle.getTransactions,
       wallet.address,
     );
-    console.log(merkle_transactions, ' ::merkle_transactions');
+    // console.log(merkle_transactions, ' ::merkle_transactions');
     yield put({
       type: 'wallet/setMerkleTransactions',
       payload: {transactions: merkle_transactions, index},

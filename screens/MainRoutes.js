@@ -270,7 +270,6 @@ export const WalletRoute = () => {
               <TouchableWithoutFeedback
                 onPress={() => {
                   navigation.goBack();
-                  console.log('hello');
                 }}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Ionicons

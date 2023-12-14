@@ -54,7 +54,7 @@ const WalletScreen = () => {
       setFilteredList([...arr]);
     } else if (issearch) {
       var tokensarr = [];
-      wallet.assets.map(it => {
+      wallet?.assets?.map(it => {
         const obj = {
           ...it.nativeCurrency,
           native: true,
@@ -169,7 +169,7 @@ const WalletScreen = () => {
             <Text style={styles.Icons}>{totalAssetsInDollar}</Text>
           </View>
           <View style={[styles.Icons2, {marginRight: 0, paddingBottom: 5}]}>
-            <Text style={styles.BodyBoxText}>{wallets[activeWallet].name}</Text>
+            <Text style={styles.BodyBoxText}>{wallets[activeWallet]?.name}</Text>
           </View>
 
           <View style={styles.optionsrow}>

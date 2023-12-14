@@ -45,6 +45,7 @@ const TokenScreen = props => {
 
   useEffect(() => {
     try {
+      console.log(chainId, native, token_address, image, symbol,'slugvjdfhdjfhjdfdfhdfhdfgyh')
       const blockchain = wallet.assets.find(f => f.chainId == chainId);
       const tx = wallet?.transactions[blockchain.nativeCurrency.slug].filter(
         it => {
@@ -53,6 +54,7 @@ const TokenScreen = props => {
               return it;
             }
           } else {
+          // console.log(it,'item')
             if (it.is_erc20) {
               return it;
             }
@@ -60,7 +62,7 @@ const TokenScreen = props => {
         },
       );
       setTxns(tx);
-      console.log(tx, 'tx::::');
+      // console.log(tx, 'tx::::');
     } catch (error) {
       setTxns([]);
     }
@@ -77,6 +79,7 @@ const TokenScreen = props => {
   };
 
   const renderItem = ({item}) => {
+    // console.log(item,'itemk')
     return (
       <TouchableOpacity
         style={{flex: 0.8}}
@@ -111,9 +114,9 @@ const TokenScreen = props => {
               />
               <View style={{}}>
                 <Text style={styles.upperText}>
-                  {item.functionName.length > 0
+                  {item?.functionName?.length > 0
                     ? 'Function Call'
-                    : item.methodId == '0x'
+                    : item?.input == '0x'
                     ? 'Transfer'
                     : 'Contract Call'}{' '}
                 </Text>
@@ -481,7 +484,7 @@ const TokenScreen = props => {
           </View> */}
 
           <FlatList
-            data={txns}
+            data={txns?.length>0?txns:[]}
             refreshing={reload}
             onRefresh={() => {
               setReload(true);

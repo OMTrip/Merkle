@@ -36,7 +36,6 @@ const EmailVerify = () => {
   const [email, setEmail] = useState('');
   const [emailStatus, setEmailStatus] = useState(false);
   const [emailError, setEmailError] = useState('');
-  console.log(emailStatus, 'emailStatus');
   const validateEmail = email => {
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     if (!emailRegex.test(email)) {
@@ -61,7 +60,6 @@ const EmailVerify = () => {
           const users = {...user};
           users.email = emailAdd;
           users.isEmailVerify = true;
-          console.log(users, 'users');
           setEmailStatus(true);
           userCollection.updateUser({...users});
           dispatch(setUser({...users}));
@@ -91,7 +89,6 @@ const EmailVerify = () => {
 
   async function emailAuth() {
     const dt = await verifyEmail(email);
-    console.log(dt, 'dt');
     if (dt.deliverability == 'DELIVERABLE') {
       const userD = user;
       console.log(userD, 'userD');

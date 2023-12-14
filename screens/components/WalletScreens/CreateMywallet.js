@@ -61,7 +61,7 @@ const CreateMywallet = props => {
         //   AlertHelper.show(
         //     'error',
         //     t('import.mnemonic'),
-        //     t('import.errors.passwordLength'),
+        //     t('import.errors.passwordLength'),  
         //   );
         //   setLoading(false);
         //   return;

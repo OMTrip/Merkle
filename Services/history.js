@@ -90,7 +90,8 @@ export const etherscan = {
   },
 };
 
-export const bscscan = {
+export const 
+bscscan = {
   getTransactions: (address) => {
     return new Promise((resolve, reject) => {
       axios
@@ -280,19 +281,20 @@ export const polygon = {
 
 export const merkle = {
   getTransactions: (address) => {
+    // console.log(`http://merklescan.com/api?module=account&action=txlist&address=${address}`," complete txurl")
     return new Promise((resolve, reject) => {
       axios
         .get(
           `http://merklescan.com/api?module=account&action=txlist&address=${address}`,
         )
         .then(async result => {
-          console.log(result,'txresult8888888888'); 
+          // console.log(result,'txresult8888888888'); 
           let transactions = await Promise.all(
             result?.data?.result?.map(async (tx) => {
               // console.log(tx,'tx8888888888888888'); 
               tx.chain = 'merkle';
               tx.symbol = 'MRK';
-              tx.is_erc20 = tx.methodId == '0xa9059cbb' ? true : false;
+              tx.is_erc20 = tx?.input == '0x' ? false : true;
               if (tx.is_erc20) {
                 setProvider(MERKLE_RPC);
                 tx.token = await getTokenMetadata('merkle', tx.to);
@@ -325,10 +327,10 @@ export const merkle = {
                   value: decoded_logs.value,
                 };
               }
-              return console.log(tx,'tx'); 
-             
+              return tx;              
             }),
           );
+
           resolve(transactions);
         })
         .catch(err => {

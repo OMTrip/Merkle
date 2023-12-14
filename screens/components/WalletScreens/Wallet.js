@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Link, useNavigation} from '@react-navigation/native';
-import {setActiveWallet} from '../../../Store/web3';
+import {deleteWallet, setActiveWallet} from '../../../Store/web3';
 const {height, width} = Dimensions.get('window');
 import {
   widthPercentageToDP as wp,
@@ -123,7 +123,7 @@ const Wallet = props => {
                         size={30}
                         style={{color: '#999', fontWeight: '800'}}
                       />
-                      {wallet.address == active.address && (
+                      {wallet.address == active?.address && (
                         <View style={styles.checkIconbg}>
                           <Ionicons
                             name="checkmark-circle"
@@ -142,18 +142,34 @@ const Wallet = props => {
                             wallet?.address?.slice(-7)}
                         </Text>
                       </View>
-                      <TouchableOpacity
-                        onPress={() => {
-                          navigation.navigate('WalletInfo', {
-                            selectedWallet: wallet,
-                          });
-                        }}>
-                        <Ionicons
-                          name="information-circle-outline"
-                          size={20}
-                          style={styles.infoIcon}
-                        />
-                      </TouchableOpacity>
+                      <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate('WalletInfo', {
+                              selectedWallet: wallet,
+                            });
+                          }}>
+                          <Ionicons
+                            name="information-circle-outline"
+                            size={20}
+                            style={styles.infoIcon}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            // Handle the delete functionality here
+                            dispatch(deleteWallet(index));
+                            dispatch(setActiveWallet(index - 1));
+                            navigation.navigate('wallets');
+                            // Dispatch an action or call a function to delete the wallet
+                          }}>
+                          <Ionicons
+                            name="trash-bin-outline"
+                            size={20}
+                            style={{marginLeft: 10, color: 'red'}}
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 </TouchableOpacity>

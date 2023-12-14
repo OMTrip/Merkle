@@ -33,7 +33,6 @@ const BrowserScreenExternalLink = (props) => {
   },[props])
 
   function goForSearch(text, type) {
-    console.log('tyyryrr',text);
     try {
       const arr = [...history];
       if (text && text != '' && text.length > 0) {

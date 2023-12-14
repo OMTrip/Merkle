@@ -222,10 +222,8 @@ const BankVerification = () => {
                     mobileNumber,
                     ifscCode?.toUpperCase(),
                   );
-                  console.log(res, 'resp');
                   setValidateResp(res);
                   if (res.status == 'SUCCESS') {
-                    console.log(res,'res');
                     const users = {...user};
                     users.panNumber = panNo;
                     users.bankStatus=true;

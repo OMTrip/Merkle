@@ -109,7 +109,7 @@ const KycScreen = props => {
   }
 
   async function verifyadhar(clientid, mobileno, otp) {
-    console.log(clientid, otp, 'result of send');
+    // console.log(clientid, otp, 'result of send');
     if (otp) {
       setLoadingVerify(true); // Set loadingVerify to true
 
@@ -222,7 +222,7 @@ const KycScreen = props => {
           text1: 'Something webt wrong',
           text2: 'Please try again',
         });
-        console.log(e, 'error in verifyadhaar');
+        // console.log(e, 'error in verifyadhaar');
       }
     } else {
       setLoadingVerify(false); // Set loadingVerify to false after the call

@@ -472,6 +472,10 @@ const walletSlice = createSlice({
       console.log(state.wallets,"state.wallets")
       state.wallets = [...action.payload];
     },
+    deleteWallet: (state, action) => {
+      const walletIndex = action.payload;
+      state.wallets.splice(walletIndex, 1);
+    },
     updateWallets: (state, action) => {
       state.wallets = [...action.payload];
     },
@@ -639,6 +643,7 @@ export const {
   setBiometrics,
   createWallet,
   addWallet,
+  deleteWallet,
   updateWallets,
   setActiveWallet,
   setActiveNetwork,

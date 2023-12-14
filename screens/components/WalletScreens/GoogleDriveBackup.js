@@ -38,7 +38,7 @@ const GoogleDriveBackup = () => {
   const {mnemonic} = useSelector(store => store.wallet);
   const [obj, setObj] = useState({name: 'rajneesh', last: 'singh'});
   const [validationError, setValidationError] = useState('');
-  const [status, setVererStatus] = useState('');
+  const [status, setVererStatus] = useState(false);
   const [password, setPassword] = useState('');
   const salt = randomBytes(16).toString('base64');
   const ivs = randomBytes(16);
@@ -152,14 +152,15 @@ const GoogleDriveBackup = () => {
                 })
                 .execute()
             ).id;
-            console.log(id, 'id');
+            // console.log(id, 'id===============================');
             if (id) {
               setVererStatus(true);
+              // console.log(status,'statussssss');
               setPassword('');
               dispatch(setCloudVerified(true));
               setTimeout(() => {
                 setVererStatus(false);
-              }, 10000);
+              }, 30000);
             } else {
               setValidationError('Something went wrong.');
             }
@@ -290,7 +291,7 @@ const GoogleDriveBackup = () => {
               fontSize: 16,
               padding: 10,
             }}>
-            {status ? 'Backed Up Successfully.' : ''}
+            {status ==true ? 'Backed Up Successfully.' : ''}
           </Text>
           <TouchableOpacity
             style={{
@@ -302,7 +303,7 @@ const GoogleDriveBackup = () => {
               fontSize: 16,
               borderRadius: 10,
             }}
-            onPress={() => saveEncryptedObjectToDrive(obj, 'nuteFile')}>
+            onPress={() => saveEncryptedObjectToDrive(obj, 'merkleFile')}>
             {loader ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
