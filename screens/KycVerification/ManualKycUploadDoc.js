@@ -17,7 +17,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import userCollection from '../../Store/firebase/user';
-import storage from '@react-native-firebase/storage';
+// import storage from '@react-native-firebase/storage';
 import {useNavigation} from '@react-navigation/native';
 import {setUserKycStatus} from '../../Store/authSlice';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

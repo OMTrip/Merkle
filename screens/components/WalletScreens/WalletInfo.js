@@ -170,7 +170,7 @@ const WalletInfo = (props) => {
                 </View>
                 <View style={styles.walletWrapper}>
                   <View>
-                    <Text style={styles.walletName}>iCloud Backup</Text>
+                    <Text style={styles.walletName}>Google Drive Backup </Text>
                   </View>
 
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>

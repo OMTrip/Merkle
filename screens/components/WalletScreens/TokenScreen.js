@@ -336,13 +336,13 @@ const TokenScreen = props => {
           <Text style={styles.BodyBoxText}>
             $
             {symbol === 'BUBT'
-              ? token?.balance * BubtPrice
+              ? (token?.balance * parseFloat(BubtPrice)).toFixed(4)
               : symbol === 'BSBT'
-              ? token?.balance * BsbtPrice
+              ? (token?.balance * parseFloat(BsbtPrice)).toFixed(4)
               : symbol === 'BTYC'
-              ? token?.balance * BtycPrice
+              ? (token?.balance * parseFloat(BtycPrice)).toFixed(4)
               : symbol === 'MRK'
-              ? token?.balance * MerklePrice
+              ? (token?.balance * parseFloat(MerklePrice)).toFixed(4)
               : cutAfterDecimal(
                   token?.balance * props.route.params.current_price,
                   6,
@@ -504,7 +504,7 @@ const TokenScreen = props => {
                       fontSize: 18,
                       color: '#000',
                     }}>
-                     Transactions Not Found.
+                    Transactions Not Found.
                   </Text>
                 </View>
               );

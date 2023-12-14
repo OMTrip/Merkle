@@ -104,7 +104,6 @@ const WalletScreen = () => {
   useEffect(() => {
     if (listarray.length > 0) {
       const total = listarray.reduce((sum, item) => {
-        // console.log( item?.symbol,' item?.symbol');
         const cp = item?.current_price ? item?.current_price : 0;
         const balance_in_usd =
           item?.symbol?.toUpperCase() === 'BTYC'

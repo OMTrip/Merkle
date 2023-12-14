@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {useSelector} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -8,12 +8,15 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-
+import Clipboard from '@react-native-clipboard/clipboard';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
 const MnemonicPhraseList = () => {
+  const [copyM,setCopyM] = useState('')
   const navigation = useNavigation();
   const {mnemonic} = useSelector(store => store.wallet);
 
-  console.log(mnemonic.split(' '), 'mnemonic');
+  // console.log(mnemonic.split(' '), 'mnemonic');S
 
   return (
     <View style={{flex:.85}}>
@@ -59,12 +62,36 @@ const MnemonicPhraseList = () => {
          <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent:"center", paddingVertical:10}}>
         {
           mnemonic.split(' ')?.map((item,i)=>{
-            return (<View style={styles.itemContainer}>
+            
+            return (
+              <View style={styles.itemContainer}>
             <Text style={styles.itemText}>{i+1}. {item}</Text>
           </View>)
           })
 
         }
+          <View style={styles.iconWithWrapper}>
+            <TouchableOpacity
+              onPress={() => {
+                Clipboard.setString(mnemonic);
+                Toast.show({
+                  type: 'success',
+                  text1: 'Copied to clipboard',
+                  text2: mnemonic,
+                });
+              }}
+              style={styles.circleIconBg}>
+              <Ionicons name="copy-outline" size={16} color={'black'} />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: '#444',
+                fontSize: 13,
+                fontWeight:"600"
+              }}>
+              Copy All
+            </Text>
+          </View>
         </View>
       </View>
       <View style={{padding: 10}}>
@@ -110,5 +137,27 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: '#000',
+  },
+  iconWithWrapper: {
+    width: wp(27),
+    alignItems: 'center',
+    textAlign: 'center',
+    flexDirection:"row",
+    borderWidth: 1.2,
+   backgroundColor:'#F3F4F7',
+   borderRadius: wp(3),
+   marginTop:hp(2),
+  },
+  circleIconBg: {
+    // backgroundColor: '#000',
+    height: wp(10),
+    width: wp(12),
+    // borderRadius: wp(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 12,
+    // borderWidth: 1,
+    // borderColor:  '#000',
   },
 });

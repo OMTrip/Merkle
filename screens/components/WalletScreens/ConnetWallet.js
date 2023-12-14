@@ -52,7 +52,7 @@ export default function ConnetWallet() {
           source={require('../../assets/key-unlock-wallet.png')}
           resizeMode="contain"
         />
-        <Text style={styles.text}>Welcome to Nute Wallet</Text>
+        <Text style={styles.text}>Welcome to Merkle Wallet</Text>
       </View>
 
       <View style={{justifyContent: 'center', marginTop: wp(45)}}>

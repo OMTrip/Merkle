@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,6 +31,7 @@ const VerifyManually = () => {
   const [shuffle, setShuffle] = useState([]);
   const [arr, setArr] = useState([]);
   const [err, setErr] = useState(false);
+  const [show, setShow] = useState(false);
   const [succ, setSucc] = useState(false);
   const dispatch = useDispatch();
   const salt = randomBytes(16).toString('base64');
@@ -148,27 +150,44 @@ const VerifyManually = () => {
         Verify Secret Phrase
       </Text>
       <View style={{padding: 10, flex: 1}}>
-        <View
-          style={{
-            minHeight: 180,
-            borderWidth: 1,
-            borderColor: '#000',
-            borderRadius: 10,
-          }}>
+        {show == false ? (
+          <TextInput
+            style={{
+              minHeight: 180,
+              borderWidth: 1,
+              borderColor: '#000',
+              borderRadius: 10,
+              padding: 10,
+            }}
+            placeholder="paste here..."
+            multiline
+            onChangeText={text => {
+              // Handle the input text as needed, for example, updating the state
+              // setArr([...arr, text]); // Uncomment if you want to update the state
+            }}></TextInput>
+        ) : (
           <View
-            style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-            {arr.length > 0 &&
-              arr.map((ele, i) => {
-                return (
-                  <View style={styles.itemContainer} key={i + ele}>
-                    <Text style={styles.itemText}>
-                      {i + 1}. {ele}
-                    </Text>
-                  </View>
-                );
-              })}
+            style={{
+              minHeight: 180,
+              borderWidth: 1,
+              borderColor: '#000',
+              borderRadius: 10,
+            }}>
+            <View
+              style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+              {arr.length > 0 &&
+                arr.map((ele, i) => {
+                  return (
+                    <View style={styles.itemContainer} key={i + ele}>
+                      <Text style={styles.itemText}>
+                        {i + 1}. {ele}
+                      </Text>
+                    </View>
+                  );
+                })}
+            </View>
           </View>
-        </View>
+        )}
         <View
           style={{
             display: 'flex',
@@ -183,6 +202,7 @@ const VerifyManually = () => {
                 <TouchableOpacity
                   style={styles.itemContainer}
                   onPress={() => {
+                    setShow(true);
                     getActualArray(item);
                   }}
                   key={i + item}>

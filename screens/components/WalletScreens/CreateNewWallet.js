@@ -39,7 +39,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import TypewriterComponent from './TypewriterComponent';
 import {ScrollView} from 'react-native-gesture-handler';
 import WalletScreen from './WalletScreen';
-import { setIsLoggedIn } from '../../../Store/authSlice';
+import {setIsLoggedIn} from '../../../Store/authSlice';
 
 const CreateNewWallet = props => {
   const navigation = useNavigation();
@@ -73,13 +73,13 @@ const CreateNewWallet = props => {
         dispatch(addWallet(arr));
         dispatch(setActiveWallet(wallets.length));
         setLoading(false);
-         
+
         navigation.navigate('WalletScreen');
       } else {
         await setLoading(true);
         console.log('Before navigation');
         // navigation.navigate('TypewriterComponent');
-        navigation.navigate('WalletScreen')
+        navigation.navigate('WalletScreen');
         // navigation.navigate('Home');
 
         console.log('After navigation');
@@ -154,63 +154,61 @@ const CreateNewWallet = props => {
             address: HDWallet?.address,
             privateKey: HDWallet?.privateKey,
             name: walletName,
-            networks: [
-              '0x775',
-              '0x38',
-              '0x1',
-              '0x89',
-              '0x61',
-             
-            ],
+            networks: ['0x775', '0x38', '0x1', '0x89', '0x61'],
             assets: [
               {
                 chainId: '0x775',
                 balance: '0',
-                tokens: [{
-                  "balance": 0,
-                  "chainId": "0x775",
-                  "slug": "merkle",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "Big Tycoon",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BTYC",
-                  "thumbnail": null,
-                  "token_address": "0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178"
-                }, {
-                  "balance": 0,
-                  "chainId": "0x775",
-                  "slug": "merkle",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "BUZZBT",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BUBT",
-                  "thumbnail": null,
-                  "token_address": "0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08"
-                },
-                {
-                  "balance": 0,
-                  "chainId": "0x775",
-                  "slug": "merkle",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xC4B16708A2356e27178B34D9de406F850c317168/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "Big Shot",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BSBT",
-                  "thumbnail": null,
-                  "token_address": "0xC4B16708A2356e27178B34D9de406F850c317168"
-                }
-              ],
+                tokens: [
+                  {
+                    balance: 0,
+                    chainId: '0x775',
+                    slug: 'merkle',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'Big Tycoon',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BTYC',
+                    thumbnail: null,
+                    token_address: '0xbB96b900EF03507b530D158cc5A0B0C8c3a8D178',
+                  },
+                  {
+                    balance: 0,
+                    chainId: '0x775',
+                    slug: 'merkle',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'BUZZBT',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BUBT',
+                    thumbnail: null,
+                    token_address: '0x1B1D576Bb6a1E364Ea4674e7A77fECB4BDf2bF08',
+                  },
+                  {
+                    balance: 0,
+                    chainId: '0x775',
+                    slug: 'merkle',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xC4B16708A2356e27178B34D9de406F850c317168/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'Big Shot',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BSBT',
+                    thumbnail: null,
+                    token_address: '0xC4B16708A2356e27178B34D9de406F850c317168',
+                  },
+                ],
                 nfts: [],
                 slug: 'merkle',
                 rpcUrl: 'https://marklechain-rpc.merklescan.com/',
@@ -228,51 +226,56 @@ const CreateNewWallet = props => {
               {
                 chainId: '0x38',
                 balance: '0',
-                tokens:[{
-                  "balance": 0,
-                  "chainId": "0x38",
-                  "slug": "bsc",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "Big Tycoon",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BTYC",
-                  "thumbnail": null,
-                  "token_address": "0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9"
-                }, {
-                  "balance": 0,
-                  "chainId": "0x38",
-                  "slug": "bsc",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x2B9ec6d94199F80e63fBAa0a4A502E411B211058/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "BUZZBT",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BUBT",
-                  "thumbnail": null,
-                  "token_address": "0x2B9ec6d94199F80e63fBAa0a4A502E411B211058"
-                },
-                {
-                  "balance": 0,
-                  "chainId": "0x38",
-                  "slug": "bsc",
-                  "decimals": 18,
-                  "logo": "https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x0A23558A20A128F463b1E7034C89620c862c36F5/logo.png",
-                  "explorerLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                  "name": "Big Shot",
-                  "possible_spam": false,
-                  "show":true,
-                  "type": "token",
-                  "symbol": "BSBT",
-                  "thumbnail": null,
-                  "token_address": "0x0A23558A20A128F463b1E7034C89620c862c36F5"
-                }
-              ],
+                tokens: [
+                  {
+                    balance: 0,
+                    chainId: '0x38',
+                    slug: 'bsc',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'Big Tycoon',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BTYC',
+                    thumbnail: null,
+                    token_address: '0x42dABca1aF369FBd9e8Ea286dAFBA45b23fC92D9',
+                  },
+                  {
+                    balance: 0,
+                    chainId: '0x38',
+                    slug: 'bsc',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x2B9ec6d94199F80e63fBAa0a4A502E411B211058/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'BUZZBT',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BUBT',
+                    thumbnail: null,
+                    token_address: '0x2B9ec6d94199F80e63fBAa0a4A502E411B211058',
+                  },
+                  {
+                    balance: 0,
+                    chainId: '0x38',
+                    slug: 'bsc',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/bsc/0x0A23558A20A128F463b1E7034C89620c862c36F5/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'Big Shot',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'BSBT',
+                    thumbnail: null,
+                    token_address: '0x0A23558A20A128F463b1E7034C89620c862c36F5',
+                  },
+                ],
                 nfts: [],
                 nativeCurrency: {
                   name: 'Binance Coin',
@@ -326,8 +329,6 @@ const CreateNewWallet = props => {
                 },
                 show: true,
               },
-
-       
             ],
             transactions: {
               ethereum: [],
@@ -338,7 +339,7 @@ const CreateNewWallet = props => {
               optimism: [],
               fantom: [],
               cronos: [],
-              taral: [],
+              merkle: [],
             },
           }),
         );
@@ -360,7 +361,7 @@ const CreateNewWallet = props => {
       return;
     }
     // openModal()
-    dispatch(setIsLoggedIn(true))
+    dispatch(setIsLoggedIn(true));
     createPassword();
   };
 
@@ -389,7 +390,7 @@ const CreateNewWallet = props => {
               source={require('../../assets/key-unlock-wallet.png')}
               resizeMode="contain"
             />
-            <Text style={styles.text}>Welcome to Nute Wallet</Text>
+            <Text style={styles.text}>Welcome to Merkle Wallet</Text>
           </View>
 
           <View style={{justifyContent: 'center', marginTop: wp(45)}}>
@@ -479,7 +480,7 @@ const CreateNewWallet = props => {
               </View>
             </TouchableOpacity>
           </View>
-        </ScrollView>       
+        </ScrollView>
       </LinearGradient>
     </>
   );

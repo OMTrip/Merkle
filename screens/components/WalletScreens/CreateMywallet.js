@@ -192,7 +192,7 @@ const CreateMywallet = props => {
               optimism: [],
               fantom: [],
               cronos: [],
-              taral: [],
+              merkle: [],
             },
           }),
         );

@@ -21,7 +21,7 @@ import Header from './Header';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {setOnboarding} from '../../Store/web3';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';

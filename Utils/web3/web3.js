@@ -474,7 +474,7 @@ export const recoverPersonalSignature = (message, signature) => {
   }
 };
 
-export const createAccount = async (name, index, mnemonic) => {
+export const createAccount = async (name, index, mnemonic,windex) => {
   try {
     let HDWallet = getHDWallet(index, mnemonic);
     let web3 = setDefaultAccount(HDWallet?.privateKey);
@@ -487,7 +487,7 @@ export const createAccount = async (name, index, mnemonic) => {
     // );
 
     const account = {
-      index: index,
+      index: windex,
       address: HDWallet?.address,
       privateKey: HDWallet?.privateKey,
       name: name,
@@ -668,7 +668,7 @@ export const createAccount = async (name, index, mnemonic) => {
         optimism: [],
         fantom: [],
         cronos: [],
-        taral: [],
+        merkle: [],
       },
     };
     return account;
@@ -836,7 +836,7 @@ export const ImportAccount = async (name, index, privatekey) => {
         optimism: [],
         fantom: [],
         cronos: [],
-        taral: [],
+        merkle: [],
       },
     };
     return account;

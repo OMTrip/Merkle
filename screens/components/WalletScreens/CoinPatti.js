@@ -147,16 +147,16 @@ const CoinPatti = ({item, route, address}) => {
         <Text style={styles.CradRightTextbelow}>
           $
           {symbol === 'BUBT'
-            ? item?.balance * BubtPrice
+            ? (item?.balance * parseFloat(BubtPrice)).toFixed(2)
             : symbol === 'BSBT'
-            ? item?.balance * BsbtPrice
+            ? (item?.balance * parseFloat(BsbtPrice)).toFixed(2)
             : symbol === 'BTYC'
-            ? item?.balance * BtycPrice
+            ? (item?.balance * parseFloat(BtycPrice)).toFixed(2)
             : symbol === 'MRK'
-            ? item?.balance * MerklePrice
+            ? (item?.balance * parseFloat(MerklePrice)).toFixed(2)
             : balance_in_usd?.toString()?.indexOf('.') > -1
-            ? balance_in_usd?.toFixed(4)
-            : balance_in_usd}
+            ? parseFloat(balance_in_usd).toFixed(4)
+            : parseFloat(balance_in_usd)}
         </Text>
       </View>
       {route == 'buy' ? (

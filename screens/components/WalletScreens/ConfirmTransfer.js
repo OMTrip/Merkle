@@ -37,6 +37,9 @@ const ConfirmTransfer = props => {
   const {wallets, activeWallet, priceQuotes, networks, chainInfo} = useSelector(
     state => state.wallet,
   );
+  const BtycPrice = useSelector(state => state.user?.BtycPrice);
+  const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
+  const BubtPrice = useSelector(state => state.user?.BubtPrice);
   const MerklePrice = useSelector(state => state.user?.merklePrice);
   const wallet = wallets[activeWallet];
   const {propData, recieveAddress, sendAmount} = props.route.params;
@@ -331,7 +334,16 @@ const ConfirmTransfer = props => {
             style={{marginTop: hp(0.5), color: '#ccc'}}
           />
           <Text style={styles.TokenText}>
-            ${cutAfterDecimal(sendAmount * MerklePrice, 5)}
+            $
+            {symbol === 'BUBT'
+              ? (sendAmount * parseFloat(BubtPrice)).toFixed(2)
+              : symbol === 'BSBT'
+              ? (sendAmount * parseFloat(BsbtPrice)).toFixed(2)
+              : symbol === 'BTYC'
+              ? (sendAmount * parseFloat(BtycPrice)).toFixed(4)
+              : symbol === 'MRK'
+              ? (sendAmount * parseFloat(MerklePrice)).toFixed(2)
+              : cutAfterDecimal(sendAmount, 5)}
           </Text>
         </View>
       </View>
@@ -394,7 +406,19 @@ const ConfirmTransfer = props => {
                 </Text>
                 <Text style={styles.fromText}>
                   ($
-                  {cutAfterDecimal(Number(gasFees) * MerklePrice, 5)})
+                  {symbol === 'BUBT'
+                    ? cutAfterDecimal(Number(gasFees) * BubtPrice, 5)
+                    : symbol === 'BSBT'
+                    ? cutAfterDecimal(Number(gasFees) * BsbtPrice, 5)
+                    : symbol === 'BTYC'
+                    ? cutAfterDecimal(Number(gasFees) * BtycPrice, 5)
+                    : symbol === 'MRK'
+                    ? cutAfterDecimal(Number(gasFees) * MerklePrice, 5)
+                    : cutAfterDecimal(
+                        Number(gasFees) * propData.current_price,
+                        5,
+                      )}
+                  )
                 </Text>
               </View>
             </View>
@@ -407,11 +431,20 @@ const ConfirmTransfer = props => {
               </View>
               <View style={{alignItems: 'flex-end'}}>
                 <Text style={{color: '#000', fontWeight: '600'}}>
-                  ${' '}
-                  {cutAfterDecimal(
-                    sendAmount * MerklePrice + Number(gasFees) * MerklePrice,
-                    4,
-                  )}
+                  $
+                  {symbol === 'BUBT'
+                    ? (sendAmount * parseFloat(BubtPrice)).toFixed(4)
+                    : symbol === 'BSBT'
+                    ? (sendAmount * parseFloat(BsbtPrice)).toFixed(4)
+                    : symbol === 'BTYC'
+                    ? (sendAmount * parseFloat(BtycPrice)).toFixed(4)
+                    : symbol === 'MRK'
+                    ? (sendAmount * parseFloat(MerklePrice)).toFixed(4)
+                    : cutAfterDecimal(
+                        sendAmount * propData.current_price +
+                          Number(gasFees) * propData.current_price,
+                        4,
+                      )}
                 </Text>
               </View>
             </View>

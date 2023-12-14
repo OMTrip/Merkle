@@ -33,7 +33,7 @@ const TranscationDetails = props => {
   const mynetwork = wallets[activeWallet].assets;
   const navigation = useNavigation();
   const {data, extras} = props.route.params;
-  console.log(data,"data")
+  console.log(data,"data----")
   const {
     blockNumber,
     chain,

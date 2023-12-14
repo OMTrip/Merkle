@@ -49,6 +49,7 @@ export const TARAL_RPC = "https://rpc.taralityscan.com/";
 
 // Polygon Mainnet
 export const POLYGON_RPC = "https://rpc-mainnet.maticvigil.com/";
+export const MERKLE_RPC = "https://marklechain-rpc.merklescan.com/";
 
 // Polygon Testnet
 export const POLYGON_TESTNET_RPC = "https://rpc-mumbai.maticvigil.com/";

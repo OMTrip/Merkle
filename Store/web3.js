@@ -192,6 +192,7 @@ const initialState = {
         bsc_testnet: [],
         polygon: [],
         fantom:[],
+        merkle:[],
       },
     },
   ],
@@ -575,6 +576,10 @@ const walletSlice = createSlice({
       state.wallets[action.payload.index].transactions.cronos =
         action.payload.transactions;
     },
+    setMerkleTransactions: (state, action) => {
+      state.wallets[action.payload.index].transactions.merkle =
+        action.payload.transactions;
+    },
     setAllToken: (state, action) => {
       // const ws = {...state.wallets};
       state.allToken = action.payload;
@@ -654,6 +659,7 @@ export const {
   setOptimismTransactions,
   setFantomTransactions,
   setCronosTransactions,
+  setMerkleTransactions,
   setTokens,
   setNFTs,
   lockWallet,

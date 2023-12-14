@@ -20,6 +20,7 @@ import {
   POLYGONSCAN_API_KEY,
   POLYGON_RPC,
   SNOWTRACE_API_KEY,
+  MERKLE_RPC,
 } from '../Utils/constants';
 import {
   getTransactionReceipt,
@@ -39,7 +40,7 @@ export const etherscan = {
         )
         .then(async result => {
           let transactions = await Promise.all(
-            result.data.result.map(async (tx) => {
+            result?.data?.result?.map(async (tx) => {
               tx.chain = 'ethereum';
               tx.symbol = 'ETH';
               tx.is_erc20 = tx.methodId == '0xa9059cbb' ? true : false;
@@ -159,8 +160,9 @@ export const bscscan = {
           `https://api-testnet.bscscan.com/api?module=account&action=txlist&address=${address}&offset=100&sort=desc&apikey=${BSCSCAN_API_KEY}`,
         )
         .then(async result => {
+          console.log(result,'trdtdfgjklj hjsbdvhjsdf')
           let transactions = await Promise.all(
-            result.data.result.map(async (tx) => {
+            result?.data?.result?.map(async (tx) => {
               tx.chain = 'bsc_testnet';
               tx.slug = 'bsc_testnet';
               tx.symbol = 'BNB';
@@ -208,7 +210,7 @@ export const bscscan = {
           resolve(transactions);
         })
         .catch(err => {
-          console.log('bscscan getTransactions');
+          console.log('test_bscscan getTransactions');
           console.log(err);
           console.log(JSON.stringify(err));
           reject(err);
@@ -276,6 +278,67 @@ export const polygon = {
   },
 };
 
+export const merkle = {
+  getTransactions: (address) => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `http://merklescan.com/api?module=account&action=txlist&address=${address}`,
+        )
+        .then(async result => {
+          console.log(result,'txresult8888888888'); 
+          let transactions = await Promise.all(
+            result?.data?.result?.map(async (tx) => {
+              // console.log(tx,'tx8888888888888888'); 
+              tx.chain = 'merkle';
+              tx.symbol = 'MRK';
+              tx.is_erc20 = tx.methodId == '0xa9059cbb' ? true : false;
+              if (tx.is_erc20) {
+                setProvider(MERKLE_RPC);
+                tx.token = await getTokenMetadata('merkle', tx.to);
+                tx.receipt = await getTransactionReceipt(tx.hash);
+                let decoded_logs = web3.eth.abi.decodeLog(
+                  [
+                    {
+                      indexed: true,
+                      name: 'from',
+                      type: 'address',
+                    },
+                    {
+                      indexed: true,
+                      name: 'to',
+                      type: 'address',
+                    },
+                    {
+                      indexed: false,
+                      name: 'value',
+                      type: 'uint256',
+                    },
+                  ],
+                  tx.receipt.logs[0].data,
+                  tx.receipt.logs[0].topics.slice(1),
+                );
+
+                tx.logs = {
+                  from: decoded_logs.from,
+                  to: decoded_logs.to,
+                  value: decoded_logs.value,
+                };
+              }
+              return console.log(tx,'tx'); 
+             
+            }),
+          );
+          resolve(transactions);
+        })
+        .catch(err => {
+          // console.log('polygonscan getTransactions');
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
+};
 
 const getTokenMetadata = (chain, address) => {
   return new Promise(async (resolve, reject) => {

@@ -68,34 +68,32 @@ const SendScreen = props => {
 
   useEffect(() => {
     if (qr) {
-      let add;
+      let parsedAddress;
   
-      // Check if the address is in the "ethereum:0x..." format
-      if (address.startsWith('ethereum:')) {
-        const parts = address.split(':');
-        add = {
-          address: parts[1],
+      try {
+        // Try parsing the address as JSON
+        parsedAddress = JSON.parse(address);
+  
+        // Check if the parsed data has the 'address' property
+        if (parsedAddress && parsedAddress.address) {
+          // Set the address and any default amount as needed
+          setRecieveAddress(parsedAddress.address);
+          setSendAmount(parsedAddress.amount);
+        } else {
+          console.error('Invalid JSON format: Missing "address" property');
         }
-      } else if (address.startsWith('other_format:')) {
-        // Handle other specific format if needed
-        const parts = address.split(':');
-        add = {
-          address: parts[1],
-          // amount: /* Set the default amount or handle it as needed */
-        };
-      } else {
-        // If it's a plain Ethereum address, set the add accordingly
-        add = {
-          address: address,
-          // amount: /* Set the default amount or handle it as needed */
-        };
-      }
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
   
-      // Now you can safely set the values
-      setRecieveAddress(add.address);
-      setSendAmount(add.amount);
+        // If parsing fails, assume it's a string and extract the address
+        const cleanedAddress = address.split(':').slice(1).join(':').trim();
+        
+        setRecieveAddress(cleanedAddress);
+        setSendAmount(parsedAddress?.amount);
+      }
     }
   }, [qr, address]);
+  
   async function getClipboardContent() {
     const content = await Clipboard.getString();
     setRecieveAddress(content);
@@ -287,7 +285,7 @@ const SendScreen = props => {
       <TouchableOpacity
         style={styles.send}
         onPress={() => {
-          if(recieveAddress.startsWith("0x") && sendAmount!=0 && sendAmount.length !=0){
+          if(recieveAddress.startsWith("0x") && sendAmount!=0 && sendAmount?.length !=0){
           navigation.navigate('ConfirmTransfer', {
             propData:{...props.route.params},
             recieveAddress: recieveAddress,

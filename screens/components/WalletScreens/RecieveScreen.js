@@ -64,7 +64,7 @@ const RecieveScreen = props => {
     return JSON.stringify(data);
   }
 
-  const {address, image, symbol,slug} = props.route.params;
+  const {address, image, symbol, slug} = props.route.params;
   const navigation = useNavigation();
   console.log(props.route.params, 'props.route.params');
   return (
@@ -251,6 +251,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center'
   },
   qrcont: {
+    alignItems: 'center',
     paddingHorizontal: wp(5),
     paddingTop: wp(5),
     borderWidth: 0.5,

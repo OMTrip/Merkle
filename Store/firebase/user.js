@@ -1,10 +1,10 @@
-import firestore from '@react-native-firebase/firestore';
+// import firestore from '@react-native-firebase/firestore';
 import {utils} from '@react-native-firebase/app';
-import storage from '@react-native-firebase/storage';
+// import storage from '@react-native-firebase/storage';
 
-const usersCollection = firestore().collection('users');
-const transactionsCollection = firestore().collection('transactions');
-const tokensCollection = firestore().collection('tokens');
+// const usersCollection = firestore().collection('users');
+// const transactionsCollection = firestore().collection('transactions');
+// const tokensCollection = firestore().collection('tokens');
 
 const userCollection = {
   getUser: async docname => {
@@ -42,15 +42,15 @@ const userCollection = {
         return true;
       });
   },
-  deleteUser: () => {
-    firestore()
-      .collection('users')
-      .doc('user2')
-      .delete()
-      .then(() => {
-        console.log('user document deleted!');
-      });
-  },
+  // deleteUser: () => {
+  //   firestore()
+  //     .collection('users')
+  //     .doc('user2')
+  //     .delete()
+  //     .then(() => {
+  //       console.log('user document deleted!');
+  //     });
+  // },
   checkUser: async number => {
     const docname = number;
     const res = (await usersCollection.doc(docname).get()).data();

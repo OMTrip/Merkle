@@ -2,8 +2,8 @@ import _ from 'lodash';
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {getERC20TokenBalances, getNFTs} from '../../Services/moralis';
 import {getBalance, setProvider, getERC20Balance} from '../../Utils/web3/web3';
-import {bscscan} from '../../Services/history';
-import { circleCode, operatorCode } from '../../Utils/apis/api';
+import {bscscan, merkle, polygon} from '../../Services/history';
+import {circleCode, operatorCode} from '../../Utils/apis/api';
 
 const getWallets = state => state.wallet.wallets;
 const getNetworks = state => state.wallet.networks;
@@ -51,7 +51,7 @@ function* updateWalletBalance() {
         setProvider(net.rpcUrl);
         const balance = yield call(getBalance, wallet.address);
         assetobj.balance = balance;
-        var ut = [];  
+        var ut = [];
         // console.log(assetobj.tokens?.length,wallet.address,'wallet tokens exist')
         if (assetobj.tokens?.length > 0) {
           for (const token of assetobj.tokens) {
@@ -66,7 +66,7 @@ function* updateWalletBalance() {
           }
         }
         assetobj.tokens = [...ut];
-        console.log(assetobj.tokens)
+        console.log(assetobj.tokens);
       }
       newassets.push({...assetobj});
     }
@@ -170,8 +170,8 @@ function* createWallet() {
 
 function* circleCodeDetails() {
   try {
-   const circleResponse = yield call(circleCode);
-   yield put({type: 'details/setCircleCode', payload: circleResponse});
+    const circleResponse = yield call(circleCode);
+    yield put({type: 'details/setCircleCode', payload: circleResponse});
   } catch (error) {
     console.log(error);
   }
@@ -179,8 +179,8 @@ function* circleCodeDetails() {
 
 function* operatorCodeDetails() {
   try {
-    const operatorResponse = yield  call(operatorCode);
-   yield put({type: 'details/setOperatorCode', payload: operatorResponse});
+    const operatorResponse = yield call(operatorCode);
+    yield put({type: 'details/setOperatorCode', payload: operatorResponse});
   } catch (error) {
     console.log(error);
     // Sentry.captureException(error);
@@ -196,7 +196,7 @@ function* setActiveNetwork(action) {
   }
 }
 
-function* preload(){
+function* preload() {
   yield call(circleCodeDetails);
   yield call(operatorCodeDetails);
 }
@@ -329,9 +329,9 @@ function* setRefresh() {
 function* fetchTransactions() {
   const activeWallet = yield select(getActiveWallet);
   const wallets = yield select(getWallets);
-  const wallet = wallets.find(wallet => wallet.index === activeWallet);
+  const wallet = wallets.find(wallet => wallet.index == activeWallet);
   const network = yield select(getActiveNetwork);
-
+  // console.log(activeWallet, wallets[activeWallet],'active wallet and wallet')
   try {
     const index = wallets.indexOf(wallet);
 
@@ -353,18 +353,19 @@ function* fetchTransactions() {
     //   type: 'wallet/setTaralTransactions',
     //   payload: {transactions: [...bsctestnet_transactions], index},
     // });
-
-   
-
-    // const bsc_transactions: Array<Transaction> = yield call(
-    //   bscscan.getTransactions,
-    //   wallet.address,
-    // );
-    // yield put({
-    //   type: 'wallet/setBscTransactions',
-    //   payload: {transactions: bsc_transactions, index},
-    // });
-
+try{
+    const bsc_transactions = yield call(
+      bscscan.getTransactions,
+      wallet.address,
+    );
+    yield put({
+      type: 'wallet/setBscTransactions',
+      payload: {transactions: bsc_transactions, index},
+    });
+  }catch(e){
+    console.log('error in bsc in ftxns::', e);
+  }
+  try{
     const bsc_testnet_transactions = yield call(
       bscscan.getTestnetTransactions,
       wallet.address,
@@ -373,16 +374,34 @@ function* fetchTransactions() {
       type: 'wallet/setBscTestnetTransactions',
       payload: {transactions: bsc_testnet_transactions, index},
     });
-
-    // const polygon_transactions: Array<Transaction> = yield call(
-    //   polygon.getTransactions,
-    //   wallet.address,
-    // );
-    // yield put({
-    //   type: 'wallet/setPolygonTransactions',
-    //   payload: {transactions: polygon_transactions, index},
-    // });
-
+  }catch(e){
+    console.log('error in bsstest in ftxns::', e);
+  }
+  try{
+    const polygon_transactions = yield call(
+      polygon.getTransactions,
+      wallet.address,
+    );
+    yield put({
+      type: 'wallet/setPolygonTransactions',
+      payload: {transactions: polygon_transactions, index},
+    });
+  }catch(e){
+    console.log('error in polygan in ftxns::', e);
+  }
+  try{
+    const merkle_transactions = yield call(
+      merkle.getTransactions,
+      wallet.address,
+    );
+    console.log(merkle_transactions, ' ::merkle_transactions');
+    yield put({
+      type: 'wallet/setMerkleTransactions',
+      payload: {transactions: merkle_transactions, index},
+    });
+  }catch(e){
+    console.log('error in merkle in ftxns::', e);
+  }
     // const arbitrum_transactions: Array<Transaction> = yield call(
     //   arbitrum.getTransactions,
     //   wallet.address,
@@ -430,7 +449,6 @@ function* fetchTransactions() {
 
     yield put({type: 'wallet/setActiveNetwork', payload: network});
     yield put({type: 'wallet/setIsRefreshing', payload: false});
-    
   } catch (error) {
     // yield put({type: 'wallet/setActiveNetwork', payload: network});
     console.log(error);
@@ -450,7 +468,7 @@ function* walletSaga() {
   yield takeLatest('wallet/setActiveNetwork', setActiveNetwork);
   yield takeLatest('wallet/setActiveWallet', setActiveWallet);
   yield takeLatest('wallet/setRefresh', setRefresh);
-  yield takeLatest('details/preload',preload)
+  yield takeLatest('details/preload', preload);
 }
 
 export default walletSaga;

@@ -203,7 +203,7 @@ const GoogleDriveBackup = () => {
           icons={true}
           iconName={'arrow-left'}
           size={wp(7)}
-          title={'iCloud Backup'}
+          title={'Google Drive Backup '}
           TextTitle={true}
           RightHeaderName={false}
           RheaderName={'Done'}

@@ -25,13 +25,13 @@ let Data = [
     // image: require('../assets/new-product-launch.png'),
     animation: require('../assets/json/cryptocurrency-wallet.json'),
     title: 'Embark on a new journey',
-    subtitle: `Discover the full potential of Web3 with Nute Wallet's enhanced features and services. Faster Trading, Better Assets. Your Web3 Trading Wallet of the Future.`,
+    subtitle: `Discover the full potential of Web3 with Merkle Wallet's enhanced features and services. Faster Trading, Better Assets. Your Web3 Trading Wallet of the Future.`,
   },
   {
     // image: require('../assets/bitcoin-trade.png'),
     animation: require('../assets/json/cryptocurrency-trading-desk.json'),
     title: 'Explore Safely, Trade Securely',
-    subtitle: `Nute Waller offers enchanced security with a $300 million user pritection fund, alerts for rusky contracts and tokens, and support for personalized asset management with hardware wallets and MPC wallets.`,
+    subtitle: `Merkle Wallet offers enchanced security with a $300 million user pritection fund, alerts for rusky contracts and tokens, and support for personalized asset management with hardware wallets and MPC wallets.`,
   },
   {
     // image: require('../assets/web-30.png'),
