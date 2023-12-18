@@ -31,7 +31,8 @@ const initialState = {
   merklePrice:0,
   BtycPrice:0,
   BsbtPrice:0,
-  BubtPrice:0
+  BubtPrice:0,
+  TransferAllPrice:0,
 };
 
 const userSlice = createSlice({
@@ -62,6 +63,9 @@ const userSlice = createSlice({
     },
     setBubtPricePrice: (state, action) => {
       state.BubtPrice = action.payload;
+    },
+    setTransferAllPrice: (state, action) => {
+      state.TransferAllPrice = action.payload;
     },
     setAdharKyc: (state, action) => {
       const kycobj = {...state.user}
@@ -123,5 +127,6 @@ export const {
   setMerklePrice,
   setBtycPricePrice,
   setBsbtPricePrice,
-  setBubtPricePrice
+  setBubtPricePrice,
+  setTransferAllPrice
 } = userSlice.actions;

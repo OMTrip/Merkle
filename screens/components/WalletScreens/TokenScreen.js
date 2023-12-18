@@ -33,6 +33,7 @@ const TokenScreen = props => {
   const BtycPrice = useSelector(state => state.user?.BtycPrice);
   const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
   const BubtPrice = useSelector(state => state.user?.BubtPrice);
+  const TransferAllPrice = useSelector(state => state.user?.TransferAllPrice);
   const wallet = wallets[activeWallet];
   const {chainId, native, token_address, image, symbol} = props.route.params;
   const network = networks.find(it => it.chainId == chainId);
@@ -45,7 +46,14 @@ const TokenScreen = props => {
 
   useEffect(() => {
     try {
-      console.log(chainId, native, token_address, image, symbol,'slugvjdfhdjfhjdfdfhdfhdfgyh')
+      console.log(
+        chainId,
+        native,
+        token_address,
+        image,
+        symbol,
+        'slugvjdfhdjfhjdfdfhdfhdfgyh',
+      );
       const blockchain = wallet.assets.find(f => f.chainId == chainId);
       const tx = wallet?.transactions[blockchain.nativeCurrency.slug].filter(
         it => {
@@ -54,7 +62,7 @@ const TokenScreen = props => {
               return it;
             }
           } else {
-          // console.log(it,'item')
+            // console.log(it,'item')
             if (it.is_erc20) {
               return it;
             }
@@ -79,7 +87,7 @@ const TokenScreen = props => {
   };
 
   const renderItem = ({item}) => {
-    // console.log(item,'itemk')
+    console.log(item, 'itemk');
     return (
       <TouchableOpacity
         style={{flex: 0.8}}
@@ -127,11 +135,13 @@ const TokenScreen = props => {
             </View>
             <View>
               <Text style={styles.coinText}>
-                {cutAfterDecimal(
-                  Number(item.value) /
-                    10 ** Number(props.route.params.decimals),
-                  5,
-                )}{' '}
+                {item.token
+                  ? item.logs.value / 10 ** Number(item.token[0].decimals)
+                  : cutAfterDecimal(
+                      Number(item.value) /
+                        10 ** Number(props.route.params.decimals),
+                      5,
+                    )}
                 {props.route.params.symbol}{' '}
               </Text>
             </View>
@@ -484,7 +494,7 @@ const TokenScreen = props => {
           </View> */}
 
           <FlatList
-            data={txns?.length>0?txns:[]}
+            data={txns?.length > 0 ? txns : []}
             refreshing={reload}
             onRefresh={() => {
               setReload(true);

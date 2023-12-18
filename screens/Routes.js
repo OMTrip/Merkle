@@ -214,7 +214,7 @@ const Routes = () => {
   useEffect(() => {
     fetchAllCryptos()
       .then(res => {
-        // console.log(res,"data123")
+        // console.log(res,"cmc data in routess")
         dispatch(setPriceQuotes(res));
       })
       .catch(err => {
@@ -266,6 +266,10 @@ const Routes = () => {
         rpcUrl: 'https://solana-mainnet.g.alchemy.com/v2/demo',
         blockExplorerUrl: 'https://solscan.io/',
       },
+      merkle:{
+        "rpcUrl":"https://marklechain-rpc.merklescan.com/",
+        "blockExplorerUrl": "https://merklescan.com/",
+      }
     };
     dispatch(updateChainInfo(chainInfo));
     // const token0 = {...testnet_token[0]};

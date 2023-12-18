@@ -2,49 +2,7 @@ import React, {useEffect} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import HomePage from './components/HomeScreen/HomePage';
-import QRCodeScannerComponent from './components/QRCodeScannerComponent';
-import ServicesOffer from './components/ServicesOffer';
-import MobileRecharge from './components/RechargeSerives/RechargeScreen/mobileRecharge/MobileRecharge';
-import DthRecharge from './components/RechargeSerives/RechargeScreen/dth/DthRecharge';
-import DthPlan from './components/RechargeSerives/RechargeScreen/dth/DthPlan';
-// import FastagRecharge from './components/RechargeSerives/RechargeScreen/Fastag/FastagRecharge';
-// import MetroRecharge from './components/RechargeSerives/MetroRecharge';
-// import ElectricityBill from './components/BillPayments/ElectricityBill';
-// import GasBill from './components/BillPayments/GasBill';
-// import BroadbandBill from './components/BillPayments/BroadbandBill';
-// import LPGCylinderBill from './components/BillPayments/LPGCylinderBill';
-// import LandlineBill from './components/BillPayments/LandlineBill';
-// import PipeGasBill from './components/BillPayments/PipeGasBill';
-// import MunicipalTaxes from './components/BillPayments/MuncipalTaxes';
-// import CableTvBill from './components/BillPayments/CableTvBill';
-// import PropertyTaxes from './components/BillPayments/PropertyTaxes';
-// import HospitalsBill from './components/BillPayments/HospitalsBill';
-// import FeePayments from './components/BillPayments/FeePayments';
-// import LicInsurance from './components/FinancialServices/LicInsurance';
-// import LoanRepayment from './components/FinancialServices/LoanRepayment';
-// import CreditCard from './components/FinancialServices/CreditCard';
-// import EMIPayments from './components/FinancialServices/EMIPayments';
-import AirtelTV from './components/RechargeSerives/RechargeScreen/DthRechargeSection/AirtelTV';
-import DishTv from './components/RechargeSerives/RechargeScreen/DthRechargeSection/DishTv';
-import SunDirect from './components/RechargeSerives/RechargeScreen/DthRechargeSection/SunDirect';
-import TataSky from './components/RechargeSerives/RechargeScreen/DthRechargeSection/TataSky';
-import Videocond2h from './components/RechargeSerives/RechargeScreen/DthRechargeSection/Videocond2h';
-import AirtelPaymentBank from './components/RechargeSerives/RechargeScreen/Fastag/AirtelPaymentBank';
-import AxisBank from './components/RechargeSerives/RechargeScreen/Fastag/AxisBank';
-import BOB from './components/RechargeSerives/RechargeScreen/Fastag/BOB';
-import BankMaharshtra from './components/RechargeSerives/RechargeScreen/Fastag/BankMaharshtra';
-import EquitasFASTag from './components/RechargeSerives/RechargeScreen/Fastag/EquitasFASTag';
-import DelhiMetro from './components/RechargeSerives/RechargeScreen/Metro/DelhiMetro';
-import HYDMetro from './components/RechargeSerives/RechargeScreen/Metro/HYDMetro';
-import MumbaiMetro from './components/RechargeSerives/RechargeScreen/Metro/MumbaiMetro';
-import DatacardRecharge from './components/RechargeSerives/RechargeScreen/Datacard/DatacardRecharge';
-import AdaniElectricity from './components/BillPayments/SubScreen/ElectricitySection/AdaniElectricity';
-import AjmerElectricity from './components/BillPayments/SubScreen/AjmerElectricity';
-import EasternPower from './components/BillPayments/SubScreen/ElectricitySection/EasternPower';
-import SouthernPower from './components/BillPayments/SubScreen/ElectricitySection/SouthernPower';
-import ArunanchalPradesh from './components/BillPayments/SubScreen/ElectricitySection/ArunanchalPradesh';
-import FlightSearch from './components/TravelServices/FlightSearch';
-import CardInner from './components/MoreComponents/CardInner';
+import QRCodeScannerComponent from './components/QRCodeScannerComponent'
 import WalletScreen from './components/WalletScreens/WalletScreen';
 import WalletCard from './components/WalletScreens/WalletCard';
 import BrowserScreen from './components/BrowserScreen';
@@ -139,6 +97,11 @@ export const WalletRoute = () => {
       <MainStack.Screen
         name="WalletConnect"
         component={WalletConnect}
+        options={{headerShown: false}}
+      />
+       <MainStack.Screen
+        name="BrowserScreenExternalLink"
+        component={BrowserScreenExternalLink}
         options={{headerShown: false}}
       />
       <MainStack.Screen

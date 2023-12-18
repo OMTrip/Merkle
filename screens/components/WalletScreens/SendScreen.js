@@ -19,8 +19,7 @@ import Toast from 'react-native-toast-message';
 import {sendNativeToken, sendToken} from '../../../Utils/web3/web3';
 import {setActiveWallet} from '../../../Store/web3';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { AlertHelper } from '../../../Utils/alertHelper';
-
+import {AlertHelper} from '../../../Utils/alertHelper';
 
 const SendScreen = props => {
   const {wallets, activeWallet, priceQuotes, networks} = useSelector(
@@ -29,26 +28,26 @@ const SendScreen = props => {
   const wallet = wallets[activeWallet];
   const {symbol, balance, data, qr, address, chainId, native, token_address} =
     props.route.params;
-    console.log(address,"address")
+  // console.log(address,"address")
   const network = networks.find(it => it.chainId == chainId);
   const [recieveAddress, setRecieveAddress] = useState('');
-  const [sendAmount, setSendAmount] = useState(0);
+  const [sendAmount, setSendAmount] = useState('');
   const [loading, setloading] = useState(false);
-  const [token, settoken] = useState({});
+  const [token, setToken] = useState({});
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const istoken = !native;
-  const[error,setError] = useState("")
+  const [error, setError] = useState('');
 
   // useEffect(() => {
-   
+
   //   if (qr) {
   //     // console.log(address,"addres")
   //     const add = JSON.parse(address)
   //     setRecieveAddress(add.address);
   //     setSendAmount(add.amount)
   //   }
-  
+
   //   // console.log('effect',props.route.params)
   // }, [props]);
 
@@ -64,16 +63,16 @@ const SendScreen = props => {
   //       // Handle the error, e.g., set default values or show an error message to the user
   //     }
   //   }
-  // }, [qr, address]);  
+  // }, [qr, address]);
 
   useEffect(() => {
     if (qr) {
       let parsedAddress;
-  
+
       try {
         // Try parsing the address as JSON
         parsedAddress = JSON.parse(address);
-  
+
         // Check if the parsed data has the 'address' property
         if (parsedAddress && parsedAddress.address) {
           // Set the address and any default amount as needed
@@ -84,16 +83,16 @@ const SendScreen = props => {
         }
       } catch (error) {
         console.error('Error parsing JSON:', error);
-  
+
         // If parsing fails, assume it's a string and extract the address
         const cleanedAddress = address.split(':').slice(1).join(':').trim();
-        
+
         setRecieveAddress(cleanedAddress);
         setSendAmount(parsedAddress?.amount);
       }
     }
   }, [qr, address]);
-  
+
   async function getClipboardContent() {
     const content = await Clipboard.getString();
     setRecieveAddress(content);
@@ -108,7 +107,7 @@ const SendScreen = props => {
         decimal: asset?.nativeCurrency?.decimals,
         address: ZERO_ADDRESS,
       };
-      settoken({...obj});
+      setToken({...obj});
     } else {
       const token = asset?.tokens?.find(
         it =>
@@ -121,7 +120,7 @@ const SendScreen = props => {
         address: token?.token_address,
         decimal: token?.decimals,
       };
-      settoken({...obj});
+      setToken({...obj});
     }
   }, [props, wallets]);
 
@@ -199,7 +198,7 @@ const SendScreen = props => {
       <View style={styles.header}>
         <Text
           onPress={() => navigation.goBack()}
-          style={{      
+          style={{
             color: '#444',
             fontSize: hp(2),
           }}>
@@ -256,14 +255,14 @@ const SendScreen = props => {
             <TextInput
               placeholder={`${token?.symbol?.toUpperCase()} Amount`}
               placeholderTextColor={'#bbb'}
-              value={sendAmount}
+              value={sendAmount.toString()}
               onChangeText={val => setSendAmount(val)}
               style={styles.inputfield}
-              keyboardType='numeric'
+              keyboardType="numeric"
             />
             <View style={{flexDirection: 'row', backgroundColor: '#fff'}}>
-              <TouchableOpacity onPress={()=>setSendAmount(token.balance)}>
-              <Text style={{marginEnd: wp(5), color: '#10CF7F'}}>Max</Text>
+              <TouchableOpacity onPress={() => setSendAmount(token?.balance)}>
+                <Text style={{marginEnd: wp(5), color: '#10CF7F'}}>Max</Text>
               </TouchableOpacity>
               <Text
                 style={{
@@ -275,32 +274,40 @@ const SendScreen = props => {
               </Text>
             </View>
           </View>
-          </View>
-      {error.length !=0 && <View>
-        <Text style={{color:"red",fontSize:16}}>{error}</Text>
-      </View>}
         </View>
-     
+        {error.length != 0 && (
+          <View>
+            <Text style={{color: 'red', fontSize: 16}}>{error}</Text>
+          </View>
+        )}
+      </View>
 
       <TouchableOpacity
         style={styles.send}
         onPress={() => {
-          if(recieveAddress.startsWith("0x") && sendAmount!=0 && sendAmount?.length !=0){
-          navigation.navigate('ConfirmTransfer', {
-            propData:{...props.route.params},
-            recieveAddress: recieveAddress,
-            sendAmount: sendAmount,
-          });
-        }else{
-         if(recieveAddress.length==0 && !recieveAddress.startsWith("0x")){
-          setError("Invalid Reciever address.")
-         }else if(!sendAmount && sendAmount==0){
-          setError("Enter Valid amount.")
-         }
-         setTimeout(()=>{
-          setError("")
-         },10000)
-        }
+          if (
+            recieveAddress.startsWith('0x') &&
+            sendAmount != 0 &&
+            sendAmount?.length != 0
+          ) {
+            navigation.navigate('ConfirmTransfer', {
+              propData: {...props.route.params},
+              recieveAddress: recieveAddress,
+              sendAmount: sendAmount,
+            });
+          } else {
+            if (
+              recieveAddress.length == 0 &&
+              !recieveAddress.startsWith('0x')
+            ) {
+              setError('Invalid Reciever address.');
+            } else if (!sendAmount && sendAmount == 0) {
+              setError('Enter Valid amount.');
+            }
+            setTimeout(() => {
+              setError('');
+            }, 10000);
+          }
         }}>
         {/* <Link to="/ConfirmTransfer" style={styles.send}> */}
         {loading ? (
@@ -332,7 +339,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F3F4F7',
     paddingHorizontal: wp(5),
-    
   },
   header: {
     width: '100%',

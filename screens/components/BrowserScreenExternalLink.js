@@ -33,6 +33,7 @@ const BrowserScreenExternalLink = (props) => {
   },[props])
 
   function goForSearch(text, type) {
+    
     try {
       const arr = [...history];
       if (text && text != '' && text.length > 0) {
@@ -47,7 +48,7 @@ const BrowserScreenExternalLink = (props) => {
             // setHistory([...arr]);
           }
         }
-        navigation.navigate('BrowserExternal', {
+        navigation.navigate('Browser', {
           searchdata: {
             text: text,
           },
@@ -72,7 +73,7 @@ const BrowserScreenExternalLink = (props) => {
           <Text
             style={{
               color: '#000',
-              fontSize: wp(8),
+              fontSize: wp(4),
               marginTop: hp(5),
               marginBottom: hp(0),
               fontWeight: '600',
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#e3e3e8',
+    backgroundColor: '#f3f4f7',
     marginBottom: wp(4),
     marginTop: hp(2),
     borderRadius: wp(3),

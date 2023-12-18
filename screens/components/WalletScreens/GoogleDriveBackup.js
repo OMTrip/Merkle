@@ -114,8 +114,8 @@ const GoogleDriveBackup = () => {
   }
 
   function deriveEncryptionKey(password) {
-    console.log('Password:', password);
-    console.log('Salt:', salt);
+    // console.log('Password:', password);
+    // console.log('Salt:', salt);
     return pbkdf2Sync(password, salt, 10000, 32, 'sha256');
   }
 
@@ -139,14 +139,14 @@ const GoogleDriveBackup = () => {
           const mn = mnemonic;
           const encryptionKey = deriveEncryptionKey(password, salt);
           const encrypted = encryptData(mn, encryptionKey, ivs);
-          const data = JSON.stringify({data: encrypted});
+          const Data = JSON.stringify({data: encrypted});
           const per = gdrive.permissions;
 
           if (per?.__accessToken) {
             const id = (
               await gdrive.files
                 .newMultipartUploader()
-                .setData(data, MimeTypes.JSON)
+                .setData(Data, MimeTypes.JSON)
                 .setRequestBody({
                   name: 'Merkle',
                 })
@@ -158,9 +158,9 @@ const GoogleDriveBackup = () => {
               // console.log(status,'statussssss');
               setPassword('');
               dispatch(setCloudVerified(true));
-              setTimeout(() => {
-                setVererStatus(false);
-              }, 30000);
+              // setTimeout(() => {
+              //   setVererStatus(false);
+              // }, 50000);
             } else {
               setValidationError('Something went wrong.');
             }
@@ -171,7 +171,7 @@ const GoogleDriveBackup = () => {
             const da = bin?.data;
             const decryptionKey = deriveEncryptionKey(password, salt);
             const dat = decryptData(da, decryptionKey, ivs);
-            console.log(dat, 'dat');
+            // console.log(dat, 'dat');
           }
         }
       }
@@ -179,6 +179,7 @@ const GoogleDriveBackup = () => {
       console.error('Error uploading file:', error);
     } finally {
       setLoader(false);
+      setVererStatus(false);
     }
   }
 

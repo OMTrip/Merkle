@@ -6,8 +6,10 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
+  Alert,
+  Modal,
 } from 'react-native';
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -28,6 +30,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import LinearGradient from 'react-native-linear-gradient';
 
 const Wallet = props => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [Index, setIndex] = useState();
   const {wallets, activeWallet} = useSelector(state => state.wallet);
   const active = wallets[activeWallet];
   const navigation = useNavigation();
@@ -40,7 +44,21 @@ const Wallet = props => {
   function closeSheet() {
     return refTxnSheet.current.close();
   }
-
+  const handleDelete = async () => {
+    // Open the modal
+    try {
+      // Delete the wallet
+      await dispatch(deleteWallet(Index));
+      dispatch(setActiveWallet(Index - 1));
+      // Close the modal after successful deletion
+      setModalVisible(false);
+    } catch (error) {
+      // Handle error if the deletion fails
+      console.error('Error deleting wallet:', error);
+      // Close the modal even if there's an error to prevent it from staying open indefinitely
+      setModalVisible(false);
+    }
+  };
   return (
     <LinearGradient
       colors={[
@@ -152,23 +170,30 @@ const Wallet = props => {
                           <Ionicons
                             name="information-circle-outline"
                             size={20}
-                            style={styles.infoIcon}
+                            style={[
+                              styles.infoIcon,
+                              {marginRight: index == 0 ? wp(7.5) : 0},
+                            ]}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => {
-                            // Handle the delete functionality here
-                            dispatch(deleteWallet(index));
-                            dispatch(setActiveWallet(index - 1));
-                            navigation.navigate('wallets');
-                            // Dispatch an action or call a function to delete the wallet
-                          }}>
-                          <Ionicons
-                            name="trash-bin-outline"
-                            size={20}
-                            style={{marginLeft: 10, color: 'red'}}
-                          />
-                        </TouchableOpacity>
+                        {index == 0 ? (
+                          ''
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() => {
+                              setIndex(index);
+                              setModalVisible(true);
+
+                              // navigation.navigate('wallets');
+                              // Dispatch an action or call a function to delete the wallet
+                            }}>
+                            <Ionicons
+                              name="trash-bin-outline"
+                              size={20}
+                              style={{marginLeft: 10, color: 'red'}}
+                            />
+                          </TouchableOpacity>
+                        )}
                       </View>
                     </View>
                   </View>
@@ -176,6 +201,44 @@ const Wallet = props => {
               );
             })}
         </View>
+      </View>
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            // Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Pressable
+                style={styles.closeIconContainer}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Ionicons name="close" size={20} style={{color: 'black'}} />
+              </Pressable>
+              <Text style={styles.modalText}>Are You Sure</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => handleDelete()}>
+                  <Text style={styles.textStyle}>Yes</Text>
+                </Pressable>
+                {/* <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() =>    setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>No</Text>
+            </Pressable> */}
+              </View>
+            </View>
+          </View>
+        </Modal>
+        {/* <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}>
+        <Text style={styles.textStyle}>Show Modal</Text>
+      </Pressable> */}
       </View>
       <RBSheet
         ref={refTxnSheet}
@@ -286,7 +349,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: wp(5),
   },
-
+  closeIconContainer: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
   heading: {
     color: '#999',
     fontSize: hp(1.5),
@@ -383,6 +450,48 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#eee',
     marginStart: wp(3),
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    marginTop: hp(2),
   },
 });
 

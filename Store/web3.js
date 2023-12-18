@@ -433,6 +433,10 @@ const initialState = {
     avalanche:{
       "rpcUrl":"https://api.avax.network/ext/bc/C/rpc",
       "blockExplorerUrl": "https://snowtrace.io/",
+    },
+    merkle:{
+      "rpcUrl":"https://marklechain-rpc.merklescan.com/",
+      "blockExplorerUrl": "https://merklescan.com/",
     }
   },
   manuallyVerified:false,

@@ -20,20 +20,22 @@ import {
   cutAfterDecimal,
   formatDateFromTimestamp,
 } from '../../../Utils/web3/helperFunction';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNFS from 'react-native-fs';
 import {ConfirmTransactionHtml} from './ConfirmTransactionHtml';
 import Share from 'react-native-share';
+import { setTransferAllPrice } from '../../../Store/userinfo';
 
 const TranscationDetails = props => {
   const {networks, wallets, activeWallet, chainInfo} = useSelector(
     state => state.wallet,
   );
+  const dispatch = useDispatch()
   const mynetwork = wallets[activeWallet].assets;
   const navigation = useNavigation();
   const {data, extras} = props.route.params;
-  console.log(data,"data----")
+  //  console.log(data,"data----")
   const {
     blockNumber,
     chain,
@@ -47,7 +49,12 @@ const TranscationDetails = props => {
     timeStamp,
     gasPrice,
   } = data;
-
+  useEffect(()=>{
+    dispatch(setTransferAllPrice(cutAfterDecimal(
+      Number(data?.logs?.value) / 10 ** Number(extras?.decimals),
+      5,
+    )))
+  },[])
   // const generatePDF = async (data, extras) => {
   //   const options = {
   //     html: `${ConfirmTransactionHtml(data,extras)}`,
@@ -330,7 +337,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    paddingVertical: 15,
+    paddingVertical: hp(5),
     backgroundColor: '#F3F4F7',
     flexDirection: 'row',
     // alignItems: 'center',

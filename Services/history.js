@@ -285,7 +285,7 @@ export const merkle = {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `http://merklescan.com/api?module=account&action=txlist&address=${address}`,
+          `https://merklescan.com/api?module=account&action=txlist&address=${address}`,
         )
         .then(async result => {
           // console.log(result,'txresult8888888888'); 
