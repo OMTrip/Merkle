@@ -81,16 +81,17 @@ const MnemonicPhraseList = () => {
                 });
               }}
               style={styles.circleIconBg}>
-              <Ionicons name="copy-outline" size={16} color={'black'} />
-            </TouchableOpacity>
+              <Ionicons name="copy-outline" size={20} color={'black'} />
+          
             <Text
               style={{
                 color: '#444',
                 fontSize: 13,
-                fontWeight:"600"
+                fontWeight:"600",
               }}>
               Copy All
             </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   circleIconBg: {
     // backgroundColor: '#000',
     height: wp(10),
-    width: wp(12),
+    width: wp(25),
     // borderRadius: wp(5),
     justifyContent: 'center',
     alignItems: 'center',

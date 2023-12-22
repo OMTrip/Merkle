@@ -28,7 +28,7 @@ const SendScreen = props => {
   const wallet = wallets[activeWallet];
   const {symbol, balance, data, qr, address, chainId, native, token_address} =
     props.route.params;
-  // console.log(address,"address")
+
   const network = networks.find(it => it.chainId == chainId);
   const [recieveAddress, setRecieveAddress] = useState('');
   const [sendAmount, setSendAmount] = useState('');
@@ -38,7 +38,7 @@ const SendScreen = props => {
   const dispatch = useDispatch();
   const istoken = !native;
   const [error, setError] = useState('');
-
+  console.log(token?.balance, 'www');
   // useEffect(() => {
 
   //   if (qr) {
@@ -255,7 +255,7 @@ const SendScreen = props => {
             <TextInput
               placeholder={`${token?.symbol?.toUpperCase()} Amount`}
               placeholderTextColor={'#bbb'}
-              value={sendAmount.toString()}
+              value={sendAmount?.toString()}
               onChangeText={val => setSendAmount(val)}
               style={styles.inputfield}
               keyboardType="numeric"

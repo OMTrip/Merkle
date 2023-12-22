@@ -28,6 +28,7 @@ const CoinPatti = ({item, route, address}) => {
   const BtycPrice = useSelector(state => state.user?.BtycPrice);
   const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
   const BubtPrice = useSelector(state => state.user?.BubtPrice);
+  const MBtycPrice = useSelector(state => state.user?.MBtycPrice);
 
   const openBuyModal = () => {
     setModalVisible(true);
@@ -107,7 +108,11 @@ const CoinPatti = ({item, route, address}) => {
       )}
       <View style={styles.cardContent}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.cardTitle}>{symbol?.toUpperCase()}</Text>
+          <Text style={styles.cardTitle}>
+            {symbol === 'mBTYC'
+              ? symbol.charAt(0).toLowerCase() + symbol.slice(1).toUpperCase()
+              : symbol?.toUpperCase()}
+          </Text>
 
           {item?.token_address ? (
             <Text style={styles.badgeGrey}>
@@ -118,7 +123,9 @@ const CoinPatti = ({item, route, address}) => {
         <View style={styles.innercardContent}>
           <Text style={styles.cardText}>
             $
-            {symbol === 'BUBT'
+            {symbol === 'mBTYC'
+              ? parseFloat(MBtycPrice).toFixed(4)
+              : symbol === 'BUBT'
               ? parseFloat(BubtPrice).toFixed(4)
               : symbol === 'BSBT'
               ? parseFloat(BsbtPrice).toFixed(2)
@@ -146,7 +153,9 @@ const CoinPatti = ({item, route, address}) => {
         </Text>
         <Text style={styles.CradRightTextbelow}>
           $
-          {symbol === 'BUBT'
+          {symbol === 'mBTYC'
+            ? (item?.balance * parseFloat(MBtycPrice)).toFixed(2)
+            : symbol === 'BUBT'
             ? (item?.balance * parseFloat(BubtPrice)).toFixed(2)
             : symbol === 'BSBT'
             ? (item?.balance * parseFloat(BsbtPrice)).toFixed(2)

@@ -25,17 +25,22 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import RNFS from 'react-native-fs';
 import {ConfirmTransactionHtml} from './ConfirmTransactionHtml';
 import Share from 'react-native-share';
-import { setTransferAllPrice } from '../../../Store/userinfo';
+import {setTransferAllPrice} from '../../../Store/userinfo';
 
 const TranscationDetails = props => {
   const {networks, wallets, activeWallet, chainInfo} = useSelector(
     state => state.wallet,
   );
-  const dispatch = useDispatch()
+  const MerklePrice = useSelector(state => state.user?.merklePrice);
+  const BtycPrice = useSelector(state => state.user?.BtycPrice);
+  const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
+  const BubtPrice = useSelector(state => state.user?.BubtPrice);
+  const MBtycPrice = useSelector(state => state.user?.MBtycPrice);
+  const dispatch = useDispatch();
   const mynetwork = wallets[activeWallet].assets;
   const navigation = useNavigation();
   const {data, extras} = props.route.params;
-  //  console.log(data,"data----")
+  console.log(extras, 'data----');
   const {
     blockNumber,
     chain,
@@ -49,12 +54,16 @@ const TranscationDetails = props => {
     timeStamp,
     gasPrice,
   } = data;
-  useEffect(()=>{
-    dispatch(setTransferAllPrice(cutAfterDecimal(
-      Number(data?.logs?.value) / 10 ** Number(extras?.decimals),
-      5,
-    )))
-  },[])
+  useEffect(() => {
+    dispatch(
+      setTransferAllPrice(
+        cutAfterDecimal(
+          Number(data?.logs?.value) / 10 ** Number(extras?.decimals),
+          5,
+        ),
+      ),
+    );
+  }, []);
   // const generatePDF = async (data, extras) => {
   //   const options = {
   //     html: `${ConfirmTransactionHtml(data,extras)}`,
@@ -199,7 +208,8 @@ const TranscationDetails = props => {
                   Number(data.value) / 10 ** Number(extras?.decimals),
                   5,
                 )}{' '}
-            {extras.symbol}
+                {/* {console.log(extras.symbol,'extras.symbol')} */}
+            {extras.symbol }
           </Text>
         </View>
         <View
@@ -214,12 +224,64 @@ const TranscationDetails = props => {
           />
           <Text style={styles.BodyBoxText}>
             $
-            {data.is_erc20?cutAfterDecimal(
-                  Number(data?.logs?.value) / 10 ** Number(extras?.decimals)*
-                  extras?.current_price,
+            {extras.symbol === 'mBTYC'
+              ? data.is_erc20
+                ? cutAfterDecimal(
+                    (Number(data?.logs?.value) /
+                      10 ** Number(extras?.decimals)) *
+                      MBtycPrice,
+                    5,
+                  )
+                : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                  MBtycPrice
+              : extras.symbol === 'BUBT'
+              ? data.is_erc20
+                ? cutAfterDecimal(
+                    (Number(data?.logs?.value) /
+                      10 ** Number(extras?.decimals)) *
+                      BubtPrice,
+                    5,
+                  )
+                : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                  BubtPrice
+              : extras.symbol === 'BSBT'
+              ? data.is_erc20
+                ? cutAfterDecimal(
+                    (Number(data?.logs?.value) /
+                      10 ** Number(extras?.decimals)) *
+                      BsbtPrice,
+                    5,
+                  )
+                : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                  BsbtPrice
+              : extras.symbol === 'BTYC'
+              ? data.is_erc20
+                ? cutAfterDecimal(
+                    (Number(data?.logs?.value) /
+                      10 ** Number(extras?.decimals)) *
+                      BtycPrice,
+                    5,
+                  )
+                : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                  BtycPrice
+              : extras.symbol === 'MRK'
+              ? data.is_erc20
+                ? cutAfterDecimal(
+                    (Number(data?.logs?.value) /
+                      10 ** Number(extras?.decimals)) *
+                      MerklePrice,
+                    5,
+                  )
+                : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                  MerklePrice
+              : data.is_erc20
+              ? cutAfterDecimal(
+                  (Number(data?.logs?.value) / 10 ** Number(extras?.decimals)) *
+                    extras?.current_price,
                   5,
-                ):(Number(data?.value) / 10 ** Number(extras?.decimals)) *
-              extras?.current_price}
+                )
+              : (Number(data?.value) / 10 ** Number(extras?.decimals)) *
+                extras?.current_price}
           </Text>
         </View>
       </View>
@@ -291,16 +353,41 @@ const TranscationDetails = props => {
               </View>
               <View style={{alignItems: 'flex-end'}}>
                 <Text style={styles.fromText}>
-                  {cutAfterDecimal(
-                    Number(data.gas) / 10 ** Number(9),
-                    6,
-                  )}{' '}
+                  {cutAfterDecimal(Number(data.gas) / 10 ** Number(9), 6)}{' '}
                   {symbol}
                 </Text>
                 <Text style={styles.fromText}>
                   (${' '}
-                  {cutAfterDecimal((Number(data.gas) / 10 ** Number(9)) *
-                    extras.current_price,6)}
+                  {symbol === 'mBTYC'
+                    ? cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) * MBtycPrice,
+                        6,
+                      )
+                    : symbol === 'BUBT'
+                    ? cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) * BubtPrice,
+                        6,
+                      )
+                    : symbol === 'BSBT'
+                    ? cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) * BsbtPrice,
+                        6,
+                      )
+                    : symbol === 'BTYC'
+                    ? cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) * BtycPrice,
+                        6,
+                      )
+                    : symbol === 'MRK'
+                    ? cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) * MerklePrice,
+                        6,
+                      )
+                    : cutAfterDecimal(
+                        (Number(data.gas) / 10 ** Number(9)) *
+                          extras.current_price,
+                        6,
+                      )}
                   )
                 </Text>
               </View>

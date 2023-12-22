@@ -136,7 +136,7 @@ const CreateNewWallet = props => {
         // await setItem('isTouchIdEnabled', `${isTouchIdEnabled}`);
         let HDWallet = getHDWallet(0, mnemonic);
         console.log('come9');
-        // console.log(HDWallet?.address, ' wallet address');
+        console.log(HDWallet?.address, ' wallet address');
         let web3 = setDefaultAccount(HDWallet?.privateKey);
         dispatch(setMnemonic(mnemonic));
         // dispatch(setPassword(password));
@@ -160,6 +160,22 @@ const CreateNewWallet = props => {
                 chainId: '0x775',
                 balance: '0',
                 tokens: [
+                  {
+                    balance: 0,
+                    chainId: '0x775',
+                    slug: 'merkle',
+                    decimals: 18,
+                    logo: 'https://raw.githubusercontent.com/OMTrip/merkle_wallet/main/assets-main/assets-main/images/merkle/0xce5161293b416abebda86956c6ce20c75a1b942e/logo.png',
+                    explorerLogo:
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+                    name: 'Big Tycoon',
+                    possible_spam: false,
+                    show: true,
+                    type: 'token',
+                    symbol: 'mBTYC',
+                    thumbnail: null,
+                    token_address: '0xce5161293b416abebda86956c6ce20c75a1b942e',
+                  },
                   {
                     balance: 0,
                     chainId: '0x775',

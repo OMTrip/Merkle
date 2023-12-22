@@ -494,6 +494,7 @@ const walletSlice = createSlice({
     },
     setMnemonic: (state, action) => {
       state.mnemonic = action.payload;
+      
     },
     setPassword: (state, action) => {
       state.password = action.payload;

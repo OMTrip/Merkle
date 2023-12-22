@@ -33,6 +33,7 @@ const initialState = {
   BsbtPrice:0,
   BubtPrice:0,
   TransferAllPrice:0,
+  MBtycPrice:0,
 };
 
 const userSlice = createSlice({
@@ -60,6 +61,9 @@ const userSlice = createSlice({
     },
     setBsbtPricePrice: (state, action) => {
       state.BsbtPrice = action.payload;
+    },
+    setMBtycPrice: (state, action) => {
+      state.MBtycPrice = action.payload;
     },
     setBubtPricePrice: (state, action) => {
       state.BubtPrice = action.payload;
@@ -128,5 +132,6 @@ export const {
   setBtycPricePrice,
   setBsbtPricePrice,
   setBubtPricePrice,
-  setTransferAllPrice
+  setTransferAllPrice,
+  setMBtycPrice,
 } = userSlice.actions;

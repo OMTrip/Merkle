@@ -41,6 +41,7 @@ const ConfirmTransfer = props => {
   const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
   const BubtPrice = useSelector(state => state.user?.BubtPrice);
   const MerklePrice = useSelector(state => state.user?.merklePrice);
+  const MBtycPrice = useSelector(state => state.user?.MBtycPrice);
   const wallet = wallets[activeWallet];
   const {propData, recieveAddress, sendAmount} = props.route.params;
   const {symbol, balance, data, qr, address, chainId, native, token_address} =
@@ -253,7 +254,6 @@ const ConfirmTransfer = props => {
         if (res?.status) {
           try {
             navigation.navigate('token', {...item, address: propData.address});
-
             // setloading(true)
             // setTimeout(async()=>{
             //   setloading(false)
@@ -335,7 +335,9 @@ const ConfirmTransfer = props => {
           />
           <Text style={styles.TokenText}>
             $
-            {symbol === 'BUBT'
+            {symbol === 'mBTYC'
+              ? (sendAmount * parseFloat(MBtycPrice)).toFixed(2)
+              : symbol === 'BUBT'
               ? (sendAmount * parseFloat(BubtPrice)).toFixed(2)
               : symbol === 'BSBT'
               ? (sendAmount * parseFloat(BsbtPrice)).toFixed(2)
@@ -406,7 +408,9 @@ const ConfirmTransfer = props => {
                 </Text>
                 <Text style={styles.fromText}>
                   ($
-                  {symbol === 'BUBT'
+                  {symbol === 'mBTYC'
+                    ? cutAfterDecimal(Number(gasFees) * MBtycPrice, 5)
+                    : symbol === 'BUBT'
                     ? cutAfterDecimal(Number(gasFees) * BubtPrice, 5)
                     : symbol === 'BSBT'
                     ? cutAfterDecimal(Number(gasFees) * BsbtPrice, 5)
@@ -432,13 +436,15 @@ const ConfirmTransfer = props => {
               <View style={{alignItems: 'flex-end'}}>
                 <Text style={{color: '#000', fontWeight: '600'}}>
                   $
-                  {symbol === 'BUBT'
+                  {symbol === 'mBTYC'
+                    ? (sendAmount * parseFloat(MBtycPrice)).toFixed(4)
+                    : symbol === 'BUBT'
                     ? (sendAmount * parseFloat(BubtPrice)).toFixed(4)
                     : symbol === 'BSBT'
                     ? (sendAmount * parseFloat(BsbtPrice)).toFixed(4)
                     : symbol === 'BTYC'
                     ? (sendAmount * parseFloat(BtycPrice)).toFixed(4)
-                    : symbol === 'MRK'
+                    : symbol === 'MRK'  
                     ? (sendAmount * parseFloat(MerklePrice)).toFixed(4)
                     : cutAfterDecimal(
                         sendAmount * propData.current_price +

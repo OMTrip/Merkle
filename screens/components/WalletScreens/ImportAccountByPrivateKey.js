@@ -9,6 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Alert,
+  FlatList
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 //   import {useTheme} from '@/Hooks';
@@ -47,8 +48,9 @@ import {
 } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-toast-message';
-
-const ImportAccountByphrase = (props) => {
+import {setIsLoggedIn} from '../../../Store/authSlice';
+import * as bip39 from 'bip39';
+const ImportAccountByphrase = props => {
   // const {NavigationTheme} = useTheme();
   // const {t} = useTranslation();
   // const {colors} = NavigationTheme;
@@ -72,6 +74,30 @@ const ImportAccountByphrase = (props) => {
     const content = await Clipboard.getString();
     setPhrase(content);
   }
+  const [input, setInput] = useState('');
+  const [selectedWords, setSelectedWords] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+
+  const wordList = bip39.wordlists.english;
+
+  const suggestWords = (input) => {
+    const words = input.split(/\s+/); // Split input into words
+    const lastWord = words[words.length - 1]; // Get the last word
+    const lowercaseLastWord = lastWord.toLowerCase(); // Convert the last word to lowercase
+  
+    if (lastWord.trim() !== "") {
+      const matchingWords = wordList.filter(word => word.toLowerCase().startsWith(lowercaseLastWord));
+      setSuggestions(matchingWords);
+    } else {
+      setSuggestions([]); // Clear suggestions if the last word is empty or only whitespace
+    }
+  };
+  const handleSelection = (word) => {
+    const updatedInput = selectedWords.concat([word]).join(' '); // Accumulate selected words
+    setInput(updatedInput);
+    setSelectedWords([...selectedWords, word]); // Update selected words array
+    setSuggestions([]); // Clear suggestions after selection
+  };
 
   GoogleSignin.configure({
     scopes: [
@@ -122,91 +148,102 @@ const ImportAccountByphrase = (props) => {
   }
   function isValidPrivateKey(privateKey) {
     const isHex = /^[0-9A-Fa-f]{64}$/.test(privateKey);
-  
+
     return isHex;
   }
 
   async function verify(name, phrase) {
     setLoading(true);
-    if(!isValidPrivateKey(phrase)){
-    if (name && name != '' && phrase && phrase != '') {
-      console.log(name, phrase, 'name, phrase');
+    if (!isValidPrivateKey(phrase)) {
+      if (name && name != '' && phrase && phrase != '') {
+        console.log(name, phrase, 'name, phrase');
 
-      try {
-        if (phrase && validateMnemonic(phrase.trim())) {
-          const account = await createAccount(name, 0, phrase?.trim(),wallets.length);
-          const arr = [...wallets];
-          arr?.push(account);
-          dispatch(addWallet(arr));
-          dispatch(setActiveWallet(wallets.length));
+        try {
+          if (phrase && validateMnemonic(phrase.trim())) {
+            const account = await createAccount(
+              name,
+              0,
+              phrase?.trim(),
+              wallets.length,
+            );
+            const arr = [...wallets];
+            arr?.push(account);
+            dispatch(addWallet(arr));
+            dispatch(setActiveWallet(wallets.length));
+            setLoading(false);
+            dispatch(setIsLoggedIn(true));
+            navigation.navigate('WalletScreen');
+            // console.log(account, 'import account');
+          } else {
+            await setLoading(true);
+            console.log('come');
+            Toast.show(
+              'error',
+              'Import Wallet',
+              'Please Provide valid Phrase of your wallet',
+            );
+            // Alert.alert(
+            //   'Error',
+            //   'Please Provide valid Phrase of your wallet',
+            // );
+          }
+        } catch (e) {
           setLoading(false);
-          navigation.navigate('WalletScreen');
-          // console.log(account, 'import account');
-        } else {
-          await setLoading(true);
-          console.log('come');
-          Toast.show(
-            'error',
-            'Import Wallet',
-            'Please Provide valid Phrase of your wallet',
-          );
-          // Alert.alert(
-          //   'Error',
-          //   'Please Provide valid Phrase of your wallet',
-          // );
+          console.log('Import wallet Error:', e);
         }
-      } catch (e) {
+      } else {
         setLoading(false);
-        console.log('Import wallet Error:', e);
+        Toast.show(
+          'error',
+          'Import Wallet',
+          'Please Provide Phrase of your wallet',
+        );
       }
     } else {
-      setLoading(false);
-      Toast.show(
-        'error',
-        'Import Wallet',
-        'Please Provide Phrase of your wallet',
-      );
-    }
-  }else{
-    if (name && name != '' && phrase && phrase != '') {
-      console.log(name, phrase, 'name, phrase');
+      if (name && name != '' && phrase && phrase != '') {
+        console.log(name, phrase, 'name, phrase');
 
-      try {
-        if (isValidPrivateKey(phrase)) {
-          const account = await ImportAccount(name, wallets.length, phrase?.trim());
-          const arr = [...wallets];
-          arr?.push(account);
-          dispatch(addWallet(arr));
-          dispatch(setActiveWallet(wallets.length));
+        try {
+          if (isValidPrivateKey(phrase)) {
+            const account = await ImportAccount(
+              name,
+              wallets.length,
+              phrase?.trim(),
+            );
+            const arr = [...wallets];
+            arr?.push(account);
+            dispatch(addWallet(arr));
+            dispatch(setActiveWallet(wallets.length));
+            setLoading(false);
+            dispatch(setIsLoggedIn(true));
+            navigation.navigate('WalletScreen');
+            // console.log(account, 'import account');
+          } else {
+            await setLoading(true);
+            console.log('come');
+            Toast.show(
+              'error',
+              'Import Wallet',
+              'Please Provide valid Private Key of your wallet',
+            );
+            // Alert.alert(
+            //   'Error',
+            //   'Please Provide valid Phrase of your wallet',
+            // );
+          }
+        } catch (e) {
           setLoading(false);
-          navigation.navigate('WalletScreen');
-          // console.log(account, 'import account');
-        } else {
-          await setLoading(true);
-          console.log('come');
-          Toast.show(
-            'error',
-            'Import Wallet',
-            'Please Provide valid Private Key of your wallet',
-          );
-          // Alert.alert(
-          //   'Error',
-          //   'Please Provide valid Phrase of your wallet',
-          // );
+          console.log('Import wallet Error:', e);
         }
-      } catch (e) {
+      } else {
         setLoading(false);
-        console.log('Import wallet Error:', e);
+        Toast.show(
+          'error',
+          'Import Wallet',
+          'Please Provide Private Key of your wallet',
+        );
       }
-    } else {
-      setLoading(false);
-      Toast.show(
-        'error',
-        'Import Wallet',
-        'Please Provide Private Key of your wallet',
-      );
     }
-  }
   }
 
   async function saveEncryptedObjectToDrive(encryptedObject, fileName) {
@@ -236,12 +273,11 @@ const ImportAccountByphrase = (props) => {
       console.error('Error Fetching:', error);
     }
   }
-  useEffect(()=>{
-    if(props?.route?.params?.qr){
-      setPhrase(props?.route?.params?.address)
+  useEffect(() => {
+    if (props?.route?.params?.qr) {
+      setPhrase(props?.route?.params?.address);
     }
-
-  },[props])
+  }, [props]);
 
   return (
     <LinearGradient
@@ -288,7 +324,7 @@ const ImportAccountByphrase = (props) => {
               color: '#000',
               // marginTop: wp(2),
             }}>
-            Enter Mnemonics 
+            Enter Mnemonics
           </Text>
 
           <Text
@@ -357,8 +393,12 @@ const ImportAccountByphrase = (props) => {
                   paddingHorizontal: 10,
                 }}>
                 <TextInput
-                  value={phrase}
-                  onChangeText={val => setPhrase(val)}
+                  value={input ? input :phrase}
+                  onChangeText={val => {
+                    setPhrase(val);
+                    setInput(val);
+                    suggestWords(val);
+                  }}
                   placeholder="Enter Mnemonics "
                   // placeholder="Example: Disorderly mushrooms lemo broken twice optional scraps unhappy dinosaurs original utility"
                   placeholderTextColor="#999"
@@ -369,6 +409,7 @@ const ImportAccountByphrase = (props) => {
                     color: '#000',
                   }}
                 />
+
                 {/* <TouchableOpacity
                   onPress={()=>{navigation.navigate('QRImportToken',{type:'ImportAccountByPrivateKey',data:{"address": "", "qr": false}})}}
                   style={{
@@ -385,10 +426,22 @@ const ImportAccountByphrase = (props) => {
               </View>
             </View>
           </View>
+          <FlatList
+          horizontal={true}
+          scrollEnabled={true}
+            data={suggestions}
+            renderItem={({item}) => (
+              <TouchableOpacity onPress={() => handleSelection(item)} style={{padding:hp(0.5),}}>
+                <Text style={{padding:hp(1),backgroundColor:"rgba(255, 0, 54, 0.3)",borderRadius:5}}>{item}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={item => item}
+            style={{}}
+          />
           <TouchableOpacity
             style={styles.btn}
             onPress={() => {
-              verify(`Imported Account ${wallets.length+1}`, phrase);
+              verify(`Imported Account ${wallets.length + 1}`, phrase);
             }}>
             {loading ? (
               <ActivityIndicator size="small" color="#fff" />

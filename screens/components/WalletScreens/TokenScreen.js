@@ -33,6 +33,7 @@ const TokenScreen = props => {
   const BtycPrice = useSelector(state => state.user?.BtycPrice);
   const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
   const BubtPrice = useSelector(state => state.user?.BubtPrice);
+  const MBtycPrice = useSelector(state => state.user?.MBtycPrice);
   const TransferAllPrice = useSelector(state => state.user?.TransferAllPrice);
   const wallet = wallets[activeWallet];
   const {chainId, native, token_address, image, symbol} = props.route.params;
@@ -87,7 +88,7 @@ const TokenScreen = props => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item, 'itemk');
+    // console.log(item, 'wbbb');
     return (
       <TouchableOpacity
         style={{flex: 0.8}}
@@ -110,7 +111,9 @@ const TokenScreen = props => {
             <View style={styles.transactionCardsInner}>
               <Ionicons
                 name={
-                  item.methodId == '0x' || item.methodId == '0xa9059cbb'
+                  item.methodId == '0x' ||
+                  item.methodId == '0xa9059cbb' ||
+                  item?.input.startsWith("0x")
                     ? item.from == wallet.address
                       ? 'arrow-up-outline'
                       : 'arrow-down-outline'
@@ -122,10 +125,16 @@ const TokenScreen = props => {
               />
               <View style={{}}>
                 <Text style={styles.upperText}>
-                  {item?.functionName?.length > 0
-                    ? 'Function Call'
-                    : item?.input == '0x'
-                    ? 'Transfer'
+                  {
+                  // item?.functionName?.length > 0
+                  //   ? 'Function Call'
+                  //   :
+                     item.methodId == '0x' ||
+                      item.methodId == '0xa9059cbb' ||
+                      item?.input?.startsWith("0x")
+                    ? item.from == wallet.address
+                      ? 'Transfer' 
+                      : 'Receive'
                     : 'Contract Call'}{' '}
                 </Text>
                 <Text style={styles.fromText}>
@@ -134,7 +143,11 @@ const TokenScreen = props => {
               </View>
             </View>
             <View>
-              <Text style={styles.coinText}>
+              <Text
+                style={[
+                  styles.coinText,
+                  {color: item.from == wallet.address ? 'red' : 'green'},
+                ]}>
                 {item.token
                   ? item.logs.value / 10 ** Number(item.token[0].decimals)
                   : cutAfterDecimal(
@@ -254,7 +267,9 @@ const TokenScreen = props => {
               paddingEnd: 5,
             }}>
             $
-            {symbol === 'BUBT'
+            {symbol === 'mBTYC'
+              ? parseFloat(MBtycPrice).toFixed(4)
+              : symbol === 'BUBT'
               ? parseFloat(BubtPrice).toFixed(4)
               : symbol === 'BSBT'
               ? parseFloat(BsbtPrice).toFixed(2)
@@ -348,7 +363,9 @@ const TokenScreen = props => {
           />
           <Text style={styles.BodyBoxText}>
             $
-            {symbol === 'BUBT'
+            {symbol === 'mBTYC'
+              ? (token?.balance * parseFloat(MBtycPrice)).toFixed(4)
+              : symbol === 'BUBT'
               ? (token?.balance * parseFloat(BubtPrice)).toFixed(4)
               : symbol === 'BSBT'
               ? (token?.balance * parseFloat(BsbtPrice)).toFixed(4)

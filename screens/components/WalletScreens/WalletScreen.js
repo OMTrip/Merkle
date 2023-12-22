@@ -32,6 +32,10 @@ const WalletScreen = () => {
 
   const MerklePrice = useSelector(state => state.user?.merklePrice);
   const BtycPrice = useSelector(state => state.user?.BtycPrice);
+  const BsbtPrice = useSelector(state => state.user?.BsbtPrice);
+  const BubtPrice = useSelector(state => state.user?.BubtPrice);
+  const MBtycPrice = useSelector(state => state.user?.MBtycPrice);
+
   const wallet = wallets[activeWallet];
   const [listarray, setlistarray] = useState([]);
   const [filteredlist, setFilteredList] = useState([]);
@@ -106,7 +110,13 @@ const WalletScreen = () => {
       const total = listarray.reduce((sum, item) => {
         const cp = item?.current_price ? item?.current_price : 0;
         const balance_in_usd =
-          item?.symbol?.toUpperCase() === 'BTYC'
+          item?.symbol === 'mBTYC'
+            ? MBtycPrice * item?.balance
+            : item?.symbol?.toUpperCase() === 'BUBT'
+            ? BubtPrice * item?.balance
+            : item?.symbol?.toUpperCase() === 'BSBT'
+            ? BsbtPrice * item?.balance
+            : item?.symbol?.toUpperCase() === 'BTYC'
             ? BtycPrice * item?.balance
             : item?.symbol?.toUpperCase() === 'MRK'
             ? MerklePrice * item?.balance
@@ -169,7 +179,9 @@ const WalletScreen = () => {
             <Text style={styles.Icons}>{totalAssetsInDollar}</Text>
           </View>
           <View style={[styles.Icons2, {marginRight: 0, paddingBottom: 5}]}>
-            <Text style={styles.BodyBoxText}>{wallets[activeWallet]?.name}</Text>
+            <Text style={styles.BodyBoxText}>
+              {wallets[activeWallet]?.name}
+            </Text>
           </View>
 
           <View style={styles.optionsrow}>

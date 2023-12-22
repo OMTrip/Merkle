@@ -28,11 +28,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {setCloudVerified} from '../../../Store/web3';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import HomeHeader from '../HomeScreen/HomeHeader';
+import GDriveApi from '@robinbobin/react-native-google-drive-api-wrapper/api/GDriveApi';
 
 const GoogleDriveBackup = () => {
   const {mnemonic} = useSelector(store => store.wallet);
@@ -96,82 +97,79 @@ const GoogleDriveBackup = () => {
     ]);
     return encryptedData.toString('base64');
   }
-
   function decryptData(encryptedData, key, iv) {
     try {
-      console.log(encryptedData, key, iv, 'encryptedData, key, iv');
       const decipher = createDecipheriv('aes-256-cbc', key, iv);
-
-      const decryptedData = Buffer.concat([
-        decipher.update(encryptedData, 'base64'),
-        decipher.final(),
-      ]);
-      return decryptedData.toString('utf8');
+      let decryptedText = decipher.update(encryptedData, 'base64', 'utf8');
+      decryptedText += decipher.final('utf8');
+      return decryptedText;
     } catch (error) {
-      console.log('err::', error);
-      return '';
+      console.error('Error decrypting data:', error);
+      throw error; // Rethrow the error for the calling function to handle
     }
-  }
-
-  function deriveEncryptionKey(password) {
-    // console.log('Password:', password);
-    // console.log('Salt:', salt);
-    return pbkdf2Sync(password, salt, 10000, 32, 'sha256');
   }
 
   async function saveEncryptedObjectToDrive(encryptedObject, fileName) {
     try {
       setLoader(true);
+
       const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
       if (!passwordRegex.test(password)) {
         setValidationError('Invalid Password.');
       } else {
         const data = await handleGoogleSignIn();
+         
         if (data) {
-          // const folderId = await createGoogleDriveFolder();
-          // if (folderId) {
-          // /const accessToken = (await GoogleSignin.getTokens()).accessToken;
-          // const fileData = JSON.stringify(encryptedObject);
           const gdrive = new GDrive();
+          console.log(gdrive,'data');
           gdrive.accessToken = accToken;
           gdrive.fetchTimeout = 5000;
-          const mn = mnemonic;
-          const encryptionKey = deriveEncryptionKey(password, salt);
-          const encrypted = encryptData(mn, encryptionKey, ivs);
+
+          const encryptionKey = pbkdf2Sync(
+            password,
+            salt,
+            100000,
+            32,
+            'sha256',
+          );
+          const encrypted = encryptData(mnemonic, encryptionKey, ivs);
           const Data = JSON.stringify({data: encrypted});
+
           const per = gdrive.permissions;
 
           if (per?.__accessToken) {
             const id = (
-              await gdrive.files
-                .newMultipartUploader()
-                .setData(Data, MimeTypes.JSON)
-                .setRequestBody({
-                  name: 'Merkle',
+              await gdrive?.files
+                ?.newMultipartUploader()
+                ?.setData(Data, MimeTypes.JSON)
+                ?.setRequestBody({
+                  name: 'Merkle', // Use the fileName parameter
                 })
-                .execute()
-            ).id;
-            // console.log(id, 'id===============================');
+                ?.execute()
+            )?.id;
+
             if (id) {
               setVererStatus(true);
-              // console.log(status,'statussssss');
               setPassword('');
               dispatch(setCloudVerified(true));
-              // setTimeout(() => {
-              //   setVererStatus(false);
-              // }, 50000);
             } else {
               setValidationError('Something went wrong.');
             }
 
             console.log(id, 'id');
             const bin = await gdrive.files.getJson(id);
-            //  const d = JSON.stringify(bin);
             const da = bin?.data;
-            const decryptionKey = deriveEncryptionKey(password, salt);
+            const decryptionKey = pbkdf2Sync(
+              password,
+              salt,
+              100000,
+              32,
+              'sha256',
+            );
             const dat = decryptData(da, decryptionKey, ivs);
-            // console.log(dat, 'dat');
+            console.log(dat, 'dat++++++++------========');
           }
         }
       }
@@ -182,6 +180,76 @@ const GoogleDriveBackup = () => {
       setVererStatus(false);
     }
   }
+
+  function deriveEncryptionKey(password) {
+    // console.log('Password:', password);
+    // console.log('Salt:', salt);
+    return pbkdf2Sync(password, salt, 10000, 32, 'sha256');
+  }
+
+  // async function saveEncryptedObjectToDrive(encryptedObject, fileName) {
+  //   try {
+  //     setLoader(true);
+  //     const passwordRegex =
+  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  //     if (!passwordRegex.test(password)) {
+  //       setValidationError('Invalid Password.');
+  //     } else {
+  //       const data = await handleGoogleSignIn();
+  //       if (data) {
+  //         // const folderId = await createGoogleDriveFolder();
+  //         // if (folderId) {
+  //         // /const accessToken = (await GoogleSignin.getTokens()).accessToken;
+  //         // const fileData = JSON.stringify(encryptedObject);
+  //         const gdrive = new GDrive();
+  //         gdrive.accessToken = accToken;
+  //         gdrive.fetchTimeout = 5000;
+  //         const mn = mnemonic;
+  //         const encryptionKey = deriveEncryptionKey(password, salt);
+  //         const encrypted = encryptData(mn, encryptionKey, ivs);
+  //         const Data = JSON.stringify({data: encrypted});
+  //         const per = gdrive.permissions;
+
+  //         if (per?.__accessToken) {
+  //           const id = (
+  //             await gdrive.files
+  //               .newMultipartUploader()
+  //               .setData(Data, MimeTypes.JSON)
+  //               .setRequestBody({
+  //                 name: 'Merkle',
+  //               })
+  //               .execute()
+  //           ).id;
+  //           // console.log(id, 'id===============================');
+  //           if (id) {
+  //             setVererStatus(true);
+  //             // console.log(status,'statussssss');
+  //             setPassword('');
+  //             dispatch(setCloudVerified(true));
+  //             // setTimeout(() => {
+  //             //   setVererStatus(false);
+  //             // }, 50000);
+  //           } else {
+  //             setValidationError('Something went wrong.');
+  //           }
+
+  //           console.log(id, 'id');
+  //           const bin = await gdrive.files.getJson(id);
+  //           //  const d = JSON.stringify(bin);
+  //           const da = bin?.data;
+  //           const decryptionKey = deriveEncryptionKey(password, salt);
+  //           const dat = decryptData(da, decryptionKey, ivs);
+  //           // console.log(dat, 'dat');
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error uploading file:', error);
+  //   } finally {
+  //     setLoader(false);
+  //     setVererStatus(false);
+  //   }
+  // }
 
   return (
     <LinearGradient
@@ -292,7 +360,7 @@ const GoogleDriveBackup = () => {
               fontSize: 16,
               padding: 10,
             }}>
-            {status ==true ? 'Backed Up Successfully.' : ''}
+            {status == true ? 'Backed Up Successfully.' : ''}
           </Text>
           <TouchableOpacity
             style={{

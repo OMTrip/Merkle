@@ -23,6 +23,7 @@ import {
   setBubtPricePrice,
   setKYCStatus,
   setLogin,
+  setMBtycPrice,
   setMerklePrice,
   setUser,
 } from '../Store/userinfo';
@@ -101,17 +102,7 @@ import CreateMywallet from './components/WalletScreens/CreateMywallet';
 import DocumentVerificationScreen from './KycVerification/DocumentVerificationScreen';
 import PanCardVerificationScreen from './KycVerification/PanCardVerificationScreen';
 import KycScreen from './components/KycVerify';
-import {
-  setIsLoggedIn,
-  setUserData,
-  setUserKycStatus,
-  setUserLogo,
-  setPanNumber,
-  setAdharNumber,
-  setFullName,
-  setEmail,
-  setPanHolderName,
-} from '../Store/authSlice';
+
 import PendingStatus from './KycVerification/PendingStatus';
 import VerifiedUser from './components/HomeScreen/VerifiedUser';
 import TransactionDEtail from './components/WalletScreens/swapComponent/TransactionDetail';
@@ -426,6 +417,16 @@ const Routes = () => {
       const data = await response.json(); // Modify this depending on the response format
       // console.log(data,'resbtyc=-00---00');
       dispatch(setBtycPricePrice(data?.price ? data?.price : 0));
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        'https://analogx.seedx.live/MerkleCopy/public/index.php/api/getmBTYCPrice',
+      );
+      const data = await response.json(); // Modify this depending on the response format
+      //  console.log(data,'resMbtyc=-00--uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu-00');
+      dispatch(setMBtycPrice(data?.price ? data?.price : 0));
     })();
   }, []);
 

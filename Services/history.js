@@ -161,7 +161,6 @@ bscscan = {
           `https://api-testnet.bscscan.com/api?module=account&action=txlist&address=${address}&offset=100&sort=desc&apikey=${BSCSCAN_API_KEY}`,
         )
         .then(async result => {
-          console.log(result,'trdtdfgjklj hjsbdvhjsdf')
           let transactions = await Promise.all(
             result?.data?.result?.map(async (tx) => {
               tx.chain = 'bsc_testnet';
