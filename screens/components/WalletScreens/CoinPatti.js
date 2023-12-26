@@ -22,6 +22,7 @@ const CoinPatti = ({item, route, address}) => {
   const pricechange = item?.price_change_percentage_24h
     ? item?.price_change_percentage_24h
     : 0;
+    // console.log(item,'cp++++++');
   const symbol = item.slug == 'bsc_testnet' ? 'T' + item.symbol : item.symbol;
   const [modalVisible, setModalVisible] = useState(false);
   const MerklePrice = useSelector(state => state.user?.merklePrice);

@@ -154,7 +154,7 @@ const GoogleDriveBackup = () => {
               setVererStatus(true);
               setPassword('');
               dispatch(setCloudVerified(true));
-            } else {
+            } else { 
               setValidationError('Something went wrong.');
             }
 

@@ -6,7 +6,7 @@ const token = 'bc6d9f-7828b8-6792ac-aef9b2-e17b37';
 const api = 'https://www.kwikapi.com/api/v2/';
 const transferValidate =
   'https://www.kwikapi.com/app_v1_5/Services/Dmt/expressController.php';
-const cmc_api_key = 'b96c35d0-d0cb-4d75-8843-0f5fec332a3f';
+const cmc_api_key = '659c7581-04e3-4132-aea4-e815496c48d8';
 const onMetaKey = 'a2410220-5fd6-46a0-bf21-872ad1646dca'
 
 export async function circleCode() {
@@ -22,7 +22,7 @@ export async function circleCode() {
 
     const result = await response.text();
     return result;
-  } catch (error) {
+  } catch (error) {  
     console.log('Error:', error);
     throw error; // You can handle the error further up the call stack
   }
@@ -90,14 +90,9 @@ export async function OperatorCircle(phoneNumber) {
     return {};
   }
 }
-
-
-
-
-
-
+ 
 export async function fetchPlan(circle, operator) {
-  console.log(circle, operator, 'circle, operator');
+  // console.log(circle, operator, 'circle, operator');
 
   const myHeaders = new Headers();
 
@@ -444,6 +439,7 @@ export async function fetchAllCryptos() {
         const name = crypto.name;
         const symbol = crypto.symbol;
         const current_price = crypto.quote.USD.price;
+        // console.log(current_price,'current_price');
         // const slug = crypto.platform ? crypto.platform.slug : '';
         // const token_address = crypto.platform
         //   ? crypto.platform.token_address

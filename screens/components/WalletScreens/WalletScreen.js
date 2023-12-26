@@ -87,7 +87,7 @@ const WalletScreen = () => {
         const itobj = {...it, ...item, index: i};
         narr.push(itobj);
       });
-      // console.log(tokensarr.length, 'tokensarr');
+      // console.log(tokensarr, 'tokensarr');
       setlistarray([...narr]);
       setFilteredList([...narr]);
     } else {

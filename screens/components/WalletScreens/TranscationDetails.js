@@ -40,7 +40,7 @@ const TranscationDetails = props => {
   const mynetwork = wallets[activeWallet].assets;
   const navigation = useNavigation();
   const {data, extras} = props.route.params;
-  console.log(extras, 'data----');
+
   const {
     blockNumber,
     chain,
@@ -54,6 +54,7 @@ const TranscationDetails = props => {
     timeStamp,
     gasPrice,
   } = data;
+  console.log(extras.symbol, 'data----');
   useEffect(() => {
     dispatch(
       setTransferAllPrice(
@@ -208,8 +209,8 @@ const TranscationDetails = props => {
                   Number(data.value) / 10 ** Number(extras?.decimals),
                   5,
                 )}{' '}
-                {/* {console.log(extras.symbol,'extras.symbol')} */}
-            {extras.symbol }
+            {console.log(extras.symbol,'extras.symbol')}
+            {extras.symbol}
           </Text>
         </View>
         <View
@@ -354,31 +355,31 @@ const TranscationDetails = props => {
               <View style={{alignItems: 'flex-end'}}>
                 <Text style={styles.fromText}>
                   {cutAfterDecimal(Number(data.gas) / 10 ** Number(9), 6)}{' '}
-                  {symbol}
+                  {extras.symbol}
                 </Text>
                 <Text style={styles.fromText}>
                   (${' '}
-                  {symbol === 'mBTYC'
+                  {extras.symbol === 'mBTYC'
                     ? cutAfterDecimal(
                         (Number(data.gas) / 10 ** Number(9)) * MBtycPrice,
                         6,
                       )
-                    : symbol === 'BUBT'
+                    : extras.symbol === 'BUBT'
                     ? cutAfterDecimal(
                         (Number(data.gas) / 10 ** Number(9)) * BubtPrice,
                         6,
                       )
-                    : symbol === 'BSBT'
+                    : extras.symbol === 'BSBT'
                     ? cutAfterDecimal(
                         (Number(data.gas) / 10 ** Number(9)) * BsbtPrice,
                         6,
                       )
-                    : symbol === 'BTYC'
+                    : extras.symbol === 'BTYC'
                     ? cutAfterDecimal(
                         (Number(data.gas) / 10 ** Number(9)) * BtycPrice,
                         6,
                       )
-                    : symbol === 'MRK'
+                    : extras.symbol === 'MRK'
                     ? cutAfterDecimal(
                         (Number(data.gas) / 10 ** Number(9)) * MerklePrice,
                         6,

@@ -152,7 +152,7 @@ const TokenScreen = props => {
                   ? item.logs.value / 10 ** Number(item.token[0].decimals)
                   : cutAfterDecimal(
                       Number(item.value) /
-                        10 ** Number(props.route.params.decimals),
+                        10 ** Number(props.route.params.decimals) ,
                       5,
                     )}
                 {props.route.params.symbol}{' '}
@@ -254,9 +254,11 @@ const TokenScreen = props => {
               textTransform: 'uppercase',
               paddingStart: 5,
             }}>
-            {symbol === 'BUBT' || symbol === 'BSBT' || symbol === 'BTYC'
+            {
+            symbol === 'BUBT' || symbol === 'BSBT' || symbol === 'BTYC'
               ? 'Token'
-              : 'Coin'}
+              : 'Coin'
+              }
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>

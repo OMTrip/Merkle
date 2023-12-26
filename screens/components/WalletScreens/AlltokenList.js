@@ -79,7 +79,6 @@ const AlltokenList = props => {
 
     const usd=await fetchTokenPrice(tok.symbol);
     
-
     tok.show = flag
     tok['usd_price']=usd
     const assets = [...wallet.assets];
