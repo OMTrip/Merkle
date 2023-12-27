@@ -23,6 +23,7 @@ import {
   addWallet,
   createWallet,
   setActiveWallet,
+  setAddMnemonic,
   setInitialised,
   setMnemonic,
 } from '../../../Store/web3';
@@ -47,7 +48,8 @@ const CreateMywallet = props => {
     try {
       if (add) {
         await setLoading(true);
-        let account = await createAccount(walletName, wallets.length, mnemonic);
+        let Mnemonic = bip39.generateMnemonic();
+        let account = await createAccount(walletName, wallets.length, Mnemonic);
         const arr = [...wallets];
         arr?.push(account);
         dispatch(addWallet(arr));
@@ -61,7 +63,7 @@ const CreateMywallet = props => {
         //   AlertHelper.show(
         //     'error',
         //     t('import.mnemonic'),
-        //     t('import.errors.passwordLength'),  
+        //     t('import.errors.passwordLength'),
         //   );
         //   setLoading(false);
         //   return;
@@ -242,7 +244,7 @@ const CreateMywallet = props => {
               // justifyContent:'center'
             }}>
             <MaterialCommunityIcons
-             name="arrow-back"
+              name="arrow-back"
               size={25}
               color={'#000'}
               onPress={() => navigation.goBack()}

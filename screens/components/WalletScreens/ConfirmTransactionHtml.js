@@ -1,23 +1,79 @@
-import { cutAfterDecimal, formatDateFromTimestamp } from '../../../Utils/web3/helperFunction';
-export const ConfirmTransactionHtml = (data, extras) => {
-    const {
-      blockNumber,
-      chain,
-      from,
-      hash,
-      functionName,
-      methodId,
-      value,
-      txreceipt_status,
-      symbol,
-      timeStamp,
-      gasPrice,
-      gas
-    } = data;
-  
-    const { current_price, slug } = extras;
-  
-    return `<!DOCTYPE html>
+import {useSelector} from 'react-redux';
+import {
+  cutAfterDecimal,
+  formatDateFromTimestamp,
+} from '../../../Utils/web3/helperFunction';
+export const ConfirmTransactionHtml = (
+  data,
+  extras,
+  MerklePrice,
+  BsbtPrice,
+  BubtPrice,
+  BtycPrice,
+  MBtycPrice,
+) => {
+  const {
+    blockNumber,
+    chain,
+    from,
+    hash,
+    functionName,
+    methodId,
+    value,
+    txreceipt_status,
+    symbol,
+    timeStamp,
+    gasPrice,
+    gas,
+  } = data;
+  const {current_price, slug} = extras;
+
+  function calculateGasValue(gas, symbol, currentPrice) {
+    return (
+      (Number(gas) / 10 ** 9) *
+      (symbol === 'MRK'
+        ? MerklePrice
+        : currentPrice || symbol === 'BTYC'
+        ? BtycPrice
+        : currentPrice || symbol === 'BSBT'
+        ? BsbtPrice
+        : currentPrice || symbol === 'BUBT'
+        ? BubtPrice
+        : currentPrice || symbol === 'mBTYC'
+        ? MBtycPrice
+        : currentPrice)
+    );
+  }
+  const calculateValue = (value, symbol, extras) => {
+    const getPrice = symbol => {
+      switch (symbol) {
+        case 'MRK':
+          return MerklePrice;
+        case 'BTYC':
+          return BtycPrice;
+        case 'BSBT':
+          return BsbtPrice;
+        case 'BUBT':
+          return BubtPrice;
+        case 'mBTYC':
+          return MBtycPrice;
+        default:
+          return extras?.current_price;
+      }
+    };
+
+    const price = getPrice(symbol);
+
+    if (data.is_erc20) {
+      return cutAfterDecimal(
+        (Number(data?.logs?.value) / 10 ** Number(extras?.decimals)) * price,
+        5,
+      );
+    } else {
+      return (Number(data?.value) / 10 ** Number(extras?.decimals)) * price;
+    }
+  };
+  return `<!DOCTYPE html>
     <html>
     <head>
         <style>
@@ -106,51 +162,65 @@ export const ConfirmTransactionHtml = (data, extras) => {
             <div class="transaction-card">
                 <div class="transaction-info">
                     <div class="info-label">Value</div>
-                    <div class="info-value">${data.is_erc20
+                    <div class="info-value">${
+                      data.is_erc20
                         ? cutAfterDecimal(
-                            Number(data?.logs?.value) / 10 ** Number(extras?.decimals),
+                            Number(data?.logs?.value) /
+                              10 ** Number(extras?.decimals),
                             5,
                           )
                         : cutAfterDecimal(
                             Number(data.value) / 10 ** Number(extras?.decimals),
                             5,
-                          )} ${extras.symbol}</div>
+                          )
+                    } ${extras.symbol}</div>
                 </div>
                 <div class="transaction-info">
                     <div class="info-label">Approximate Value</div>
-                    <div class="info-value">$${data.is_erc20?cutAfterDecimal(
-                        Number(data?.logs?.value) / 10 ** Number(extras?.decimals)*
-                        extras?.current_price,
-                        5,
-                      ):(Number(data?.value) / 10 ** Number(extras?.decimals)) *
-                    extras?.current_price.toFixed(2)}</div>
+                    <div class="info-value">$${calculateValue(
+                      data.value,
+                      extras.symbol,
+                      extras,
+                    )}</div>
                 </div>
                 <div class="transaction-info">
                     <div class="info-label">Date</div>
-                    <div class="info-value">${formatDateFromTimestamp(timeStamp)}</div>
+                    <div class="info-value">${formatDateFromTimestamp(
+                      timeStamp,
+                    )}</div>
                 </div>
                 <div class="transaction-info">
                     <div class="info-label">Status</div>
-                    <div class="info-value">${txreceipt_status === "1" ? "Completed" : "Failed"}</div>
+                    <div class="info-value">${
+                      txreceipt_status === '1' ? 'Completed' : 'Failed'
+                    }</div>
                 </div>
                 <div class="transaction-info">
                     <div class="info-label">Sender</div>
-                    <div class="info-value">${from?.slice(0, 8)}...${from?.slice(-6)}</div>
+                    <div class="info-value">${from?.slice(
+                      0,
+                      8,
+                    )}...${from?.slice(-6)}</div>
                 </div>
                 <div class="transaction-info">
                     <div class="info-label">Network Fee</div>
-                    <div class="info-value">${cutAfterDecimal(Number(gas) / 10 ** Number(9), 5)} ${symbol}</div>
+                    <div class="info-value">${cutAfterDecimal(
+                      Number(gas) / 10 ** Number(9),
+                      5,
+                    )} ${symbol}</div>
                 </div>
                 <div class="info-value">
-                    ($${(Number(gas) / 10 ** Number(9) * current_price).toFixed(2)})
+                ($${calculateGasValue(
+                  gas,
+                  extras.symbol,
+                  extras.current_price,
+                )?.toFixed(2)})
                 </div>
-                <a class="block-explorer-link" href="#">View on Block Explorer</a>
+             
             </div>
         </div>
     </body>
     </html>
     
-    `
-    
-  };
-  
+    `;
+};

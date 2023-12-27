@@ -10,6 +10,8 @@ const initialState = {
   mnemonic: '',
   password: '',
   biometrics: false,
+  Mnemonic: '',
+  AddIndex : 0,
   activeWallet: 0,
   priceQuotes: [],
   activeNetwork: '0x61',
@@ -496,6 +498,14 @@ const walletSlice = createSlice({
       state.mnemonic = action.payload;
       
     },
+    setAddIndex: (state, action) => {
+      state.AddIndex = action.payload;
+      
+    },
+    setAdd: (state, action) => {
+      state.Add = action.payload;
+      
+    },
     setPassword: (state, action) => {
       state.password = action.payload;
     },
@@ -644,6 +654,8 @@ export const {
   setOnboarding,
   setUniqueId,
   setMnemonic,
+  setAddMnemonic,
+  setAddIndex,
   setPassword,
   setBiometrics,
   createWallet,

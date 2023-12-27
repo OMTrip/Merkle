@@ -65,8 +65,8 @@ export const importWallet = mnemonic => {
 export const getHDWallet = (index, mnemonic) => {
   try {
     console.log('wait for walllet creation start...', mnemonic);
-    const eth_path = `m/44'/60'/0'/0/${index}`;
-    const sol_path = `m/44'/501'/${index}'/0'`;
+    const eth_path = `m/44'/60'/0'/0/0`;
+    const sol_path = `m/44'/501'/0'/0'`;
     console.log('walllet creation started...');
     const seed = bip39.mnemonicToSeedSync(mnemonic);
     console.log('seed created...');
@@ -478,9 +478,9 @@ export const recoverPersonalSignature = (message, signature) => {
   }
 };
 
-export const createAccount = async (name, index, mnemonic, windex) => {
+export const createAccount = async (name, index, Mnemonic, windex) => {
   try {
-    let HDWallet = getHDWallet(index, mnemonic);
+    let HDWallet = getHDWallet(index, Mnemonic);
     let web3 = setDefaultAccount(HDWallet?.privateKey);
     // const connection = new solanaWeb3.Connection(
     //   'https://api.devnet.solana.com',
@@ -495,6 +495,7 @@ export const createAccount = async (name, index, mnemonic, windex) => {
       address: HDWallet?.address,
       privateKey: HDWallet?.privateKey,
       name: name,
+      seed: Mnemonic,
       networks: [
         '0x38',
         '0x1',

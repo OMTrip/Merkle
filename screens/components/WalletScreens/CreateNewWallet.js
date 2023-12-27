@@ -66,6 +66,7 @@ const CreateNewWallet = props => {
   const createPassword = async () => {
     try {
       if (add) {
+        console.log('wwwww1');
         await setLoading(true);
         let account = await createAccount(walletName, wallets.length, mnemonic);
         const arr = [...wallets];
@@ -372,6 +373,7 @@ const CreateNewWallet = props => {
   };
 
   const handleAddWallet = () => {
+    console.log('wwwww');
     if (walletName.trim() === '' && walletName) {
       Alert.alert('Error', 'Please enter a wallet name');
       return;

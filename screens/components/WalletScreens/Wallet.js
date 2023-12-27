@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Link, useNavigation} from '@react-navigation/native';
-import {deleteWallet, setActiveWallet} from '../../../Store/web3';
+import {deleteWallet, setActiveWallet, setAddIndex} from '../../../Store/web3';
 const {height, width} = Dimensions.get('window');
 import {
   widthPercentageToDP as wp,
@@ -166,6 +166,7 @@ const Wallet = props => {
                             navigation.navigate('WalletInfo', {
                               selectedWallet: wallet,
                             });
+                            dispatch(setAddIndex(index))
                           }}>
                           <Ionicons
                             name="information-circle-outline"

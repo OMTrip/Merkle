@@ -96,6 +96,7 @@ const TokenScreen = props => {
           navigation.navigate('TranscationDetails', {
             data: item,
             extras: props.route.params,
+           
           })
         }>
         <View style={[styles.transactionCards, {flex: 0.8}]}>
@@ -113,7 +114,7 @@ const TokenScreen = props => {
                 name={
                   item.methodId == '0x' ||
                   item.methodId == '0xa9059cbb' ||
-                  item?.input.startsWith("0x")
+                  item?.input.startsWith('0x')
                     ? item.from == wallet.address
                       ? 'arrow-up-outline'
                       : 'arrow-down-outline'
@@ -126,16 +127,17 @@ const TokenScreen = props => {
               <View style={{}}>
                 <Text style={styles.upperText}>
                   {
-                  // item?.functionName?.length > 0
-                  //   ? 'Function Call'
-                  //   :
-                     item.methodId == '0x' ||
-                      item.methodId == '0xa9059cbb' ||
-                      item?.input?.startsWith("0x")
-                    ? item.from == wallet.address
-                      ? 'Transfer' 
-                      : 'Receive'
-                    : 'Contract Call'}{' '}
+                    // item?.functionName?.length > 0
+                    //   ? 'Function Call'
+                    //   :
+                    item.methodId == '0x' ||
+                    item.methodId == '0xa9059cbb' ||
+                    item?.input?.startsWith('0x')
+                      ? item.from == wallet.address
+                        ? 'Transfer'
+                        : 'Receive'
+                      : 'Contract Call'
+                  }{' '}
                 </Text>
                 <Text style={styles.fromText}>
                   From: {item.from.slice(0, 6)}...{item.from.slice(-6)}
@@ -149,11 +151,15 @@ const TokenScreen = props => {
                   {color: item.from == wallet.address ? 'red' : 'green'},
                 ]}>
                 {item.token
-                  ? item.logs.value / 10 ** Number(item.token[0].decimals)
-                  : cutAfterDecimal(
-                      Number(item.value) /
-                        10 ** Number(props.route.params.decimals) ,
-                      5,
+                  ? (
+                      item.logs.value /
+                      10 ** Number(item.token[0].decimals)
+                    ).toFixed(3)
+                  : parseFloat(
+                      (
+                        Number(item.value) /
+                        10 ** Number(props.route.params.decimals)
+                      ).toFixed(3),
                     )}
                 {props.route.params.symbol}{' '}
               </Text>
@@ -254,11 +260,9 @@ const TokenScreen = props => {
               textTransform: 'uppercase',
               paddingStart: 5,
             }}>
-            {
-            symbol === 'BUBT' || symbol === 'BSBT' || symbol === 'BTYC'
+            {symbol === 'BUBT' || symbol === 'BSBT' || symbol === 'BTYC'
               ? 'Token'
-              : 'Coin'
-              }
+              : 'Coin'}
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>

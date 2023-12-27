@@ -135,7 +135,15 @@ const TranscationDetails = props => {
   const generatePDF = async () => {
     try {
       const options = {
-        html: `${ConfirmTransactionHtml(data, extras)}`,
+        html: `${ConfirmTransactionHtml(
+          data,
+          extras,
+          MerklePrice,
+          BsbtPrice,
+          BubtPrice,
+          BtycPrice,
+          MBtycPrice,
+        )}`,
         fileName: 'transaction_details',
         directory: 'Documents',
       };
@@ -209,7 +217,6 @@ const TranscationDetails = props => {
                   Number(data.value) / 10 ** Number(extras?.decimals),
                   5,
                 )}{' '}
-            {console.log(extras.symbol,'extras.symbol')}
             {extras.symbol}
           </Text>
         </View>
